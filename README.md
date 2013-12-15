@@ -1,4 +1,4 @@
-microCSS
-========
+µCSS
+====
 
-Test
+The Adobe Photoshop CSS processor.
