@@ -1,4 +1,4 @@
 µCSS
 ====
 
-The Adobe Photoshop CSS processor.
+An Adobe® Photoshop® CSS processor.
