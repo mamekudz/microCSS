@@ -36,7 +36,7 @@ direkt in die CSS-Datei geschrieben werden.
 │   │   ├── AppIconMaker/
 │   │   └── ButtonAndIconCreator/
 │   └── examples/         Beispiel-CSS/HTML + Bilder
-├── jsxlibs/              Gemeinsame ExtendScript-Bibliotheken
+├── jsxlibs/              Git-Submodul → mamekudz/JSXLIBS
 │   └── builds/{mit,bsd-apache,gpl,lgpl-mpl}/…
 └── dev/                  Entwicklungsmaterial (Doku-Quellen, Drafts, Tests)
 ```
@@ -46,10 +46,20 @@ Wichtig: `µCSS.jsx` bindet die Bibliotheken relativ über
 **Schwesterordner** von `µCSS/` liegen — genau diese Anordnung bildet das
 Repository ab und entspricht dem auslieferbaren Paket.
 
+Die Bibliotheken werden nicht dupliziert, sondern als **Git-Submodul** aus dem
+separaten Repository [mamekudz/JSXLIBS](https://github.com/mamekudz/JSXLIBS)
+eingebunden.
+
 ## Installation & Verwendung
 
-1. Repository so klonen/entpacken, dass `µCSS/` und `jsxlibs/` nebeneinander
-   liegen (Standardlayout dieses Repos).
+1. Repository inklusive Submodul klonen, damit `µCSS/` und `jsxlibs/`
+   nebeneinander liegen:
+
+   ```bash
+   git clone --recurse-submodules https://github.com/mamekudz/microCSS.git
+   # oder nach einem normalen Klon:
+   git submodule update --init --recursive
+   ```
 2. In Photoshop **Datei → Skripten → Durchsuchen…** wählen und
    `µCSS/µCSS.jsx` ausführen (alternativ in den Photoshop-`Scripts`-Ordner
    legen).
@@ -79,6 +89,6 @@ liegen unter `µCSS/examples/`.
 
 ## Lizenz
 
-MIT-Lizenz — siehe [LICENSE](LICENSE). Die mitgelieferten Bibliotheken unter
-`jsxlibs/builds/` stehen unter den im jeweiligen Unterordner genannten Lizenzen
-(MIT, BSD/Apache, GPL, LGPL/MPL).
+MIT-Lizenz — siehe [LICENSE](LICENSE). Die als Submodul eingebundenen
+Bibliotheken unter `jsxlibs/builds/` stehen unter den im jeweiligen Unterordner
+genannten Lizenzen (MIT, BSD/Apache, GPL, LGPL/MPL).

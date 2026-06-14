@@ -1,0 +1,3 @@
+[submodule "jsxlibs"]
+	path = jsxlibs
+	url = https://github.com/mamekudz/JSXLIBS.git
