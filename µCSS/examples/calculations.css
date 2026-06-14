@@ -1,0 +1,24 @@
+
+/* This CSS is compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	-µcss:µ.$.mycolor="#ff0000";
+	-µcss:µ.$.mypadding=100;
+	-µcss:µ.$.textshadow=true;
+}
+::-µcss-exit{
+	-µcss:µ.ShowURL("calculations.html");
+}
+div.mydiv{
+	font-size:24px;
+	font-weight:600;
+	width:300px;
+	height:60px;
+	-µcss:µ.SetColor(µ.Lighten(µ.$.mycolor,"#808080"));
+	-µcss:µ.SetBackgroundColor(µ.$.mycolor);
+	color:#ff7f7f;
+	background-color:#ff0000;
+	-µcss:µ.SetPadding(Math.floor(µ.$.mypadding*0.2)+"px");
+	padding:20px;
+	-µcss:µ.$.textshadow?µ.SetTextShadow("-1px -1px 2px rgba(0,0,0,1)"):µ.RemoveProperty("text-shadow");
+	text-shadow:-1px -1px 2px rgba(0,0,0,1);
+}

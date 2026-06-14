@@ -1,0 +1,21 @@
+
+/* This CSS is compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	-µcss:µ.$.dlg=new Window("dialog«text:'Set up Text Brightness',bounds:[100,100,300,200],"+
+			"butok:Button«bounds:[10,70,90,90],text:'Start',properties:«name:'ok'»»,"+
+			"butcancel:Button«bounds:[100,70,180,90],text:'Cancel',properties:«name:'cancel'»»,"+
+			"thetitle:StaticText«bounds:[10,10,180,30],text:'Text Brightness 0% to 100%'»,"+
+			"TextBrightness:Slider«minvalue:0,maxvalue:100,value:50,bounds:[10,30,180,50]»»"+
+	"»¡");
+	-µcss:if(µ.$.dlg.show()!=1)µ.AbortCompiling();
+}
+div.mydiv{
+	font-size:24px;
+	font-weight:600;
+	width:300px;
+	height:60px;
+	-µcss:µ.SetColor(µ.HSL(180,100,µ.$.dlg.TextBrightness.value));
+	color:#fbeaaa;
+	background-color:black;
+	padding:20px;
+}

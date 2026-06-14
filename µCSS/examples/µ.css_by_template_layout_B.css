@@ -1,0 +1,9 @@
+
+/* This CSS is compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	/* Dependent Files */
+	-µcss:µ.DependentCSSFile("css_by_template.css","css_by_template_layout_B.css");
+	/* Layout B */
+	-µcss:µ.$.textcolor="#ff00ff";
+	-µcss:µ.$.backcolor="#00ff00";
+}

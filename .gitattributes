@@ -1,0 +1,23 @@
+# Auto-detect text files and normalize line endings on commit
+* text=auto
+
+# Source / text formats
+*.jsx   text
+*.json  text
+*.css   text
+*.html  text
+*.md    text
+
+# Binary assets (never apply text conversion)
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.psd   binary
+*.psb   binary
+*.ai    binary
+*.c4d   binary
+*.docx  binary
+*.7z    binary
+*.zip   binary

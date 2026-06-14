@@ -1,0 +1,62 @@
+
+/* This CSS was compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	-µcss:µ.$.dlg=new Window("dialog«text:'Select a Layout',bounds:[100,100,300,200],"+
+			"butok:Button«bounds:[10,70,90,90],text:'Start',properties:«name:'ok'»»,"+
+			"butcancel:Button«bounds:[100,70,180,90],text:'Cancel',properties:«name:'cancel'»»,"+
+			"thetitle:StaticText«bounds:[10,10,180,30],text:'Select a Layout'»,"+
+			"csslayout:DropDownList«bounds:[10,30,180,60],properties:«items:['alu','aqua'],selection:text:'alu'»»»"+
+	"»¡");
+	-µcss:µ.$.dlg.csslayout.selection=1;
+	-µcss:if(µ.$.dlg.show()!=1)µ.AbortCompiling();
+	-µcss:µ.$.layout=µ.$.dlg.csslayout.selection.text;
+	-µcss:µ.plugins.ButtonAndIconCreator.Create("drafts/buttons.psd",µ.$.layout,"imgs/"+µ.$.layout,true);
+}
+div.loginbutton{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_login_normal@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_login_normal.png);
+	background-image:image-set(url(imgs/aqua/but_login_normal.png)1x,url(imgs/aqua/but_login_normal@2x.png)2x);
+}
+div.loginbutton:hover{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_login_hover@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_login_hover.png);
+	background-image:image-set(url(imgs/aqua/but_login_hover.png)1x,url(imgs/aqua/but_login_hover@2x.png)2x);
+}
+div.helpbutton{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_help_normal@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_help_normal.png);
+	background-image:image-set(url(imgs/aqua/but_help_normal.png)1x,url(imgs/aqua/but_help_normal@2x.png)2x);
+}
+div.helpbutton:hover{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_help_hover@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_help_hover.png);
+	background-image:image-set(url(imgs/aqua/but_help_hover.png)1x,url(imgs/aqua/but_help_hover@2x.png)2x);
+}
+div.settingsbutton{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_settings_normal@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_settings_normal.png);
+	background-image:image-set(url(imgs/aqua/but_settings_normal.png)1x,url(imgs/aqua/but_settings_normal@2x.png)2x);
+}
+div.settingsbutton:hover{
+	display:inline-block;
+	-µcss:µ.SetBackgroundImage("imgs/"+µ.$.layout+"/but_settings_hover@2x.png");
+	width:55px;
+	height:55px;
+	background-image:url(imgs/aqua/but_settings_hover.png);
+	background-image:image-set(url(imgs/aqua/but_settings_hover.png)1x,url(imgs/aqua/but_settings_hover@2x.png)2x);
+}

@@ -1,0 +1,27 @@
+
+/* This CSS is compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	-µcss:µ.SetColorsOfImagePoints("color_map_example.psd",[["µ.$.tablebasecolor","skin colormaps/skin_graycyan",352,93],["µ.$.tablehovercolor","skin colormaps/skin graycyan",313,343]]);
+}
+table.mytable{
+	border-collapse:collapse;
+}
+table.mytable>tbody>tr:nth-child(even){
+	-µcss:µ.SetBackgroundColor(µ.$.tablebasecolor);
+	background-color:rgba(0,0,0,0.0000);
+}
+table.mytable>tbody>tr:nth-child(odd){
+	-µcss:µ.SetBackgroundColor(µ.Lighten(µ.$.tablebasecolor,"#a0a0a0"));
+	background-color:rgba(95,95,95,0.0000);
+}
+table.mytable>tbody>tr:nth-child(even):hover{
+	-µcss:µ.SetBackgroundColor(µ.$.tablehovercolor);
+	background-color:rgba(0,0,0,0.0000);
+}
+table.mytable>tbody>tr:nth-child(odd):hover{
+	-µcss:µ.SetBackgroundColor(µ.Lighten(µ.$.tablehovercolor,"#a0a0a0"));
+	background-color:rgba(95,95,95,0.0000);
+}
+table.mytable>tbody>tr>td{
+	padding:10px;
+}

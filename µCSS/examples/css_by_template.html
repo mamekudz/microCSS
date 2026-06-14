@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>µCSS CSS Generation by Template Demo</title>
+		<script>
+			function GetParameter(_name,_def){
+			_name=_name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+			var regexS="[\\?&]"+_name+"=([^&#]*)";  
+			var regex=new RegExp(regexS);  
+			var results=regex.exec(window.location.href); 
+				if(results==null)return _def;  
+				return unescape(results[1]);
+			}
+			function LoadCSS(_url){
+			var head=document.getElementsByTagName('head')[0];
+			var link=document.createElement('link');
+				link.type= 'text/css';
+				link.rel="stylesheet";
+				link.href=_url;
+				head.appendChild(link);
+			}
+			var layout=GetParameter("layout","css_generation_by_template_layout_A.css");
+			LoadCSS(layout);
+		</script>
+	</head>
+	<body>
+		<div class="mydiv">
+			That's a demonstration of the power of µCSS.<br/>
+			This is layout '<script>document.write(layout);</script>'.<br/>
+			<input type="button" value="Show Layout A" onclick="document.location.href='css_generation_by_template.html?layout=css_generation_by_template_layout_A.css'"/><br/>
+			<input type="button" value="Show Layout B" onclick="document.location.href='css_generation_by_template.html?layout=css_generation_by_template_layout_B.css'"/><br/>
+		</div>
+	</body>
+</html>
+	

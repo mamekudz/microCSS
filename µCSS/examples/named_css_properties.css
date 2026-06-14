@@ -1,0 +1,20 @@
+
+/* This CSS is compiled by µCSS Photoshop Tool. */
+::-µcss-init{
+	-µcss:µ.$.textcolor="#ff0000";
+	-µcss:µ.$.backcolor="#0000ff";
+}
+div.mydiv{
+	padding:5px;
+	font-size:24px;
+	font-weight:600;
+	width:300px;
+	height:100px;
+	-µcss:µ.SetColor(µ.$.textcolor);
+	-µcss:µ.SetBorderColor(µ.$.backcolor);
+	-µcss:µ.SetBackgroundColor(µ.$.backcolor);
+	color:#ff0000;
+	background-color:#0000ff;
+	border:10px #0000ff solid;
+	border-radius:10px;
+}
