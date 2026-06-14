@@ -12,6 +12,20 @@ direkt in die CSS-Datei geschrieben werden.
 > Status: `0.9.6` (Beta, experimentell) — © 2005–2014 Dongleware Verlags GmbH,
 > geschrieben von Meinolf Amekudzi. Veröffentlicht unter der MIT-Lizenz.
 
+> [!IMPORTANT]
+> **Dieses Repository ist die historische Photoshop-Script-Version (µCSS 1, 2013/2014).**
+> Es gibt einen modernen, **Adobe-unabhängigen Nachfolger** als Node-/Gulp-Pakete:
+>
+> - [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) — **µCSS 2**: kompiliert
+>   µCSS-erweiterte Stylesheets (Sprites, Cursor, Farb-API, JavaScript im CSS-Wert,
+>   PSD-basierte Bilderzeugung) als PostCSS-Pipeline, gesteuert über ein Skin-Manifest.
+> - [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) — **µPS**: rendert PNG-Serien,
+>   Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen –
+>   ohne Photoshop. Ersetzt die Bildfunktionen des alten Adobe-Workflows.
+>
+> Für neue Projekte werden die npm-Pakete empfohlen; dieses Repo dient als Archiv und
+> Referenz der ursprünglichen Implementierung.
+
 ## Funktionen
 
 - **Sprite-Generierung** inkl. Bitpacking-Algorithmus und Padding
