@@ -8,6 +8,16 @@ Node module that builds a **sound atlas** for the µCSS/µPS family: from many s
 
 µAU is the µPS-style wrapper around the audio engine `gulp-mu-sound-atlas`: the same family API (one async `Create`) and an incremental build cache.
 
+## Project links
+
+| | |
+| :--- | :--- |
+| **GitHub (this package)** | [microCSS/gulp-mu-au](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
+| **npm (this package)** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (source)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
+
 ## Status
 
 - **SoundAtlasMaker**: collects audio sources, builds the atlas (WAV or MP3) plus the JSON timing map, guarded by the engine's incremental cache.
@@ -85,6 +95,16 @@ Der technische Paketname ist `gulp-mu-au` (das µ-Zeichen bereitet in npm-/git-N
 Node-Modul, das einen **Sound-Atlas** für die µCSS/µPS-Familie baut: Aus vielen kurzen Audiodateien entstehen ein kombinierter Audio-Blob plus eine JSON-Timing-Map, die dem Browser-Runtime sagt, wo jeder Sound beginnt, wie lang er ist und wo er loopt. Die Idee ist das Audio-Gegenstück zu Sprite-Atlanten — später werden Sounds aus der µCSS heraus referenziert (getriggert über Animation-Events) und aus dem Atlas abgespielt.
 
 µAU ist der µPS-artige Wrapper um die Audio-Engine `gulp-mu-sound-atlas`: gleiche Familien-API (ein async `Create`) und ein inkrementeller Build-Cache.
+
+## Projekt-Links
+
+| | |
+| :--- | :--- |
+| **GitHub (dieses Paket)** | [microCSS/gulp-mu-au](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
+| **npm (dieses Paket)** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (Quellcode)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 
 ## Status
 

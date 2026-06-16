@@ -6,6 +6,16 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 
 Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — without an Adobe dependency. From layered image drafts (PSD; Affinity Photo can export PSD), PNG series are rendered with reproduced layer effects.
 
+## Project links
+
+| | |
+| :--- | :--- |
+| **GitHub (this package)** | [microCSS/gulp-mu-ps](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
+| **npm (this package)** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (source)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
+
 ## Status
 
 - **ButtonAndIconCreator**: Node port of the µCSS plugin of the same name, tested against the reference images of the old toolchain (`oldsrcs/old_adobe_scripts/µCSS/examples`).
@@ -326,6 +336,16 @@ The tests render `examples/drafts/buttons.psd` and `examples/drafts/cursors.psd`
 Der technische Paketname ist `gulp-mu-ps` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µPS** ist der Anzeigename.
 
 Node-Modul, das die bildverarbeitenden Funktionen des alten Adobe-basierten µCSS-Workflows ersetzt — ohne Adobe-Abhängigkeit. Aus geschichteten Bildentwürfen (PSD; Affinity Photo kann PSD exportieren) werden PNG-Serien mit nachgebildeten Fülloptionen gerendert.
+
+## Projekt-Links
+
+| | |
+| :--- | :--- |
+| **GitHub (dieses Paket)** | [microCSS/gulp-mu-ps](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
+| **npm (dieses Paket)** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (Quellcode)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 
 ## Status
 

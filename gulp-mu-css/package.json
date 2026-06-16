@@ -25,6 +25,15 @@
     "test": "mocha test/**/*.test.mjs"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamekudz/microCSS.git",
+    "directory": "gulp-mu-css"
+  },
+  "homepage": "https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css#readme",
+  "bugs": {
+    "url": "https://github.com/mamekudz/microCSS/issues"
+  },
   "engines": {
     "node": ">=18"
   },

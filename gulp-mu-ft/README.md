@@ -8,6 +8,16 @@ Node module that builds an **icon font** from a directory of SVG glyphs — the 
 
 It belongs to the µCSS/µPS family: like µPS for images, µFT is the font engine that µCSS will later use for icon fonts.
 
+## Project links
+
+| | |
+| :--- | :--- |
+| **GitHub (this package)** | [microCSS/gulp-mu-ft](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
+| **npm (this package)** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (source)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
+
 ## Status
 
 - **FontGenerator**: scans a directory of SVG glyphs, builds all font formats, and writes CSS, JSON and the HTML overview, guarded by an incremental content cache.
@@ -117,6 +127,16 @@ Der technische Paketname ist `gulp-mu-ft` (das µ-Zeichen bereitet in npm-/git-N
 Node-Modul, das aus einem Verzeichnis von SVG-Zeichen einen **Icon-Font** erzeugt — so wie die Web-App IcoMoon, aber automatisiert und ohne Adobe- oder IcoMoon-Abhängigkeit. Aus einem SVG-Ordner entstehen die Font-Dateien (SVG/TTF/EOT/WOFF/WOFF2), fertige CSS-Klassen, eine IcoMoon-kompatible JSON und ein eigenständiges HTML-Dokument, das den gesamten Zeichenvorrat anzeigt.
 
 µFT gehört zur µCSS/µPS-Familie: Wie µPS für Bilder ist µFT die Font-Engine, die µCSS später für Icon-Fonts nutzt.
+
+## Projekt-Links
+
+| | |
+| :--- | :--- |
+| **GitHub (dieses Paket)** | [microCSS/gulp-mu-ft](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
+| **npm (dieses Paket)** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
+| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS (Quellcode)** | [gulp-mu-css/](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-css) |
+| **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 
 ## Status
 

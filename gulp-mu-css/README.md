@@ -8,6 +8,16 @@ The technical package name is `gulp-mu-css` (the µ character causes trouble in 
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`.
 
+## Project links
+
+| | |
+| :--- | :--- |
+| **GitHub (monorepo)** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
+| **npm (this package)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
+| **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
+| **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
+
 ## Installation
 
 ```bash
@@ -222,6 +232,16 @@ Node-Modul zur Kompilierung von **µCSS**-erweiterten Stylesheets — Sprites, C
 Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename.
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`.
+
+## Projekt-Links
+
+| | |
+| :--- | :--- |
+| **GitHub (Monorepo)** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
+| **npm (dieses Paket)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
+| **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
+| **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
 
 ## Installation
 

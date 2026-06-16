@@ -26,6 +26,15 @@
     "css"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamekudz/microCSS.git",
+    "directory": "gulp-mu-ft"
+  },
+  "homepage": "https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft#readme",
+  "bugs": {
+    "url": "https://github.com/mamekudz/microCSS/issues"
+  },
   "engines": {
     "node": ">=20.11"
   },
