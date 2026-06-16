@@ -6,6 +6,18 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 
 µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. The technical npm names use `gulp-mu-*` because the µ character is awkward in package names; **µCSS**, **µPS**, **µFT** and **µAU** are the display names.
 
+## Documentation & npm
+
+| Resource | Link |
+| :--- | :--- |
+| **µCSS manual (English)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
+| **µCSS manual (German)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
+| **Concept & migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
+| **µCSS on npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µPS on npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
+| **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
+| **µAU on npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+
 ## npm packages
 
 | Display name | npm package | Role |
@@ -21,7 +33,7 @@ Install the compiler in your project:
 npm install gulp-mu-css
 ```
 
-`gulp-mu-ps` is pulled in automatically as a dependency when image generation is used. See each package's README for API details and the µCSS manual (`gulp-mu-css/docs/microCSS-en.pdf` / `microCSS-de.pdf`).
+`gulp-mu-ps` is pulled in automatically as a dependency when image generation is used. See each package's [README](gulp-mu-css/README.md) for API details and the [µCSS manual (EN)](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) / [(DE)](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf).
 
 ## Repository layout
 
@@ -55,7 +67,7 @@ npx gulp docs:manual       # rebuild manual PDFs (LibreOffice + GulpHelper macro
 npx gulp build:publish     # populate build/ with publish-ready bundles
 ```
 
-Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `publish` (npm upload; see `tools/publish.mjs`).
+Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `publish` (npm upload; see `tools/publish.mjs`).
 
 ## µCSS 1 (legacy)
 
@@ -75,6 +87,18 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 
 µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Die technischen npm-Namen lauten `gulp-mu-*`, weil das µ-Zeichen in Paketnamen unhandlich ist; **µCSS**, **µPS**, **µFT** und **µAU** sind die Anzeigenamen.
 
+## Dokumentation & npm
+
+| Ressource | Link |
+| :--- | :--- |
+| **µCSS-Handbuch (Englisch)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
+| **µCSS-Handbuch (Deutsch)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
+| **Konzept & Migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
+| **µCSS auf npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µPS auf npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
+| **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
+| **µAU auf npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+
 ## npm-Pakete
 
 | Anzeigename | npm-Paket | Aufgabe |
@@ -90,7 +114,7 @@ Installation des Compilers im eigenen Projekt:
 npm install gulp-mu-css
 ```
 
-`gulp-mu-ps` wird bei Bilderzeugung automatisch als Abhängigkeit mitinstalliert. Details stehen in den READMEs der einzelnen Pakete; das Handbuch liegt unter `gulp-mu-css/docs/microCSS-de.pdf` bzw. `microCSS-en.pdf`.
+`gulp-mu-ps` wird bei Bilderzeugung automatisch als Abhängigkeit mitinstalliert. Details stehen in den [READMEs der Pakete](gulp-mu-css/README.md); das Handbuch liegt als [PDF (EN)](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) bzw. [(DE)](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) bei.
 
 ## Verzeichnisstruktur
 
@@ -124,7 +148,7 @@ npx gulp docs:manual       # Handbuch-PDFs neu bauen (LibreOffice + GulpHelper-M
 npx gulp build:publish     # build/ mit veröffentlichungsfertigen Bundles füllen
 ```
 
-Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
+Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
 
 ## µCSS 1 (Legacy)
 

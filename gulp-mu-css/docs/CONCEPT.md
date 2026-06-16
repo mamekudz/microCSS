@@ -529,8 +529,27 @@ falsch.
 **Manifest-Skelett** `<name>.µcss.mjs` mit den gesammelten Variablen und einer
 `files`-Liste. Implementierung: `tools/convert-less.mjs`; Dev-Dependencies
 `postcss-less` (Parser) und `postcss-nested` (Flattening) — beide nur im
-Quellbaum, **nicht im npm-Paket** (`tools/` ist nicht in `files`). Geplant für die
-GitHub-Veröffentlichung neben einem analogen Vue-Konverter.
+Quellbaum, **nicht im npm-Paket** (`tools/` ist nicht in `files`).
+
+**Vue-Konverter (Migrationshilfe, Co-Location):** Analog dazu wandelt
+`tools/convert-vue.mjs` Vue-SFCs in die D8-Co-Location-Struktur um:
+
+- `<style>` / `<style scoped>` → Geschwisterdatei `ComponentName.π.css` (Vite/Vue
+  ignorieren diese Endung).
+- Automatisches `@µ-namespace ComponentName;` (PascalCase aus dem Dateinamen).
+- Vue-Scoped-Selektoren `[data-v-…]` entfernen; `:deep()` / `::v-deep` entpacken
+  (Review-Hinweis).
+- `lang="less"` → vorher durch den LESS-Konverter; `scss`/`sass`/`stylus` und
+  `<style module>` → Warnung + manuelle Nacharbeit.
+- Die `.vue`-Datei verliert den `<style>`-Block (HTML-Kommentar verweist auf die
+  Sidecar-Datei); CLI erzeugt zusätzlich `main.µ.css` mit
+  `@import "**/*.π.css";` und ein Manifest-Skelett inkl. `merge.onConflict:
+  "error"`.
+
+Schnittstelle: `ConvertVue(source, { from, componentName })` → `{ vue, css,
+sidecarName, namespace, vars, warnings, notes }`. CLI/Gulp:
+`node tools/convert-vue.mjs <input.vue|dir> [outDir]` bzw. Gulp-Task
+`convert:vue` (`VUE_IN`/`VUE_OUT`). Unit-Tests: `test/ConvertVue.test.mjs`.
 
 ---
 

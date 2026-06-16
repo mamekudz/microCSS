@@ -300,6 +300,56 @@ media: [
 
 Auch für diese Steps gilt der inkrementelle Build: Generiert wird nur, wenn das Ergebnis fehlt oder sich Konfiguration bzw. Quellen (mtime/Größe) geändert haben. Alternativ kann der raw-→-final-Schritt natürlich weiterhin als eigener Gulp-Task vor dem µCSS-Build laufen — `outputBase: "project"` ist der Weg, wenn alles in einer Manifest-Datei stehen soll.
 
+# Vue und Komponenten-Co-Location
+
+Komponenten-Frameworks wie Vue halten Styles üblicherweise in `<style scoped>` innerhalb der `.vue`-Datei. Das funktioniert, aber jede Komponente bekommt eigene `data-v-…`-Attribute, das CSS wächst schnell und Live-Bearbeitung in den Browser-DevTools wird über viele Scoped-Blöcke hinweg unhandlich.
+
+µCSS verfolgt einen anderen Ansatz: **Co-Location ohne Vue-Verarbeitung der Styles**. Jede Komponente behält eine Style-Datei **neben** ihrer `.vue`-Datei, aber mit einer privaten Endung wie `*.π.css` (griechisches Pi — Vite und Vue ignorieren sie). Ein Haupt-Stylesheet sammelt alles zur Build-Zeit ein; µCSS bündelt daraus eine einzige, statische CSS-Datei.
+
+## Ablauf
+
+1. Komponenten-Styles in `MyButton.π.css` neben `MyButton.vue` ablegen.
+2. Im Haupteinstieg (z. B. `main.µ.css`) per Build-Time-Import einsammeln:
+
+```css
+@import "components/**/*.π.css";
+body { margin: 0; }
+```
+
+3. Regel-Merge im Manifest aktivieren, wenn viele Komponenten dieselben Selektoren nutzen (z. B. `.btn`):
+
+```js
+export default DefineSkin({
+	merge: { onConflict: "error" },
+	files: [{ source: "main.µ.css", target: "app.css" }]
+});
+```
+
+4. Im Vue-Template **normale Klassennamen** verwenden — kein `<style scoped>`, kein `data-v-…`. Der Browser lädt eine echte CSS-Datei; die DevTools bleiben voll nutzbar.
+
+## Namespaces und globale State-Klassen
+
+Wenn zwei Komponenten `.card` definieren, Merge aktivieren (oben) oder Kollisionen mit `@µ-namespace` pro Komponentendatei vermeiden:
+
+```css
+@µ-namespace MyButton;
+.btn { padding: 10px; }
+.btn:global(.is-active) { box-shadow: 0 0 0 2px #99bbff; }
+```
+
+Nur Klassen dieser Datei werden präfixiert (`.MyButton-btn`). Von JavaScript gesetzte State-Klassen (`.is-active`, geteilte Utilities) bleiben über `:global(...)` global.
+
+## Bestehende Vue-SFCs migrieren
+
+Im Repository gibt es eine Migrationshilfe analog zum LESS-Konverter. Sie extrahiert `<style>`-Blöcke aus `.vue`-Dateien, schreibt die Sidecar-Datei `ComponentName.π.css`, setzt `@µ-namespace`, entfernt Scoped-`[data-v-…]`-Selektoren und löscht den `<style>`-Block aus der SFC (ein HTML-Kommentar verweist auf die Sidecar):
+
+```bash
+npx gulp convert:vue
+# oder: VUE_IN=gulp-mu-css/examples/vue VUE_OUT=out npx gulp convert:vue
+```
+
+Beispielquellen liegen unter `gulp-mu-css/examples/vue/`. Das Tool schreibt zusätzlich `main.µ.css` mit `@import "**/*.π.css";` und ein Manifest-Skelett inkl. `merge.onConflict: "error"`. Warnungen vor dem Einsatz prüfen — `lang="scss"`, CSS Modules und `v-bind()` in CSS erfordern manuelle Nacharbeit; `lang="less"` wird zuerst durch den LESS-Konverter geleitet.
+
 # Grundideen von µCSS
 
 ## Das .µ.css-Format
@@ -764,6 +814,7 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS:
 | 2026-06 | 2.2.1 | Handbuch-Aktualisierung (Versionshistorie ergänzt, Deckblatt-Version korrigiert); keine funktionalen Änderungen gegenüber 2.2.0. |
 | 2026-06 | 2.2.2 | Zweisprachiges Handbuch (`microCSS-de.pdf` / `microCSS-en.pdf`) und zweisprachige READMEs (Englisch zuerst) für `gulp-mu-css` und `gulp-mu-ps`; Build-Tooling für mehrsprachige Handbücher erweitert. Keine funktionalen Code-Änderungen. |
 | 2026-06 | 2.2.3 | Fix: Überschriften tragen explizite Outline-Level, damit das automatisch aktualisierte Inhaltsverzeichnis der PDF-Handbücher (DE/EN) befüllt wird (war zuvor leer). Reine Tooling-/Doku-Korrektur. |
+| 2026-06 | 2.2.5 | Handbuch-Kapitel Vue-Co-Location; Migrationshilfe `tools/convert-vue.mjs` und Beispiel-SFCs unter `examples/vue/`. PDFs mit `npx gulp docs:manual` neu bauen, um das Kapitel aufzunehmen. |
 
 # Rechtliches
 

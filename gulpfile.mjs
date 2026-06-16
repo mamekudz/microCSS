@@ -120,6 +120,16 @@ export function ConvertLess() {
 ConvertLess.displayName = "convert:less";
 ConvertLess.description = "Converts LESS sources to .µ.css + a manifest skeleton (LESS_IN=<file|dir>, LESS_OUT=<dir>).";
 
+export function ConvertVue() {
+	const input = process.env.VUE_IN ?? "examples/vue";
+	const out = process.env.VUE_OUT;
+	const args = ["tools/convert-vue.mjs", input];
+	if (out) args.push(out);
+	return _RunCommand("node", args, join(rootDir, "gulp-mu-css"));
+}
+ConvertVue.displayName = "convert:vue";
+ConvertVue.description = "Extracts Vue SFC <style> blocks into co-located *.π.css sidecars + manifest (VUE_IN=<file|dir>, VUE_OUT=<dir>).";
+
 export function AidpixCompare() {
 	return _RunCommand("node", ["tools/compare-aidpix.mjs"], join(rootDir, "gulp-mu-css"));
 }
