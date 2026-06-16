@@ -30,12 +30,23 @@ npx gulp demos:build
 
 Output lands in `demos/*/dist/` (CSS, sprites, sounds).
 
+## Live (GitHub Pages)
+
+After enabling **Pages → GitHub Actions** in the repo settings, pushes to `master` rebuild and deploy automatically.
+
+| Page | URL |
+| :--- | :--- |
+| Index | https://mamekudz.github.io/microCSS/ |
+| Glittery | https://mamekudz.github.io/microCSS/glittery/ |
+| FlyEx | https://mamekudz.github.io/microCSS/flyex/ |
+
 ## View locally
 
 ES modules + `fetch()` for the sound atlas require a static server (not `file://`):
 
 ```bash
 npx --yes serve demos -p 5173
+# http://localhost:5173/
 # http://localhost:5173/glittery/
 # http://localhost:5173/flyex/
 ```
@@ -86,12 +97,25 @@ Suchbegriffe auf PD-Seiten: *TSR*, *Accessory* / ACC, *Desktop*, oder die Disket
 npx gulp demos:build
 ```
 
+## Live (GitHub Pages)
+
+Nach **Pages → GitHub Actions** in den Repo-Einstellungen baut und deployt jeder Push auf `master` automatisch.
+
+| Seite | URL |
+| :--- | :--- |
+| Index | https://mamekudz.github.io/microCSS/ |
+| Glittery | https://mamekudz.github.io/microCSS/glittery/ |
+| FlyEx | https://mamekudz.github.io/microCSS/flyex/ |
+
 ## Ansehen
 
 Statischen Server starten (kein `file://` wegen ES-Modulen und Sound-`fetch`):
 
 ```bash
 npx --yes serve demos -p 5173
+# http://localhost:5173/
+# http://localhost:5173/glittery/
+# http://localhost:5173/flyex/
 ```
 
 **FlyEx:** erster Klick aktiviert Audio, dann erscheint die Fliege.
