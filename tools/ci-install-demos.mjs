@@ -25,7 +25,7 @@ function _RequirePath(_path, _label) {
 	console.log(`  ok ${_label}`);
 }
 
-_Run("npm ci (root)", ["npm", "ci"], rootDir);
+// Demo builds only need the µCSS family modules — not the legacy root ASPX deps.
 _Run("npm ci (gulp-mu-ps)", ["npm", "ci"], join(rootDir, "gulp-mu-ps"));
 _Run("npm ci (gulp-mu-au)", ["npm", "ci"], join(rootDir, "gulp-mu-au"));
 _Run("npm ci (gulp-mu-css)", ["npm", "ci"], join(rootDir, "gulp-mu-css"));
