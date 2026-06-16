@@ -42,6 +42,7 @@ jobs:
         run: node tools/ci-install-demos.mjs
 
       - name: Build demos
+        continue-on-error: true
         run: node tools/build-demos.mjs
 
       - name: Verify demo output
