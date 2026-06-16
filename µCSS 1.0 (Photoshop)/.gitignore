@@ -1,0 +1,22 @@
+# === OS / Thumbnails ===
+Thumbs.db
+ehthumbs.db
+.DS_Store
+Desktop.ini
+
+# === Office / temp lock files ===
+~$*
+*.tmp
+
+# === Build packages / archives ===
+/packages/
+*.7z
+*.zip
+
+# === µCSS runtime cache ===
+*.cache
+*.css.cache
+
+# === Editor / IDE ===
+.vscode/
+.idea/

@@ -1,0 +1,173 @@
+
+/* This CSS was compiled by �CSS Photoshop Tool. */
+
+/*	===============================================
+ *	aidpix css
+ *	� 2020-2021 Dosing GmbH
+ *	===============================================
+ */
+::-�css-init{
+	/* Dependent Files */
+	-�css: �.$.overloadOptions=�"vendorPrefixSetup":true,"output":�"include":�"�CSSProperties":false,"comments":false,"tabulators":false,"lineFeeds":false,"lastSimicolon":false���;
+	/* �css control */
+	-�css: �.options.sprites.creation=true;
+	-�css: �.options.sprites.optimaLoops=2000.83;
+	-�css: �.options.sprites.save.relPath="./imgs";
+	-�css: �.options.createPreLoadRule=true;
+	/* �css Dependent CSSFiles */
+	-�css: �.DependentCSSFile("../src/src.css","./std.css",�.$.overloadOptions);
+	-�css: �.DependentCSSFile("../src/src_tinymce.css","./std_tinymce.css",�.$.overloadOptions);
+	-�css: �.DependentCSSFile("../src/src_mail_spl.css","./std_mail_spl.css",�.$.overloadOptions);
+	-�css: �.DependentCSSFile("../src/src_mail_std.css","./std_mail_std.css",�.$.overloadOptions);
+	-�css: �.DependentCSSFile("../src/src_tinymce_content.css","./std_tinymce_content.css",�.$.overloadOptions);
+	-�css: �.DependentCSSFile("../src/src_ff.css","./std_ff.css",�.$.overloadOptions);
+	/* image creation */
+	-�css: �.plugins.AppIconMaker.Create("../../dev/media/final/favicon.psd","std","std","../../configs/std/icons_std");
+	-�css: �.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/general/activityindicator.psd","std","std",/(.*)/i,"","","imgs/general",true);
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/panelbuttons.psd","std","std",/(.*)/i,"","","imgs/general/gui/panelbuttons",true);
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/treenavs.psd","std","std",/(.*)/i,"","","imgs/general/gui/treenavs",true);
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/tabviewsicons.psd","std","std",/(.*)/i,"","","imgs/general/gui/tabviewsicons",true);
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/menuicons.psd","std","std",/(.*)/i,20,20,"imgs/general/gui/menuicons",true);
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/modalicons.psd","std","std",/(.*)/i,"","","imgs/general/gui/modalicons",true);
+	-�css: �.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/logos/dosing_logo.psd","std","std",/(.*)/i,"","","imgs/logos",true);
+	-�css: //�.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/logos/dosing_logo_nosprite.psd","std","std",/(.*)/i,"","","imgs/logos",true);
+	-�css: �.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/logos/aidpix_logo.psd","std","std",/(.*)/i,"","","imgs/logos",true);
+	-�css: //�.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/logos/aidpix_logo_nosprite.psd","std","std",/(.*)/i,"","","imgs/logos",true);
+	-�css: �.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/general/gui/emoticons.psd","std","std",/(.*)/i,"","","imgs/general/gui/emoticons",true);
+	-�css: //�.plugins.ButtonAndIconCreator.CreateByTopLayerSets("../../dev/media/final/general/options.psd","std","std",/(.*)/i,"","","imgs/general/options",true);
+	/* file copies */
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/empty.png","imgs");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/teaserbgrd.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/noimage.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/carbon.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/carbon@2x.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/glasspanel.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/glasspanelbutton.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/scannertests/gui/code39_PZN-16018404.png","imgs/scannertests");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/scannertests/gui/datamatrix_8859-1.png","imgs/scannertests");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/scannertests/gui/datamatrix_gsi16018404.png","imgs/scannertests");
+	-�css: �.plugins.FileCopy.CopyFolder2Skin("../../dev/media/final/sounds","snds");
+	-�css: �.plugins.FileCopy.CopyFolder2Skin("../../dev/media/final/fonts","fonts");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/unkownavatar.jpg","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/unkownsignature.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFile2Skin("../../dev/media/final/general/gui/transbgrd.png","imgs/general/gui");
+	-�css: �.plugins.FileCopy.CopyFolder2Skin("../../dev/media/final/general/gui/glittery","imgs/general/gui/glittery",false,/.*\.(png)/);
+	-�css: �.plugins.FileCopy.CopyFolder2Skin("../../dev/media/final/abdata_watermarks","imgs/exp/abdata",false,/.*\.(png)/);
+	/* colors */
+	-�css: �.$.baseStartBrgdColor="#000000";
+	-�css: �.$.baseBrgdColor="#202020";
+	-�css: �.$.baseTextColor="#d0d0d0";
+	-�css: //�.$.selectBaseBrgdColor="#004f9e";
+	-�css: //�.$.selectBaseBrgdOnDarkColor="#748cc6";
+	-�css: �.$.selectBaseBrgdColor="#007570";
+	-�css: �.$.selectBaseBrgdOnDarkColor="#007570";
+	-�css: �.$.selectBaseTextColor="#f0f0f0";
+	-�css: �.$.signalBaseBgrdColor="#800000";
+	-�css: �.$.ratingColor="#f08000";
+	-�css: �.$.ratingSelectColor="#b00000";
+	-�css: �.$.acceptableColor="#a04000";
+	-�css: �.$.hofTitleColor="#a04000";
+	-�css: �.$.neonLightUp=0.5;
+	-�css: �.$.lightenStep0_5=0.1;
+	-�css: �.$.lightenStep0=0.0;
+	-�css: �.$.lightenStep1=0.2;
+	-�css: �.$.lightenStep1_5=0.45;
+	-�css: �.$.lightenStep2=0.7;
+	-�css: �.$.lightenStep2_5=0.85;
+	-�css: �.$.lightenStep3=1.1;
+	-�css: �.$.lightenStep4=1.5;
+	-�css: �.$.lightenStep5=1.8;
+	-�css: �.$.lightenStep6=3.5;
+	-�css: �.$.lightenStep7=7.0;
+	-�css: �.$.lightenSelectStep0=0.0;
+	-�css: �.$.lightenSelectStep1=0.2;
+	-�css: �.$.lightenSelectStep2_5=0.45;
+	-�css: �.$.lightenSelectStep2=0.7;
+	-�css: �.$.lightenSelectStep3=1.1;
+	-�css: �.$.lightenSelectStep4=1.5;
+	-�css: �.$.lightenSelectStep5=1.8;
+	/* sizes*/
+	-�css: �.$.PanelHeadHeightNormal=16;
+	-�css: �.$.PanelContainerGripSize=5;
+	-�css: �.$.PanelContainerGripOnlyDropSize=3;
+	/* z-indexes */
+	-�css: �.$.ToolsParticlsZIndex=8999;
+	-�css: �.$.PanelZIndex=9000;
+	-�css: �.$.MCEZIndex=9900;
+	-�css: �.$.MenuZIndex=10000;
+	-�css: �.$.OverlayZIndex=11000;
+	-�css: �.$.PanelOverlayZIndex=11100;
+	-�css: �.$.ModalPanelZIndex=11900;
+	-�css: �.$.FlySuckZIndex=11940;
+	-�css: �.$.FlyDirtZIndex=11950;
+	-�css: �.$.FlyDeadZIndex=11960;
+	-�css: �.$.FlyGoingZIndex=11970;
+	-�css: �.$.FlyFlyingZIndex=11980;
+	-�css: �.$.FlySwatterZIndex=11990;
+	-�css: �.$.GlitteryParticlsZIndex=12000;
+	/* icons*/
+	-�css: �.$.icon_checkbox_unselect="\\e908";
+	-�css: �.$.icon_checkbox_select="\\e907";
+	-�css: �.$.icon_search_clear="\\e906";
+	-�css: �.$.icon_radio_unselect="\\e930";
+	-�css: �.$.icon_radio_select="\\e92f";
+	-�css: �.$.icon_pencil="\\e91c";
+	-�css: �.$.icon_loading1="\\eB90";
+	-�css: �.$.icon_loading2="\\eB91";
+	-�css: �.$.icon_loading3="\\eB92";
+	-�css: �.$.icon_notavailable="\\f334";
+	-�css: �.$.icon_alert="\\eb00";
+	-�css: �.$.icon_possible_alert="\\eb08";
+	-�css: �.$.icon_subsequent="\\f3f6";
+	/* cursors */
+	-�css: �.plugins.ButtonAndIconCreator.Create("../../dev/media/final/general/gui/cursors.psd","std","std",/(.*)/i,"","","imgs/general/gui/cursors",true);
+	-�css: �.DefCursor("wait","wait","imgs/general/gui/cursors/wait.png",12,12);
+	-�css: �.DefCursor("copy","wait","imgs/general/gui/cursors/copy.png",12,12);
+	-�css: �.DefCursor("cut","wait","imgs/general/gui/cursors/cut.png",12,12);
+	-�css: �.DefCursor("nooperation","default","imgs/general/gui/cursors/nooperation.png",11,11);
+	-�css: �.DefCursor("pointer","default","imgs/general/gui/cursors/pointer.png",6,3);
+	-�css: �.DefCursor("pointerminus","default","imgs/general/gui/cursors/pointerminus.png",6,3);
+	-�css: �.DefCursor("pointerplus","default","imgs/general/gui/cursors/pointerplus.png",6,3);
+	-�css: �.DefCursor("pointermove","move","imgs/general/gui/cursors/pointermove.png",11,11);
+	-�css: �.DefCursor("pointercut","default","imgs/general/gui/cursors/pointercut.png",6,3);
+	-�css: �.DefCursor("pointerstamp","default","imgs/general/gui/cursors/pointercopy.png",6,3);
+	-�css: �.DefCursor("pointersel","default","imgs/general/gui/cursors/pointersel.png",6,3);
+	-�css: �.DefCursor("text","default","imgs/general/gui/cursors/text.png",12,12);
+	-�css: �.DefCursor("cross","default","imgs/general/gui/cursors/cross.png",11,11);
+	-�css: �.DefCursor("handpointer","pointer","imgs/general/gui/cursors/handpointer.png",8,3);
+	-�css: �.DefCursor("handpointerdown","pointer","imgs/general/gui/cursors/handpointerdown.png",7,4);
+	-�css: �.DefCursor("handopen","default","imgs/general/gui/cursors/handopen.png",13,14);
+	-�css: �.DefCursor("handclosed","default","imgs/general/gui/cursors/handclosed.png",13,14);
+	-�css: �.DefCursor("pencil","default","imgs/general/gui/cursors/pencil.png",4,21);
+	-�css: �.DefCursor("magicwand","default","imgs/general/gui/cursors/magicwand.png",5,4);
+	-�css: �.DefCursor("magicwanddown","default","imgs/general/gui/cursors/magicwanddown.png",3,6);
+	-�css: �.DefCursor("magicwandplus","default","imgs/general/gui/cursors/magicwandplus.png",4,21);
+	-�css: �.DefCursor("magicwandminus","default","imgs/general/gui/cursors/magicwandminus.png",4,21);
+	-�css: �.DefCursor("eraser","default","imgs/general/gui/cursors/eraser.png",2,17);
+	-�css: �.DefCursor("fill","default","imgs/general/gui/cursors/fill.png",19,21);
+	-�css: �.DefCursor("pipettepressed","default","imgs/general/gui/cursors/pipettepressed.png",3,21);
+	-�css: �.DefCursor("pipetteunpressed","default","imgs/general/gui/cursors/pipetteunpressed.png",3,21);
+	-�css: �.DefCursor("westeast","col-resize","imgs/general/gui/cursors/westeast.png",11,12);
+	-�css: �.DefCursor("northsouth","row-resize","imgs/general/gui/cursors/northsouth.png",11,12);
+	-�css: �.DefCursor("panelsize","nwse-resize","imgs/general/gui/cursors/panelsize.png",11,12);
+	-�css: �.DefCursor("paneldock","nwse-resize","imgs/general/gui/cursors/paneldock.png",3,20);
+	-�css: �.DefCursor("zoom","zoom-in","imgs/general/gui/cursors/zoom.png",10,8);
+	-�css: �.DefCursor("zoomplus","zoom-in","imgs/general/gui/cursors/zoomplus.png",10,8);
+	-�css: �.DefCursor("zoomminus","zoom-out","imgs/general/gui/cursors/zoomminus.png",10,8);
+	-�css: �.DefCursor("cabledrum","default","imgs/general/gui/cursors/cabledrum.png",3,5);
+	-�css: �.DefCursor("scissorsopen","default","imgs/general/gui/cursors/scissorsopen.png",9,9);
+	-�css: �.DefCursor("scissorsclosed","default","imgs/general/gui/cursors/scissorsclosed.png",9,9);
+	-�css: �.DefCursor("solderingiron","default","imgs/general/gui/cursors/solderingiron.png",2,24);
+	-�css: �.DefCursor("pincersopen","default","imgs/general/gui/cursors/pincersopen.png",3,2);
+	-�css: �.DefCursor("pincersclosed","default","imgs/general/gui/cursors/pincersclosed.png",3,2);
+	-�css: �.$.CarbonImageURI="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";
+	-�css: �.$.HeaderBgrdImageURI="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//fxpAgAEACWIDZAOLBxgAAAAASUVORK5CYII=";
+	/* functions */
+	-�css: �.$.Borders=function(_baseColor,_pixelWidth,_topLighten,_rightLighten,_bottomLighten,_leftLighten)� �.AddProperty('border-top',_pixelWidth+'px solid '+�.Lighten(_baseColor,_topLighten))� �.AddProperty('border-right',_pixelWidth+'px solid '+�.Lighten(_baseColor,_rightLighten))� �.AddProperty('border-bottom',_pixelWidth+'px solid '+�.Lighten(_baseColor,_bottomLighten))� �.AddProperty('border-left',_pixelWidth+'px solid '+�.Lighten(_baseColor,_leftLighten))� �;
+	-�css: �.$.GlitterySpriteAfterWorkDivBlock=function(_sprite)� var sprites,kb,pb,s,sl,b� �CSSLog("GlitterySpriteAfterWorkDivBlock")� sprites=�.GetJSONFile("../../dev/media/final/general/gui/glittery/glittery.json")� if(sprites!=null)� sl=sprites.sprites.length� _sprite.cssBlock.AddProperty("margin","-"+(sprites.info.offY/2)+"px 0px 0px -"+(sprites.info.offX/2)+"px")� _sprite.cssBlock.AddProperty("animation-timing-function","steps("+sl+")")� _sprite.cssBlock.RemoveProperty("width")� _sprite.cssBlock.RemoveProperty("height")� _sprite.cssBlock.AddProperty("width",(sprites.info.maxWidth/2)+"px")� _sprite.cssBlock.AddProperty("height",(sprites.info.maxHeight/2)+"px")� b=�.GetRememberBlock("glitteryFrom")� b.ChangeProperty("background-position-x","-"+_sprite.cssImage.x+"px")� b=�.GetRememberBlock("glitteryTo")� b.ChangeProperty("background-position-x","-"+(_sprite.cssImage.x+(sprites.info.maxWidth/2)*sl)+"px")� �� �;
+	-�css: �.$.GlitteryAnimation=function(_folder,_baseName)� var sprites,kb,pb,s,sl� sprites=�.GetJSONFile(_folder+"/"+_baseName+".json")� �CSSLog("KeyFrame Animation: "+_folder+"/"+_baseName)� if(sprites!=null)� kb=�.AddBlock("@keyframes"+" "+_baseName)� pb=kb.AddBlock("to")� pb.AddProperty('Background-position',"0px 0px")� �� �;
+	-�css: �.$.GlitteryAnimationOld3=function(_folder,_baseName)� var sprites,kb,pb,s,sl� sprites=�.GetJSONFile(_folder+"/"+_baseName+".json")� �CSSLog("KeyFrame Animation: "+_folder+"/"+_baseName)� if(sprites!=null)� kb=�.AddBlock("@keyframes"+" "+_baseName)� sl=sprites.sprites.length� for(s=0�s<sl�s++)� pb=kb.AddBlock(Math.floor(s*100/sl)+"%")� �.Sprite(_folder+"/"+_baseName+"."+s+".png",0,0,0,0,0,pb)� pb.AddProperty('transform-origin',sprites.sprites[s][5]+"px "+sprites.sprites[s][6]+"px")� �� �� �;
+	-�css: �.$.GlitteryAnimationOld=function(_folder,_baseName)� var sprites,kb,pb,f,sl� sprites=�.GetJSONFile(_folder+"/"+_baseName+".json")� �CSSLog("KeyFrame Animation: "+_folder+"/"+_baseName)� if(sprites!=null)� kb=�.AddBlock("@keyframes"+" "+_baseName)� sl=sprites.sprites.length-1� for(f=0�f<=100�f++)� s=Math.floor(sl*f/100)� �CSSLog("KeyFrame: "+f+"/"+s)� pb=kb.AddBlock(f+"%")� �.Sprite(_folder+"/"+_baseName+"."+s+".png",0,0,0,0,0,pb)� pb.AddProperty('transform-origin:',sprites.sprites[s][5]+"px "+sprites.sprites[s][6]+"px")� �� �� �;
+	-�css: �.$.GlitteryAnimationOld2=function(_folder,_baseName)� var sprites,kb,pb,s,sl,anis=[]� sprites=�.GetJSONFile(_folder+"/"+_baseName+".json")� �CSSLog("KeyFrame Animation: "+_folder+"/"+_baseName)� if(sprites!=null)� sl=sprites.sprites.length� for(s=0�s<sl�s++)� kb=�.AddBlock("@keyframes"+" "+_baseName+s)� pb=kb.AddBlock("0%")� �.Sprite(_folder+"/"+_baseName+"."+s+".png",0,0,0,0,0,pb)� pb.AddProperty('transform-origin',sprites.sprites[s][5]+"px "+sprites.sprites[s][6]+"px")� anis.push("glittery"+s+" "+(0.5/sl)+"s steps(1)") �� kb=�.AddBlock("div."+_baseName+".animation")� kb.AddProperty('animation',anis.join(","))� �� �;
+	-�css: �.$.TableBackgrounds=function(_variantClass,_baseClass,_baseColor,_columHover)� var n,r� n=_baseClass+">tr."+_variantClass+":nth-child(even)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.3))� n=_baseClass+">tr."+_variantClass+".selected:nth-child(even)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.3))� n=_baseClass+">tr."+_variantClass+":nth-child(even):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.3))� n=_baseClass+">tr."+_variantClass+":nth-child(odd)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.2))� n=_baseClass+">tr."+_variantClass+".selected:nth-child(odd)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.3))� n=_baseClass+">tr."+_variantClass+":nth-child(odd):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.3))� n=_baseClass+">tr."+_variantClass+":nth-child(even)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.3))� n=_baseClass+">tr:"+_variantClass+">td:nth-child(even)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.1))� if(_columHover)� n=_baseClass+">tr."+_variantClass+">td:nth-child(odd):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.1))� n=_baseClass+">tr."+_variantClass+".selected>td:nth-child(odd):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.1))� �� n=_baseClass+">tr."+_variantClass+">td:nth-child(odd)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.1))� if(_columHover)� n=_baseClass+">tr."+_variantClass+">td:nth-child(even):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.1))� n=_baseClass+">tr."+_variantClass+".selected>td:nth-child(even):hover"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(�.$.selectBaseBrgdColor,0.1))� �� n=_baseClass+">tr."+_variantClass+">td:nth-child(even)"� r=�.AddBlock(n,�.elementNo)� r.AddProperty('background-color',�.Alpha(_baseColor,0.1))� �;
+}

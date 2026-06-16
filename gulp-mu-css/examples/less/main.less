@@ -1,0 +1,22 @@
+@import "theme.less";
+
+.card {
+  color: @text;
+  background: @brand;
+  padding: @gap;
+  border-radius: @radius;
+  border: 1px solid darken(@brand, 12%);
+
+  &:hover {
+    background: lighten(@brand, 8%);
+  }
+
+  &-title {
+    font-weight: bold;
+    color: @text;
+  }
+}
+
+.muted {
+  color: fade(@text, 60%);
+}

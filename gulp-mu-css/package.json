@@ -1,0 +1,46 @@
+{
+  "name": "gulp-mu-css",
+  "version": "2.2.4",
+  "description": "µCSS 2 (package gulp-mu-css) - Node module to compile µCSS-enhanced stylesheets (sprites, cursors, image generation via µPS / gulp-mu-ps). Successor of the 2013 Photoshop-script based µCSS 1.",
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "docs/microCSS-de.pdf",
+    "docs/microCSS-en.pdf",
+    "docs/manual"
+  ],
+  "keywords": [
+    "css",
+    "sprite",
+    "ucss",
+    "gulp-mu-css",
+    "microcss"
+  ],
+  "scripts": {
+    "test": "mocha test/**/*.test.mjs"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "gulp-mu-au": "file:../gulp-mu-au",
+    "gulp-mu-build-filter": "^2.0.0",
+    "gulp-mu-ps": "file:../gulp-mu-ps",
+    "postcss": "^8.5.15",
+    "postcss-selector-parser": "^7.1.4"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "docx": "^9.7.1",
+    "mocha": "^11.7.6",
+    "postcss-less": "^6.0.0",
+    "postcss-nested": "^7.0.2",
+    "sharp": "^0.35.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "gulp-mu-css-ps",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Root project for the microCSS and microPS node modules.",
+  "type": "module",
+  "scripts": {
+    "test": "gulp test",
+    "test:microps": "gulp test:microps",
+    "test:aidpix": "gulp test:aidpix",
+    "examples:render": "gulp examples:render",
+    "build:publish": "gulp build:publish"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "gulp-mu-aspx-configurator": "^1.1.1",
+    "gulp-mu-aspx-installer": "^1.1.4",
+    "gulp-mu-csharp-concat-postwork": "^1.1.0",
+    "gulp-mu-spritereducer": "^1.0.0"
+  }
+}

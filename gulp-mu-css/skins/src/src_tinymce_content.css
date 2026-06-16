@@ -1,0 +1,678 @@
+/*	===============================================
+ *	oxyd tinymce content css
+ *	� 2016-2019 Dongleware Verlags GmbH
+ *	�2020-20232 Dosing GmbH
+ *	===============================================
+ */
+
+/* ==============================
+ * GENERAL
+ * ==============================
+ */
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 100;
+	src: url(fonts/OpenSans-Light.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: normal;
+	src: url(fonts/OpenSans-Regular.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: url(fonts/OpenSans-Semibold.woff) format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: bold;
+	src: url(fonts/OpenSans-Extrabold.woff) format('woff');
+}
+
+/*
+@font-face{
+	font-family:'Noto Sans';
+	font-style:normal;
+	font-weight:normal;
+	src:url(fonts/NotoSansUI-Regular.ttf) format('truetype');
+}
+@font-face{
+	font-family:'Noto Sans';
+	font-style:normal;
+	font-weight:bold;
+	src:url(fonts/NotoSansUI-Bold.ttf) format('truetype');
+}
+@font-face{
+	font-family:'Noto Mono';
+	font-style:normal;
+	font-weight:bold;
+	src:url(fonts/NotoMono-Regular.ttf) format('truetype');
+}
+@font-face{
+	font-family:'Noto Emoji Regular';
+	font-style:normal;
+	font-weight:bold;
+	src:url(fonts/NotoColorEmoji.ttf) format('truetype');
+}
+*/
+::selection {
+	-�css: �.SetBackgroundColor(�.$.selectBaseBrgdColor);
+	-�css: �.SetColor(�.$.selectBaseTextColor);
+}
+
+::-ms-selection {
+	-�css: �.SetBackgroundColor(�.$.selectBaseBrgdColor);
+	-�css: �.SetColor(�.$.selectBaseTextColor);
+}
+
+::-moz-selection {
+	-�css: �.SetBackgroundColor(�.$.selectBaseBrgdColor);
+	-�css: �.SetColor(�.$.selectBaseTextColor);
+}
+
+::-webkit-selection {
+	-�css: �.SetBackgroundColor(�.$.selectBaseBrgdColor);
+	-�css: �.SetColor(�.$.selectBaseTextColor);
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(160,160,160,0.4);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 6px rgba(160,160,160,0.6);
+}
+
+::-webkit-resizer {
+	background-color: transparent;
+	pointer-events: none;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+	pointer-events: none;
+}
+
+*.cursor_wait {
+	-�css: �.Cursor("wait");
+}
+
+*.cursor_pointer {
+	-�css: �.Cursor("pointer");
+}
+
+*.cursor_text {
+	-�css: �.Cursor("text");
+}
+
+input, textarea, keygen, select, button {
+	font-family: 'Open Sans',sans-serif;
+}
+
+a {
+	-�css: �.Cursor("handpointer");
+	-�css: �.SetColor(�.$.baseTextColor);
+	text-decoration: none;
+	-�css: �.AddProperty("border-bottom","1px dashed "+�.Lighten(�.$.selectBaseBrgdColor,�.$.lightenSelectStep2));
+}
+
+a:link {
+	text-decoration: none;
+	-�css: �.AddProperty("border-bottom","1px dashed "+�.Lighten(�.$.selectBaseBrgdColor,�.$.lightenSelectStep2));
+}
+
+a:visited {
+	text-decoration: none;
+	-�css: �.AddProperty("border-bottom","1px dashed "+�.Lighten(�.$.selectBaseBrgdColor,�.$.lightenSelectStep2));
+}
+
+a:hover {
+	text-decoration: none;
+	-�css: �.AddProperty("border-bottom","1px dashed "+�.Lighten(�.$.selectBaseBrgdColor,�.$.lightenSelectStep2));
+}
+
+a:active {
+	text-decoration: none;
+	-�css: �.AddProperty("border-bottom","1px dashed "+�.Lighten(�.$.selectBaseBrgdColor,�.$.lightenSelectStep2));
+}
+
+html {
+	-�css: //�.AddProperty("background-image","radial-gradient(rgba(255,255,255,0.1),rgba(0,0,0,0.3)),url('imgs/general/gui/carbon.png')");
+}
+
+body {
+	-ms-content-zooming: none;
+	-ms-touch-action: none;
+	content-zooming: none;
+	touch-action: none;
+	overflow: hidden;
+	font-family: 'Open Sans',sans-serif;
+	font-size: 12px;
+	user-select: none;
+	user-callout: none;
+	touch-callout: none;
+	touch-action: none;
+	tap-highlight-color: rgba(255,255,255,0);
+	margin: 0px;
+	padding: 4px;
+	overflow: auto;
+	color: white;
+	height: calc(100vh - 8px);
+	background-color: transparent;
+}
+
+p {
+	display: block;
+	margin-top: 0px;
+	margin-bottom: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+	-webkit-margin-before: 0px;
+	-webkit-margin-after: 4px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+}
+
+h1 {
+	backgound-color: gray;
+	color: white;
+	-�css: �.AddProperty("background-image","linear-gradient(left,"+�.Alpha(�.Lighten(�.$.baseBrgdColor,�.$.lightenStep7),0.5)+" 0%,"+�.Alpha(�.Lighten(�.$.baseBrgdColor,�.$.lightenStep1),0.5)+" 100%)");
+	font-size: 12px;
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+h2 {
+	backgound-color: gray;
+	color: white;
+	-�css: �.AddProperty("background-image","linear-gradient(left,"+�.Alpha(�.Lighten(�.$.baseBrgdColor,�.$.lightenStep7),0.5)+" 0%,"+�.Alpha(�.Lighten(�.$.baseBrgdColor,�.$.lightenStep1),0.5)+" 100%)");
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+h3 {
+	color: white;
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+h4 {
+	color: white;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+h5 {
+	color: white;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+h6 {
+	color: white;
+	font-size: 10px;
+	font-weight: normal;
+	padding: 4px 8px 4px 8px;
+}
+
+img.floatright {
+	float: right;
+	padding: 4px 0px 8px 8px;
+}
+
+img.floatleft {
+	float: left;
+	padding: 4px 8px 8px 0px;
+}
+
+/* ==============================
+ * SMARTSCROLL
+ * ==============================
+ */
+
+div.smartscrollcontainer {
+	overflow: hidden;
+	position: relative;
+	transition: background-color 0.5s ease-in;
+}
+
+div.smartscrollcontainer.on {
+	-�css: �.Cursor("grab");
+	background-color: #fbfbfb;
+}
+
+div.smartscrollcontainer.on.grabbing {
+	-�css: �.Cursor("grabbing");
+	-�css: �.SetBackgroundColor(�.$.scrollBgrdColor);
+}
+
+div.smartscrollcontainer.docmode {
+	overflow: hidden;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd {
+	position: absolute;
+	border-radius: 3px;
+	transition: background-color 0.5s ease-in-out;
+	transition: color 0.5s ease-in-out;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd.on {
+	background-color: rgba(0,0,0,0.2);
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd.white.on {
+	background-color: rgba(128,128,128,0.8);
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd.off {
+	background-color: transparent;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd.ver {
+	top: 0px;
+	right: 0px;
+	width: 6px;
+	height: 100%;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd.hor {
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 4px;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar {
+	position: absolute;
+	background-color: #FF7043;
+	border-radius: 1px;
+	opacity: 0.0;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar.white {
+	background-color: white;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar.ver {
+	right: 2px;
+	width: 3px;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar.hor {
+	bottom: 2px;
+	height: 3px;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar.on {
+	transition: opacity 0.5s ease-in-out 0s;
+	opacity: 0.5;
+}
+
+div.smartscrollcontainer > div.scrollbarbgrd > div.scrollbar.off {
+	transition: opacity 0.5s ease-in-out 1.5s;
+	opacity: 0.0;
+}
+
+
+/* Doc SmartScroll */
+div.smartscrollcontainer > div.pagingbut {
+	cursor: pointer;
+	position: absolute;
+	margin: auto;
+	height: 64px;
+	width: 64px;
+	color: white;
+	font-weight: bold;
+	vertical-align: middle;
+	transition: background-image 0.5s ease-in-out;
+	box-sizing: border-box;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward {
+	-�css: //�.SetBackgroundImage("imgs/smartscroll/pagebackward_normal@2x.png");
+	transition: left 1.0s,opacity 0.5s,background-image 0.5s ease-in-out;
+	text-align: left;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.on {
+	opacity: 1;
+	left: 0px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.off {
+	opacity: 0;
+	left: -64px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.drag {
+	opacity: 1;
+	left: -64px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.length0 {
+	padding-left: 42px;
+	font-size: 20px;
+	padding-top: 20px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.length1 {
+	padding-left: 42px;
+	font-size: 20px;
+	padding-top: 19px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.length2 {
+	padding-left: 38px;
+	font-size: 18px;
+	padding-top: 21px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.length3 {
+	padding-left: 36px;
+	font-size: 14px;
+	padding-top: 23px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward {
+	-�css: //�.SetBackgroundImage("imgs/smartscroll/pageforward_normal@2x.png");
+	transition: right 1.0s,opacity 0.5s,background-image 0.5s ease-in-out;
+	text-align: right;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.on {
+	opacity: 1;
+	right: 0px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.off {
+	opacity: 0;
+	right: -64px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.drag {
+	opacity: 1;
+	right: -64px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.length0 {
+	padding-right: 42px;
+	font-size: 20px;
+	padding-top: 20px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.length1 {
+	padding-right: 42px;
+	font-size: 20px;
+	padding-top: 19px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.length2 {
+	padding-right: 38px;
+	font-size: 18px;
+	padding-top: 21px;
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.length3 {
+	padding-right: 36px;
+	font-size: 14px;
+	padding-top: 23px;
+}
+
+div.smartscrollcontainer > div.pagingbut.backward.onhover, div.smartscrollcontainer > div.pagingbut.backward.ontouch, div.smartscrollcontainer > div.pagingbut.backward.trigger {
+	-�css: //�.SetBackgroundImage("imgs/smartscroll/pagebackward_hover@2x.png");
+}
+
+div.smartscrollcontainer > div.pagingbut.forward.onhover, div.smartscrollcontainer > div.pagingbut.forward.ontouch, div.smartscrollcontainer > div.pagingbut.forward.trigger {
+	-�css: //�.SetBackgroundImage("imgs/smartscroll/pageforward_hover@2x.png");
+}
+
+div.smartscrollcontainer > div.pageinfo {
+	position: absolute;
+	top: 24px;
+	left: 0px;
+	border: 0px solid black;
+	border-radius: 50px;
+	padding: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	color: white;
+	background-color: rgba(0,0,0,0.3);
+	font-size: 20px;
+	font-weight: bold;
+	box-sizing: border-box;
+	text-align: center;
+	opacity: 0;
+	display: none;
+}
+
+div.smartscrollcontainer > div.pageinfo.on {
+	transition: opacity 1s ease-in-out;
+	opacity: 1;
+}
+
+div.smartscrollcontainer > div.pageinfo.off {
+	transition: opacity 0.5s ease-in-out;
+	opacity: 0.0;
+}
+
+div.smartscrollcontainer > div.pageinfo > div.numbers {
+}
+
+div.smartscrollcontainer > div.pageinfo > div.title {
+	font-size: 14px;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsContainer {
+	position: absolute;
+	overflow: hidden;
+	bottom: 0px;
+	left: 0px;
+	color: white;
+	background-color: rgba(0,0,0,0.3);
+	width: 100%;
+	height: 88px;
+	transition: all 1s ease-in-out;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsContainer.on {
+	opacity: 1;
+	bottom: 0px;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsContainer.off {
+	opacity: 0;
+	bottom: -88px;
+}
+
+#inboxattachment.portrait div.smartscrollcontainer div.pagingThumbnailsContainer {
+	height: 113px;
+}
+
+#inboxattachment.portrait div.smartscrollcontainer div.pagingThumbnailsContainer.off {
+	bottom: -113px;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsAttachmentSelect {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 14px 10px 14px 10px;
+	white-space: nowrap;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsAttachmentSelect > div.thumbnail {
+	display: inline-block;
+	color: rgba(60,60,60,0.65);
+	font-size: 18px;
+	text-align: center;
+	padding-top: 10px;
+	font-weight: bold;
+	background-color: #f8f8f8;
+	background-size: contain;
+	border: 1px solid black;
+	width: 44px;
+	text-shadow: 0 0 2px white;
+	height: 44px;
+	margin-left: 14px;
+	margin-right: 14px;
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+div.smartscrollcontainer div.pagingThumbnailsAttachmentSelect > div.thumbnail.selected {
+	border: 1px solid black;
+	box-shadow: 0px 0px 12px 6px rgba(252,252,252,0.8);
+}
+
+div.smartscrollcontainer div.pagingThumbnailsAttachmentSelect > div.thumbnail:hover {
+	border: 1px solid black;
+	box-shadow: 0px 0px 12px 6px rgba(252,252,252,0.8);
+}
+
+div.bungeeinfocontainer {
+	position: absolute;
+	width: 100%;
+}
+
+
+
+
+
+span.emoticon.smile {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/smile.png");
+}
+
+span.emoticon.sad {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/sad.png");
+}
+
+span.emoticon.neutral {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/neutral.png");
+}
+
+span.emoticon.angry {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/angry.png");
+}
+
+span.emoticon.wink {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/wink.png");
+}
+
+span.emoticon.smile-big {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/smile-big.png");
+}
+
+span.emoticon.thinking {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/thinking.png");
+}
+
+span.emoticon.shut-mouth {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/shut-mouth.png");
+}
+
+span.emoticon.crying {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/crying.png");
+}
+
+span.emoticon.shock {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/shock.png");
+}
+
+span.emoticon.confused {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/confused.png");
+}
+
+span.emoticon.glasses-cool {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/glasses-cool.png");
+}
+
+span.emoticon.yawn {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/yawn.png");
+}
+
+span.emoticon.good {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/good.png");
+}
+
+span.emoticon.bad {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/bad.png");
+}
+
+span.emoticon.embarrassed {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/embarrassed.png");
+}
+
+span.emoticon.shame {
+	display: inline-block;
+	-�css: �.Sprite("imgs/general/gui/emoticons/shame.png");
+}
+
+
+div.teaser {
+	background-image: url(imgs/general/gui/teaserbgrd.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+div.forumquotation {
+	font-style: italic;
+	border-radius: 15px;
+	-�css: �.SetBackgroundColor(�.Alpha(�.$.selectBaseBrgdColor,0.3));
+	-�css: �.SetColor(�.Lighten(�.$.selectBaseBrgdColor,2));
+	padding: 8px 8px 8px 8px;
+}
+
+div.forumquotation > div.forumquotiationdata {
+	color: white;
+	font-size: 10px;
+}
+
+table {
+	border: 1px white solid;
+	border-collapse: collapse;
+}
+td {
+	border: 1px white solid;
+	border-collapse: collapse;
+}
