@@ -32,7 +32,7 @@ Output lands in `demos/*/dist/` (CSS, sprites, sounds).
 
 ## Live (GitHub Pages)
 
-After enabling **Pages → GitHub Actions** in the repo settings, pushes to `master` rebuild and deploy automatically.
+After enabling **Pages → Build and deployment → Source: GitHub Actions** (top of the Pages settings — not the Jekyll/Static HTML starter workflows), pushes to `master` rebuild and deploy automatically. Then open **Actions → Demo pages** to confirm the run succeeded.
 
 | Page | URL |
 | :--- | :--- |
@@ -99,7 +99,7 @@ npx gulp demos:build
 
 ## Live (GitHub Pages)
 
-Nach **Pages → GitHub Actions** in den Repo-Einstellungen baut und deployt jeder Push auf `master` automatisch.
+Nach **Pages → Build and deployment → Source: GitHub Actions** (oben auf der Pages-Seite — nicht die Jekyll-/Static-HTML-Starter) baut und deployt jeder Push auf `master` automatisch. Erfolg unter **Actions → Demo pages** prüfen.
 
 | Seite | URL |
 | :--- | :--- |

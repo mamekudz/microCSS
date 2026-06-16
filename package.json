@@ -9,7 +9,8 @@
     "test:microps": "gulp test:microps",
     "test:aidpix": "gulp test:aidpix",
     "examples:render": "gulp examples:render",
-    "build:publish": "gulp build:publish"
+    "build:publish": "gulp build:publish",
+    "demos:build": "node tools/build-demos.mjs"
   },
   "devDependencies": {
     "gulp": "^5.0.0",

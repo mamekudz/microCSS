@@ -35,23 +35,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            gulp-mu-ps/package-lock.json
-            gulp-mu-au/package-lock.json
-            gulp-mu-css/package-lock.json
+          node-version: "22"
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm ci --include=dev
           npm ci --prefix gulp-mu-ps
           npm ci --prefix gulp-mu-au
           npm ci --prefix gulp-mu-css
 
       - name: Build demos
-        run: npx gulp demos:build
+        run: node tools/build-demos.mjs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
