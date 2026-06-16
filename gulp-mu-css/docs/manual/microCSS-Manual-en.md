@@ -814,7 +814,8 @@ Deliberately **not** carried over from the old µCSS:
 | 2026-06 | 2.2.1 | Manual update (version history extended, cover-page version corrected); no functional changes compared to 2.2.0. |
 | 2026-06 | 2.2.2 | Bilingual manual (`microCSS-de.pdf` / `microCSS-en.pdf`) and bilingual READMEs (English first) for `gulp-mu-css` and `gulp-mu-ps`; build tooling extended for multilingual manuals. No functional code changes. |
 | 2026-06 | 2.2.3 | Fix: headings carry explicit outline levels so the auto-updated table of contents of the PDF manuals (DE/EN) is populated (was empty before). Tooling/docs fix only. |
-| 2026-06 | 2.2.5 | Vue co-location chapter in the manual; migration aid `tools/convert-vue.mjs` and example SFCs under `examples/vue/`. Rebuild PDFs with `npx gulp docs:manual` to include the new chapter. |
+| 2026-06 | 2.2.4 | Sound atlas integration (`sounds` block in the manifest via µAU); `sprites.include` to add standalone images or directories to the sprite atlas without a CSS rule. |
+| 2026-06 | 2.3.0 | Build-time `@import` bundling (glob, recursive, Vue co-location); opt-in rule merge (`merge`, `@µ-override`, `onConflict`); namespace mode (`@µ-namespace`, `:global()`); build-type/variant filter (`buildFilter`, via `gulp-mu-build-filter`). Manual: Vue co-location chapter. Repository-only migration aids: `tools/convert-vue.mjs`, `tools/convert-less.mjs`. README/package metadata: GitHub monorepo links. Runtime dependencies added: `postcss-selector-parser`, `gulp-mu-build-filter`. |
 
 # Legal
 

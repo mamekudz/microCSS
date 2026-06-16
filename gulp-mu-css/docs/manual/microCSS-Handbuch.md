@@ -814,7 +814,8 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS:
 | 2026-06 | 2.2.1 | Handbuch-Aktualisierung (Versionshistorie ergänzt, Deckblatt-Version korrigiert); keine funktionalen Änderungen gegenüber 2.2.0. |
 | 2026-06 | 2.2.2 | Zweisprachiges Handbuch (`microCSS-de.pdf` / `microCSS-en.pdf`) und zweisprachige READMEs (Englisch zuerst) für `gulp-mu-css` und `gulp-mu-ps`; Build-Tooling für mehrsprachige Handbücher erweitert. Keine funktionalen Code-Änderungen. |
 | 2026-06 | 2.2.3 | Fix: Überschriften tragen explizite Outline-Level, damit das automatisch aktualisierte Inhaltsverzeichnis der PDF-Handbücher (DE/EN) befüllt wird (war zuvor leer). Reine Tooling-/Doku-Korrektur. |
-| 2026-06 | 2.2.5 | Handbuch-Kapitel Vue-Co-Location; Migrationshilfe `tools/convert-vue.mjs` und Beispiel-SFCs unter `examples/vue/`. PDFs mit `npx gulp docs:manual` neu bauen, um das Kapitel aufzunehmen. |
+| 2026-06 | 2.2.4 | Sound-Atlas-Anbindung (`sounds`-Block im Manifest über µAU); `sprites.include` für Einzelbilder/Verzeichnisse im Sprite-Atlas ohne CSS-Regel. |
+| 2026-06 | 2.3.0 | Build-Zeit-`@import`-Bundling (Glob, rekursiv, Vue-Co-Location); opt-in Regel-Merge (`merge`, `@µ-override`, `onConflict`); Namespace-Modus (`@µ-namespace`, `:global()`); Build-Typ-/Varianten-Filter (`buildFilter`, über `gulp-mu-build-filter`). Handbuch: Kapitel Vue-Co-Location. Nur im Repository: Migrationshilfen `tools/convert-vue.mjs`, `tools/convert-less.mjs`. README/Paket-Metadaten: GitHub-Monorepo-Links. Neue Laufzeit-Abhängigkeiten: `postcss-selector-parser`, `gulp-mu-build-filter`. |
 
 # Rechtliches
 
