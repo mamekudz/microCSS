@@ -5,7 +5,7 @@ Interactive demos for videos and GitHub Pages — ported from the **AiDPix / Oxy
 | Demo | Effect | µCSS / µAU features |
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mouse move → random-offset sparkles | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
-| [flyex/](flyex/) | Fly swarm, click to swat, **Ctrl+F6** = 19 more | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
+| [flyex/](flyex/) | Fly swarm, click to swat, **Space** = 19 more | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
 
 ### FlyEx — Atari heritage
 
@@ -51,7 +51,7 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** first click starts a swarm (19 flies) and resumes audio; **Ctrl+F6** releases another batch (AiDPix easter egg). Click a fly to swat.
+**FlyEx:** click play area for audio; **Space** releases 19 flies (Ctrl+F6 still works like AiDPix). Click a fly to swat.
 
 ## YouTube / marketing angles
 
@@ -76,7 +76,7 @@ Interaktive Demos für Videos und GitHub Pages — portiert vom **AiDPix-/Oxyd-*
 | Demo | Effekt | µCSS-/µAU-Features |
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mausbewegung → Funkeln mit Zufallsoffset | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
-| [flyex/](flyex/) | Fliegenschwarm, Klick = Klatsch, **Strg+F6** = 19 weitere | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
+| [flyex/](flyex/) | Fliegenschwarm, Klick = Klatsch, **Leertaste** = 19 weitere | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
 
 ### FlyEx — Atari-Hintergrund
 
@@ -120,4 +120,4 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** erster Klick startet Schwarm (19 Fliegen) und aktiviert Audio; **Strg+F6** setzt weitere 19 frei (AiDPix-Osterei). Auf Fliege klicken zum Klatsch.
+**FlyEx:** Klick in die Play-Area für Audio; **Leertaste** setzt 19 Fliegen frei (Strg+F6 wie in AiDPix). Auf Fliege klicken zum Klatsch.

@@ -432,8 +432,13 @@ async function _Boot() {
 		if (!started) {
 			started = true;
 			demo.Activate();
-			demo.StartInvasion();
 		}
+	}
+
+	async function _ReleaseFlies(_event) {
+		await _EnsureStarted();
+		demo.StartInvasion();
+		_event.preventDefault();
 	}
 
 	root.addEventListener("pointerdown", async (_event) => {
@@ -449,10 +454,14 @@ async function _Boot() {
 	root.addEventListener("pointerenter", _UnlockAudio);
 
 	document.addEventListener("keydown", async (_event) => {
-		if (_GetKeyMapping(_event) !== KEY_CTRL_F6) return;
-		await _EnsureStarted();
-		demo.StartInvasion();
-		_event.preventDefault();
+		if (_event.target.matches("input, textarea, select")) return;
+		if (_event.code === "Space") {
+			await _ReleaseFlies(_event);
+			return;
+		}
+		if (_GetKeyMapping(_event) === KEY_CTRL_F6) {
+			await _ReleaseFlies(_event);
+		}
 	});
 }
 

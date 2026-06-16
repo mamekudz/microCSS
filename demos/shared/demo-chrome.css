@@ -147,7 +147,7 @@ body.demo-index {
 }
 
 .demo-canvas.is-idle::after {
-	content: "Click here to start (sound + fly)";
+	content: "Click here to start";
 	position: absolute;
 	inset: 0;
 	display: grid;
@@ -157,4 +157,8 @@ body.demo-index {
 	color: var(--demo-muted);
 	font-size: 0.95rem;
 	pointer-events: none;
+}
+
+.demo-page--flyex .demo-canvas.is-idle::after {
+	content: "Click here for audio · Space releases flies";
 }
