@@ -1,58 +1,16 @@
-/* µCSS marketing demo — FlyEx: modern remake of a classic Atari ST fly-swatting gimmick.
-   Uses the original hand-pixelated sprites (AiDPix / Oxyd / Atari PD lineage). */
+/* µCSS Demos — FlyEx (Atari fly swatter). */
 
-body {
-	margin: 0;
-	min-height: 100vh;
-	font-family: system-ui, sans-serif;
-	background: linear-gradient(180deg, #eef4ff 0%, #d8e6fb 100%);
-	color: #1a2a44;
+body.demo-page--flyex {
 	cursor: crosshair;
 }
 
-.demo-stage {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
-	padding: 2rem;
-	text-align: center;
+.demo-page--flyex .demo-canvas {
+	cursor: crosshair;
 }
 
-.demo-stage h1 {
-	margin: 0;
-	font-size: 1.75rem;
-	font-weight: 600;
-}
-
-.demo-stage p {
-	margin: 0;
-	max-width: 40rem;
-	opacity: 0.85;
-	line-height: 1.5;
-}
-
-.demo-hint {
-	font-size: 0.9rem;
-	opacity: 0.65;
-}
-
-@keyframes flySuck {
-	from { opacity: 1.0; }
-	80% { opacity: 1.0; }
-	to { opacity: 0.0; }
-}
-
-div.flySuck {
-	z-index: 11940;
-	pointer-events: none;
-	position: fixed;
-	background-color: white;
-	width: 1px;
-	height: 1px;
-	opacity: 1.0;
+.demo-page--flyex .demo-canvas div.fly,
+.demo-page--flyex .demo-canvas div.flySwatter {
+	position: absolute !important;
 }
 
 @keyframes flyDirt {
@@ -75,6 +33,7 @@ div.flySuck {
 }
 
 div.fly {
+	transform-origin: 14px 14px;
 	background-image: url(imgs/sprites.png);
 	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
 	background-repeat: no-repeat;

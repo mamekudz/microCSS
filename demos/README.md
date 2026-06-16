@@ -1,10 +1,10 @@
-# µCSS marketing demos
+# µCSS Demos
 
 Interactive demos for videos and GitHub Pages — ported from the **AiDPix / Oxyd** glittery sparkle and fly easter egg.
 
 | Demo | Effect | µCSS / µAU features |
 | :--- | :--- | :--- |
-| [glittery/](glittery/) | Click → sparkle burst | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
+| [glittery/](glittery/) | Mouse move → sparkle trail | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
 | [flyex/](flyex/) | Fly crosses screen, click to swat | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
 
 ### FlyEx — Atari heritage
@@ -69,13 +69,13 @@ npx --yes serve demos -p 5173
 
 ---
 
-# µCSS Marketing-Demos
+# µCSS-Demos
 
 Interaktive Demos für Videos und GitHub Pages — portiert vom **AiDPix-/Oxyd-**Glittery-Effekt und dem Fliegen-Osterei.
 
 | Demo | Effekt | µCSS-/µAU-Features |
 | :--- | :--- | :--- |
-| [glittery/](glittery/) | Klick → Funkeln | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
+| [glittery/](glittery/) | Mausbewegung → Funkelspur | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
 | [flyex/](flyex/) | Fliege fliegt, Klick = Klatsch | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
 
 ### FlyEx — Atari-Hintergrund

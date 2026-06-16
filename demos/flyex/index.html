@@ -3,24 +3,35 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>µCSS Demo — FlyEx (Atari fly swatter remake)</title>
+	<title>µCSS Demos — FlyEx</title>
+	<link rel="stylesheet" href="../shared/demo-chrome.css">
 	<link rel="stylesheet" href="dist/demo.css">
 </head>
-<body>
-	<div class="demo-stage">
-		<h1>FlyEx — fly swatter</h1>
-		<p>
-			A modern remake of a classic <strong>Atari ST desktop gimmick</strong>: a fly crosses the screen,
-			you swat it with the cursor. The animation uses the <strong>original hand-pixelated sprites</strong>
-			from that era — here packed into DSD strips and driven by µCSS
-			(<strong>FlyEx</strong> generates 80+ CSS rules from one atlas; <strong>µAU</strong> bundles buzz and swat sounds via the skin manifest).
-		</p>
-		<p class="demo-hint">
-			Tap/click to start audio · Klick auf die Fliege zum Klatsch ·
-			Atari-PD-Gimmick-Nachbau · AiDPix / Oxyd · µCSS 2 + µAU
-		</p>
+<body class="demo-page demo-page--flyex">
+	<div class="demo-shell">
+		<aside class="demo-panel">
+			<p class="demo-back"><a href="../">µCSS Demos</a></p>
+			<h1>FlyEx</h1>
+			<p>
+				Remake of a classic <strong>Atari ST desktop gimmick</strong>: a fly crosses the screen,
+				you swat it. Original hand-pixelled DSD strips, <strong>FlyEx</strong> macro (80+ CSS rules),
+				<strong>µAU</strong> sound atlas.
+			</p>
+			<section class="demo-sources">
+				<h2>Source strips</h2>
+				<figure>
+					<img src="dev/media/raw/flyex/imgs/flyex.png" width="600" height="30" alt="Fly animation strip">
+					<figcaption><code>flyex.png</code> — 23 cells (straight + diagonal + dead/dirt)</figcaption>
+				</figure>
+				<figure>
+					<img src="dev/media/raw/flyex/imgs/flyexutils.png" width="78" height="30" alt="Swatter strip">
+					<figcaption><code>flyexutils.png</code> — swatter clap frames</figcaption>
+				</figure>
+			</section>
+			<p class="demo-hint">Click the play area once for sound · then click the fly to swat</p>
+		</aside>
+		<main id="fx-root" class="demo-canvas is-idle" tabindex="0" aria-label="FlyEx play area"></main>
 	</div>
-	<div id="fx-root"></div>
 	<script type="module" src="demo.js"></script>
 </body>
 </html>
