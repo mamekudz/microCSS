@@ -5,15 +5,25 @@
 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { BuildSkin } from "../gulp-mu-css/src/index.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const aidpixRoot = join(repoRoot, "oldsrcs", "AiDPix Extract");
 
+function _FindManifest(_demoDir, _stem) {
+	const match = readdirSync(_demoDir).find(
+		(_name) => _name.startsWith(`${_stem}.`) && _name.endsWith("css.mjs")
+	);
+	if (!match) {
+		throw new Error(`No manifest matching ${_stem}.*css.mjs in ${_demoDir}`);
+	}
+	return join(_demoDir, match);
+}
+
 const DEMOS = [
-	{ id: "glittery", manifest: join(repoRoot, "demos", "glittery", "glittery.µcss.mjs") },
-	{ id: "flyex", manifest: join(repoRoot, "demos", "flyex", "flyex.µcss.mjs") }
+	{ id: "glittery", manifest: _FindManifest(join(repoRoot, "demos", "glittery"), "glittery") },
+	{ id: "flyex", manifest: _FindManifest(join(repoRoot, "demos", "flyex"), "flyex") }
 ];
 
 function _CheckAssets() {

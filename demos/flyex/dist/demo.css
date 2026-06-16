@@ -1,0 +1,703 @@
+/* µCSS marketing demo — FlyEx: modern remake of a classic Atari ST fly-swatting gimmick.
+   Uses the original hand-pixelated sprites (AiDPix / Oxyd / Atari PD lineage). */
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: system-ui, sans-serif;
+	background: linear-gradient(180deg, #eef4ff 0%, #d8e6fb 100%);
+	color: #1a2a44;
+	cursor: crosshair;
+}
+
+.demo-stage {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	padding: 2rem;
+	text-align: center;
+}
+
+.demo-stage h1 {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 600;
+}
+
+.demo-stage p {
+	margin: 0;
+	max-width: 40rem;
+	opacity: 0.85;
+	line-height: 1.5;
+}
+
+.demo-hint {
+	font-size: 0.9rem;
+	opacity: 0.65;
+}
+
+@keyframes flySuck {
+	from { opacity: 1.0; }
+	80% { opacity: 1.0; }
+	to { opacity: 0.0; }
+}
+
+div.flySuck {
+	z-index: 11940;
+	pointer-events: none;
+	position: fixed;
+	background-color: white;
+	width: 1px;
+	height: 1px;
+	opacity: 1.0;
+}
+
+@keyframes flyDirt {
+	from { opacity: 1.0; }
+	80% { opacity: 1.0; }
+	to { opacity: 0.0; }
+}
+
+@keyframes flySwatterClap {
+	from {
+		margin: -29px 0px 0px -38px;
+		width: 42px;
+		height: 42px;
+		background-position-x: 0px;}
+	50% {
+		margin: -29px 0px 0px -38px;
+		width: 42px;
+		height: 42px;
+		background-position-x: -84px;}
+}
+
+div.fly {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 30px;
+	height: 30px;
+	z-index: 11970;
+	position: fixed;
+}
+
+div.flySwatter {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px -42px;
+	width: 42px;
+	height: 42px;
+	z-index: 11990;
+	pointer-events: none;
+	margin: -29px 0px 0px -38px;
+	position: fixed;
+	background-position-x: 0px;
+}
+
+div.fly.n0.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: 0px;
+}
+
+div.fly.n1.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -30px;
+	z-index: 11980;
+}
+
+div.fly.n2.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -60px;
+	z-index: 11980;
+}
+
+div.fly.n3.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -90px;
+	z-index: 11980;
+}
+
+div.fly.n4.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -120px;
+}
+
+div.fly.n5.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -150px;
+}
+
+div.fly.n6.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -180px;
+}
+
+div.fly.n7.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -210px;
+}
+
+div.fly.n8.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -240px;
+}
+
+div.fly.n9.d0 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -270px;
+}
+
+div.fly.n0.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -300px;
+}
+
+div.fly.n1.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -330px;
+	z-index: 11980;
+}
+
+div.fly.n2.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -360px;
+	z-index: 11980;
+}
+
+div.fly.n3.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -390px;
+	z-index: 11980;
+}
+
+div.fly.n4.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -420px;
+}
+
+div.fly.n5.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -450px;
+}
+
+div.fly.n6.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -480px;
+}
+
+div.fly.n7.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -510px;
+}
+
+div.fly.n8.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -540px;
+}
+
+div.fly.n9.d1 {
+	pointer-events: none;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -570px;
+}
+
+div.fly.n0.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: 0px;
+}
+
+div.fly.n1.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -30px;
+	z-index: 11980;
+}
+
+div.fly.n2.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -60px;
+	z-index: 11980;
+}
+
+div.fly.n3.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -90px;
+	z-index: 11980;
+}
+
+div.fly.n4.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -120px;
+}
+
+div.fly.n5.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -150px;
+}
+
+div.fly.n6.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -180px;
+}
+
+div.fly.n7.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -210px;
+}
+
+div.fly.n8.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -240px;
+}
+
+div.fly.n9.d2 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -270px;
+}
+
+div.fly.n0.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -300px;
+}
+
+div.fly.n1.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -330px;
+	z-index: 11980;
+}
+
+div.fly.n2.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -360px;
+	z-index: 11980;
+}
+
+div.fly.n3.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -390px;
+	z-index: 11980;
+}
+
+div.fly.n4.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -420px;
+}
+
+div.fly.n5.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -450px;
+}
+
+div.fly.n6.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -480px;
+}
+
+div.fly.n7.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -510px;
+}
+
+div.fly.n8.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -540px;
+}
+
+div.fly.n9.d3 {
+	pointer-events: none;
+	transform: rotate(90deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -570px;
+}
+
+div.fly.n0.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: 0px;
+}
+
+div.fly.n1.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -30px;
+	z-index: 11980;
+}
+
+div.fly.n2.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -60px;
+	z-index: 11980;
+}
+
+div.fly.n3.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -90px;
+	z-index: 11980;
+}
+
+div.fly.n4.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -120px;
+}
+
+div.fly.n5.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -150px;
+}
+
+div.fly.n6.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -180px;
+}
+
+div.fly.n7.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -210px;
+}
+
+div.fly.n8.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -240px;
+}
+
+div.fly.n9.d4 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -270px;
+}
+
+div.fly.n0.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -300px;
+}
+
+div.fly.n1.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -330px;
+	z-index: 11980;
+}
+
+div.fly.n2.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -360px;
+	z-index: 11980;
+}
+
+div.fly.n3.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -390px;
+	z-index: 11980;
+}
+
+div.fly.n4.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -420px;
+}
+
+div.fly.n5.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -450px;
+}
+
+div.fly.n6.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -480px;
+}
+
+div.fly.n7.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -510px;
+}
+
+div.fly.n8.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -540px;
+}
+
+div.fly.n9.d5 {
+	pointer-events: none;
+	transform: rotate(180deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -570px;
+}
+
+div.fly.n0.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: 0px;
+}
+
+div.fly.n1.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -30px;
+	z-index: 11980;
+}
+
+div.fly.n2.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -60px;
+	z-index: 11980;
+}
+
+div.fly.n3.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -90px;
+	z-index: 11980;
+}
+
+div.fly.n4.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -120px;
+}
+
+div.fly.n5.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -150px;
+}
+
+div.fly.n6.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -180px;
+}
+
+div.fly.n7.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -210px;
+}
+
+div.fly.n8.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -240px;
+}
+
+div.fly.n9.d6 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -270px;
+}
+
+div.fly.n0.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -300px;
+}
+
+div.fly.n1.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -330px;
+	z-index: 11980;
+}
+
+div.fly.n2.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -360px;
+	z-index: 11980;
+}
+
+div.fly.n3.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -390px;
+	z-index: 11980;
+}
+
+div.fly.n4.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -420px;
+}
+
+div.fly.n5.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -450px;
+}
+
+div.fly.n6.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -480px;
+}
+
+div.fly.n7.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -510px;
+}
+
+div.fly.n8.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -540px;
+}
+
+div.fly.n9.d7 {
+	pointer-events: none;
+	transform: rotate(270deg);
+	margin: -14px 0px 0px -14px;
+	background-position-x: -570px;
+}
+
+div.fly.dead {
+	z-index: 11960;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -600px;
+}
+
+div.fly.dirt1 {
+	z-index: 11950;
+	opacity: 1;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -630px;
+}
+
+div.fly.dirt1.run {
+	animation: flyDirt 30s linear;
+}
+
+div.fly.dirt2 {
+	z-index: 11950;
+	opacity: 1;
+	margin: -14px 0px 0px -14px;
+	background-position-x: -660px;
+}
+
+div.fly.dirt2.run {
+	animation: flyDirt 30s linear;
+}
+
+div.flySwatter.clap {
+	pointer-events: none;
+	animation: flySwatterClap 0.5s linear;
+	animation-timing-function: steps(1);
+}
+
+div.flySwatter.clapend {
+	pointer-events: none;
+	background-position-x: -42px;
+}

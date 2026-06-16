@@ -28,7 +28,7 @@ Assets live under each demo's `dev/media/` (copied once from `oldsrcs/AiDPix Ext
 npx gulp demos:build
 ```
 
-Output lands in `demos/*/dist/` (CSS, sprites, sounds).
+Output lands in `demos/*/dist/` (CSS, sprites, sounds). The `dist/` folders are **tracked in git** so GitHub Pages can deploy even when CI rebuild fails; run `npx gulp demos:build` after changing a demo and commit the updated `dist/`.
 
 ## Live (GitHub Pages)
 
@@ -96,6 +96,8 @@ Suchbegriffe auf PD-Seiten: *TSR*, *Accessory* / ACC, *Desktop*, oder die Disket
 ```bash
 npx gulp demos:build
 ```
+
+Output in `demos/*/dist/` (CSS, Sprites, Sounds). Die `dist/`-Ordner liegen **im Git**, damit GitHub Pages auch deployen kann, wenn der CI-Neubau scheitert; nach Demo-Änderungen `npx gulp demos:build` und aktualisierte `dist/` committen.
 
 ## Live (GitHub Pages)
 

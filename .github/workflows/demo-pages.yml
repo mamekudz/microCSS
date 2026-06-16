@@ -12,6 +12,7 @@ on:
       - "gulp-mu-ps/**"
       - "gulp-mu-au/**"
       - "tools/build-demos.mjs"
+      - "tools/ci-install-demos.mjs"
       - "gulpfile.mjs"
       - ".github/workflows/demo-pages.yml"
   workflow_dispatch:
@@ -38,14 +39,17 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
-        run: |
-          npm ci --include=dev
-          npm ci --prefix gulp-mu-ps
-          npm ci --prefix gulp-mu-au
-          npm ci --prefix gulp-mu-css
+        run: node tools/ci-install-demos.mjs
 
       - name: Build demos
         run: node tools/build-demos.mjs
+
+      - name: Verify demo output
+        run: |
+          test -f demos/index.html
+          test -f demos/glittery/dist/demo.css
+          test -f demos/flyex/dist/demo.css
+          ls -la demos/glittery/dist demos/flyex/dist
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
