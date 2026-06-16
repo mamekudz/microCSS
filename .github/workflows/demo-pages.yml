@@ -1,5 +1,8 @@
-# Builds the µCSS marketing demos and publishes them to GitHub Pages.
+# Publishes the µCSS marketing demos to GitHub Pages.
 # Enable once: repo Settings → Pages → Build and deployment → Source: GitHub Actions.
+#
+# The demos/*/dist/ folders are tracked in git (built locally via npx gulp demos:build).
+# CI rebuild is optional — see tools/ci-install-demos.mjs for a local/CI install helper.
 
 name: Demo pages
 
@@ -8,12 +11,6 @@ on:
     branches: [master]
     paths:
       - "demos/**"
-      - "gulp-mu-css/**"
-      - "gulp-mu-ps/**"
-      - "gulp-mu-au/**"
-      - "tools/build-demos.mjs"
-      - "tools/ci-install-demos.mjs"
-      - "gulpfile.mjs"
       - ".github/workflows/demo-pages.yml"
   workflow_dispatch:
 
@@ -27,23 +24,14 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy-pages:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Install dependencies
-        run: node tools/ci-install-demos.mjs
-
-      - name: Build demos
-        continue-on-error: true
-        run: node tools/build-demos.mjs
 
       - name: Verify demo output
         run: |
@@ -57,13 +45,6 @@ jobs:
         with:
           path: demos
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
