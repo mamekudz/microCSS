@@ -130,6 +130,12 @@ export function ConvertVue() {
 ConvertVue.displayName = "convert:vue";
 ConvertVue.description = "Extracts Vue SFC <style> blocks into co-located *.π.css sidecars + manifest (VUE_IN=<file|dir>, VUE_OUT=<dir>).";
 
+export function BuildDemos() {
+	return _RunCommand("node", ["tools/build-demos.mjs"], rootDir);
+}
+BuildDemos.displayName = "demos:build";
+BuildDemos.description = "Builds marketing demos (glittery, flyex) into demos/*/dist/.";
+
 export function AidpixCompare() {
 	return _RunCommand("node", ["tools/compare-aidpix.mjs"], join(rootDir, "gulp-mu-css"));
 }

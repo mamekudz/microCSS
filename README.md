@@ -13,6 +13,7 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 | **µCSS manual (English)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **µCSS manual (German)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Concept & migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
+| **Marketing demos** | [demos/](demos/) (Glittery + FlyEx + sound atlas) |
 | **µCSS on npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **µPS on npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
@@ -67,7 +68,7 @@ npx gulp docs:manual       # rebuild manual PDFs (LibreOffice + GulpHelper macro
 npx gulp build:publish     # populate build/ with publish-ready bundles
 ```
 
-Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `publish` (npm upload; see `tools/publish.mjs`).
+Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `demos:build`, `publish` (npm upload; see `tools/publish.mjs`).
 
 ## µCSS 1 (legacy)
 
@@ -94,6 +95,7 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 | **µCSS-Handbuch (Englisch)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **µCSS-Handbuch (Deutsch)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Konzept & Migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
+| **Marketing-Demos** | [demos/](demos/) (Glittery + FlyEx + Sound-Atlas) |
 | **µCSS auf npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **µPS auf npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
@@ -148,7 +150,7 @@ npx gulp docs:manual       # Handbuch-PDFs neu bauen (LibreOffice + GulpHelper-M
 npx gulp build:publish     # build/ mit veröffentlichungsfertigen Bundles füllen
 ```
 
-Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
+Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `demos:build`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
 
 ## µCSS 1 (Legacy)
 

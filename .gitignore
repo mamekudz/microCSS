@@ -7,6 +7,11 @@ gulp-mu-ps/test/out/
 gulp-mu-ps/examples-out/
 *.cache
 
+# Demo build output (regenerate with npx gulp demos:build)
+demos/*/dist/
+demos/*/.cache/
+demos/**/dev/media/final/
+
 # Local / private — not published
 CLAUDE.md
 Gemini Brainstorming.doc
