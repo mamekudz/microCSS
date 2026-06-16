@@ -22,11 +22,12 @@ export class SoundAtlasPlayer {
 		this._buffer = await this._ctx.decodeAudioData(data);
 	}
 
-	Play(_name, _options = {}) {
-		if (!this._buffer || !this._map?.sounds?.[_name]) return null;
-		const [startSec, durationSec, loopStartSec, loopEndSec] = this._map.sounds[_name];
+	Play(_key, _options = {}) {
+		const sampleName = _options.sample ?? _key;
+		if (!this._buffer || !this._map?.sounds?.[sampleName]) return null;
+		const [startSec, durationSec, loopStartSec, loopEndSec] = this._map.sounds[sampleName];
 		const loop = _options.loop ?? (loopStartSec >= 0 && loopEndSec > loopStartSec);
-		if (loop) this.Stop(_name);
+		if (loop) this.Stop(_key);
 
 		const source = this._ctx.createBufferSource();
 		source.buffer = this._buffer;
@@ -40,9 +41,9 @@ export class SoundAtlasPlayer {
 		source.start(when, startSec, loop ? undefined : durationSec);
 
 		if (loop) {
-			this._loops.set(_name, source);
+			this._loops.set(_key, source);
 			source.onended = () => {
-				if (this._loops.get(_name) === source) this._loops.delete(_name);
+				if (this._loops.get(_key) === source) this._loops.delete(_key);
 			};
 		} else {
 			this._oneShots.add(source);
@@ -51,11 +52,11 @@ export class SoundAtlasPlayer {
 		return source;
 	}
 
-	Stop(_name) {
-		const source = this._loops.get(_name);
+	Stop(_key) {
+		const source = this._loops.get(_key);
 		if (!source) return;
 		try { source.stop(); } catch { /* already stopped */ }
-		this._loops.delete(_name);
+		this._loops.delete(_key);
 	}
 
 	StopAll() {

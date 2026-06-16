@@ -33,7 +33,6 @@ body.demo-page--flyex {
 }
 
 div.fly {
-	transform-origin: 14px 14px;
 	background-image: url(imgs/sprites.png);
 	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
 	background-repeat: no-repeat;

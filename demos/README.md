@@ -4,8 +4,8 @@ Interactive demos for videos and GitHub Pages — ported from the **AiDPix / Oxy
 
 | Demo | Effect | µCSS / µAU features |
 | :--- | :--- | :--- |
-| [glittery/](glittery/) | Mouse move → sparkle trail | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
-| [flyex/](flyex/) | Fly crosses screen, click to swat | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
+| [glittery/](glittery/) | Mouse move → random-offset sparkles | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
+| [flyex/](flyex/) | Fly swarm, click to swat, **Ctrl+F6** = 19 more | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
 
 ### FlyEx — Atari heritage
 
@@ -51,7 +51,7 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** first click resumes audio (browser policy), then spawns the fly. Click the fly to swat.
+**FlyEx:** first click starts a swarm (19 flies) and resumes audio; **Ctrl+F6** releases another batch (AiDPix easter egg). Click a fly to swat.
 
 ## YouTube / marketing angles
 
@@ -75,8 +75,8 @@ Interaktive Demos für Videos und GitHub Pages — portiert vom **AiDPix-/Oxyd-*
 
 | Demo | Effekt | µCSS-/µAU-Features |
 | :--- | :--- | :--- |
-| [glittery/](glittery/) | Mausbewegung → Funkelspur | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
-| [flyex/](flyex/) | Fliege fliegt, Klick = Klatsch | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
+| [glittery/](glittery/) | Mausbewegung → Funkeln mit Zufallsoffset | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
+| [flyex/](flyex/) | Fliegenschwarm, Klick = Klatsch, **Strg+F6** = 19 weitere | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
 
 ### FlyEx — Atari-Hintergrund
 
@@ -120,4 +120,4 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** erster Klick aktiviert Audio, dann erscheint die Fliege.
+**FlyEx:** erster Klick startet Schwarm (19 Fliegen) und aktiviert Audio; **Strg+F6** setzt weitere 19 frei (AiDPix-Osterei). Auf Fliege klicken zum Klatsch.
