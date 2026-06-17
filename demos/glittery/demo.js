@@ -1,4 +1,7 @@
+import { InitDemoLightbox } from "../shared/demo-lightbox.mjs";
 import { GUIParticles } from "../shared/gui-particles.mjs";
+
+InitDemoLightbox();
 
 const canvas = document.getElementById("fx-root");
 const glittery = new GUIParticles("glittery", canvas, {

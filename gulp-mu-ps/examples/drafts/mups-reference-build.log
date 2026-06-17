@@ -1,0 +1,35 @@
+build-mups-reference
+started: Wed Jun 17 2026 07:52:29 GMT+0200
+
+source: C:\Projects\microCSS\gulp-mu-ps\examples\drafts\buttons.psd
+fx: solidFill
+fx: solidFill_multiply
+fx: dropShadow
+fx: dropShadow_soft
+fx: dropShadow_hard
+fx: innerShadow
+fx: innerShadow_aqua
+fx: innerShadow_multiply
+fx: innerShadow_wide
+fx: innerGlow
+fx: innerGlow_tight
+fx: innerGlow_warm
+fx: outerGlow
+fx: outerGlow_soft
+fx: outerGlow_white
+fx: gradientOverlay
+fx: gradientOverlay_diag
+fx: gradientOverlay_reverse
+fx: bevelInner (copy from aqua icon)
+fx: bevelInner_chisel
+fx: bevelPillow
+fx: bevelOuter
+fx: bevelEmboss
+stacks
+blend
+links
+icons
+topsets
+compositing
+target: C:\Projects\microCSS\gulp-mu-ps\examples\drafts\mups-reference.psd
+status: OK

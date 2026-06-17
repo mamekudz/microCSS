@@ -10,6 +10,11 @@
 //     color: a type sign (original, mask, shadow, light, original+mask)
 //     followed by a three-digit frame number.
 //
+// Each digit and type sign may appear in several **optional bit-pattern variants**
+// (historic authoring differences). `DSD_SIGN_PATTERNS[sign]` lists all accepted
+// variants; `_ReadSign` matches any of them. Index `[0]` is the canonical form
+// for new DSD images (`render-dsd-glyphs.mjs` draws variant 0 only).
+//
 // Ported from SpriteTools.js (_DoDSDFormatScan), reduced to the parts needed
 // for sprite strip generation.
 

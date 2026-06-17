@@ -64,7 +64,8 @@ export class ButtonAndIconCreator {
 	//   retina = true,
 	//   format = "png"                "png" or "webp" (lossless)
 	//   iconsGroupName = "icons",
-	//   layoutsGroupName = "layouts"
+	//   layoutsGroupName = "layouts",
+	//   glyphFilter = null            optional (glyph) => boolean
 	// }
 	static async Create(_psdFileName, _options) {
 		const options = {
@@ -98,8 +99,8 @@ export class ButtonAndIconCreator {
 			const placeholder = PsDocument.FindDescendant(stateSet, "icon");
 			if (!placeholder) throw new Error(`ButtonAndIconCreator: no "icon" placeholder in state set "${stateSet.name}".`);
 			for (const glyph of glyphs) {
-				// Transfer the placeholder layer style onto the glyph (like copy/paste
-				// layer style, which transfers effects only, not the blend mode).
+				if (options.glyphFilter && !options.glyphFilter(glyph)) continue;
+				// CpFX/PaFX: layer style only — PS does not transfer the placeholder blend mode.
 				const savedEffects = glyph.effects;
 				glyph.effects = placeholder.effects;
 

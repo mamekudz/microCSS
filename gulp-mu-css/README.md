@@ -6,7 +6,9 @@ Node module for compiling **µCSS**-enhanced stylesheets — sprites, cursors, c
 
 The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS** is the display name.
 
-The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`.
+The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
+
+**No Adobe subscription for the build** — unlike µCSS 1, compilation and PSD rendering run in Node. Layered drafts are typically edited in **[Affinity](https://affinity.studio/download)** (free; Canva account for download), which exports PSD with layer fidelity.
 
 ## Project links
 
@@ -17,6 +19,7 @@ The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf
 | **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
+| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free; recommended Photoshop alternative |
 
 ## Installation
 
@@ -213,7 +216,7 @@ Build errors always name the culprit together with its source location:
 
 ## Manual
 
-The complete user manual ships as **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); Markdown sources: `docs/manual/microCSS-Manual-en.md` and `docs/manual/microCSS-Handbuch.md`. It covers the core ideas, all directives and manifest options, image generation (incl. `mode: "topLayerSets"` and `outputBase`), the incremental build and the migration from µCSS 1.
+The complete user manual ships as **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); Markdown sources: `docs/manual/microCSS-Manual-en.md` and `docs/manual/microCSS-Handbuch.md`. It covers the core ideas, all directives and manifest options, image/sound/font generation (chapters *microPS*, *microAU*, *microFT*), the incremental build and the migration from µCSS 1.
 
 ## License
 
@@ -231,7 +234,9 @@ Node-Modul zur Kompilierung von **µCSS**-erweiterten Stylesheets — Sprites, C
 
 Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename.
 
-Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`.
+Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
+
+**Kein Adobe-Abo für den Build** — anders als µCSS 1 laufen Kompilierung und PSD-Rendering in Node. Geschichtete Entwürfe pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download), das PSD mit Ebenen-Treue exportiert.
 
 ## Projekt-Links
 
@@ -242,6 +247,7 @@ Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.p
 | **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
+| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlos; empfohlene Photoshop-Alternative |
 
 ## Installation
 
@@ -438,7 +444,7 @@ Build-Fehler nennen immer den Verursacher samt Quellbezug:
 
 ## Handbuch
 
-Das vollständige Benutzerhandbuch liegt als **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch) bei (Markdown-Quellen: `docs/manual/microCSS-Handbuch.md` und `docs/manual/microCSS-Manual-en.md`). Es behandelt Grundideen, alle Direktiven und Manifest-Optionen, die Bilderzeugung (inkl. `mode: "topLayerSets"` und `outputBase`), den inkrementellen Build sowie die Migration von µCSS 1.
+Das vollständige Benutzerhandbuch liegt als **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch) bei (Markdown-Quellen: `docs/manual/microCSS-Handbuch.md` und `docs/manual/microCSS-Manual-en.md`). Es behandelt Grundideen, alle Direktiven und Manifest-Optionen, Bild-/Sound-/Font-Erzeugung (Kapitel *microPS*, *microAU*, *microFT*), den inkrementellen Build sowie die Migration von µCSS 1.
 
 ## Lizenz
 

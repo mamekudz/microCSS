@@ -5,8 +5,8 @@
 // matches the legacy compiled CSS, minus the vendor-prefixed image-set lines
 // (CONCEPT.md, D6).
 
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, unlinkSync } from "node:fs";
+import { join, relative } from "node:path";
 import { SpriteAtlas } from "gulp-mu-ps";
 
 // Raster source extensions tried (in order) when the literally referenced
@@ -58,6 +58,7 @@ export class SpriteManager {
 	//   preloadRule = false        write the div.csspreload rule on Resolve
 	//   preload = null             PreloadRegistry (required for preloadRule)
 	//   writeMapFile = false       persist "<atlas>.json" mapping data
+	//   pruneSources = false       delete packed source images after Resolve
 	// }
 	constructor(_options = {}) {
 		this.options = {
@@ -68,6 +69,7 @@ export class SpriteManager {
 			preloadRule: false,
 			preload: null,
 			writeMapFile: false,
+			pruneSources: false,
 			..._options
 		};
 		this.registrations = [];
@@ -157,7 +159,35 @@ export class SpriteManager {
 		return files;
 	}
 
-	// Builds the atlas and rewrites all registered rules. _document is the
+	// Deletes 1x/@2x source files that were packed into the atlas (deploy trim).
+	// Never removes the atlas itself. Returns skin-relative URLs deleted.
+	PruneSources() {
+		if (!this.options.pruneSources || !this.registrations.length) {
+			return { deleted: [] };
+		}
+		const atlasPaths = new Set([
+			join(this.options.baseDir, this.options.atlasFile),
+			join(this.options.baseDir, _RetinaUrl(this.options.atlasFile))
+		]);
+		const deleted = [];
+		const seen = new Set();
+		for (const reg of this.registrations) {
+			if (seen.has(reg.url)) continue;
+			seen.add(reg.url);
+			const resolved = _ResolveSourceFile(this.options.baseDir, reg.url)
+				?? join(this.options.baseDir, reg.url);
+			const candidates = [resolved];
+			if (this.options.retina) candidates.push(_RetinaUrl(resolved));
+			for (const file of candidates) {
+				if (atlasPaths.has(file) || !existsSync(file)) continue;
+				unlinkSync(file);
+				deleted.push(relative(this.options.baseDir, file).split("\\").join("/"));
+			}
+		}
+		return { deleted };
+	}
+
+	// Builds the atlas and rewrites all registered rules.
 	// primary document (receives the preload rule); returns the atlas mapping
 	// (sprites keyed by URL) or null when nothing was registered.
 	// _resolveOptions.cached: a previous Resolve() result - the atlas images
@@ -227,6 +257,7 @@ export class SpriteManager {
 		if (this.options.preloadRule && this.options.preload && _document) {
 			this.options.preload.CreateRule(_document);
 		}
+		this.lastPruned = atlas ? this.PruneSources() : { deleted: [] };
 		return atlas;
 	}
 }

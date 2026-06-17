@@ -6,6 +6,8 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 
 µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. The technical npm names use `gulp-mu-*` because the µ character is awkward in package names; **µCSS**, **µPS**, **µFT** and **µAU** are the display names.
 
+**No Adobe subscription for the build.** µCSS 1 required a licensed copy of Photoshop for CSS compilation *and* bitmap generation. Version 2 runs headless in Node — sprites, cursors and PSD rendering via µPS need no Creative Cloud. For layered PSD drafts (buttons, icons, …), **[Affinity](https://affinity.studio/download)** is recommended: professional editing, **free** (Canva account for download and activation), with PSD import/export.
+
 ## Documentation & npm
 
 | Resource | Link |
@@ -18,6 +20,7 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 | **µPS on npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU on npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free; recommended Photoshop alternative |
 
 ## npm packages
 
@@ -88,6 +91,8 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 
 µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Die technischen npm-Namen lauten `gulp-mu-*`, weil das µ-Zeichen in Paketnamen unhandlich ist; **µCSS**, **µPS**, **µFT** und **µAU** sind die Anzeigenamen.
 
+**Kein Adobe-Abo für den Build.** µCSS 1 brauchte eine lizenzierte Photoshop-Installation für CSS-Kompilierung *und* Bitmap-Erzeugung. Version 2 läuft headless in Node — Sprites, Cursor und PSD-Rendering via µPS ohne Creative Cloud. Für geschichtete PSD-Entwürfe (Buttons, Icons, …) ist **[Affinity](https://affinity.studio/download)** empfohlen: professionelle Bearbeitung, **kostenlos** (Canva-Konto zum Download und zur Aktivierung), mit PSD-Import/-Export.
+
 ## Dokumentation & npm
 
 | Ressource | Link |
@@ -100,6 +105,7 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 | **µPS auf npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU auf npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
+| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlos; empfohlene Photoshop-Alternative |
 
 ## npm-Pakete
 

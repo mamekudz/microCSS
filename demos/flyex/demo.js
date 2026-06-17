@@ -1,4 +1,7 @@
+import { InitDemoLightbox } from "../shared/demo-lightbox.mjs";
 import { SoundAtlasPlayer } from "../shared/sound-atlas-player.mjs";
+
+InitDemoLightbox();
 
 const SOUND_BASE = new URL("./dist/snds/", import.meta.url);
 const KEY_CTRL_F6 = 512 + 117;

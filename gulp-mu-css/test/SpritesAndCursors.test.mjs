@@ -222,5 +222,24 @@ describe("Sprites and cursors (M2)", function () {
 				.to.equal('url("imgs/cursors/zoom.png"),url("imgs/cursors/wait.png")');
 			expect(rule.GetProperty("display")).to.equal("none");
 		});
+
+		it("pruneSources deletes packed source images after Resolve", async () => {
+			const sprites = new SpriteManager({
+				baseDir: tmpDir,
+				atlasFile: "imgs/sprites_prune.png",
+				retina: true,
+				pruneSources: true
+			});
+			const document = CompileMcss("div.a { -µ: Sprite(\"imgs/logos/logo.png\"); }", { sprites });
+			await sprites.Resolve(document);
+			expect(existsSync(join(tmpDir, "imgs/sprites_prune.png"))).to.equal(true);
+			expect(existsSync(join(tmpDir, "imgs/logos/logo.png"))).to.equal(false);
+			expect(existsSync(join(tmpDir, "imgs/logos/logo@2x.png"))).to.equal(false);
+			expect(sprites.lastPruned.deleted).to.include("imgs/logos/logo.png");
+			// Restore sources for other tests.
+			const red = { r: 255, g: 0, b: 0, alpha: 1 };
+			await _WritePng("imgs/logos/logo.png", 134, 25, red);
+			await _WritePng("imgs/logos/logo@2x.png", 268, 50, red);
+		});
 	});
 });

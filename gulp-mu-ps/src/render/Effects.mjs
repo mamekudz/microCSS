@@ -191,15 +191,24 @@ function _LightVector(_angle, _altitude) {
 	};
 }
 
+function _PillowStyle(_style) {
+	const s = (_style ?? "inner bevel").toLowerCase();
+	return s === "pillow emboss" || s === "emboss";
+}
+
 function _BuildBevelHeightMap(_alpha, _width, _height, _effect) {
-	const size = Math.max(1, _PixelValue(_effect.size));
 	const soften = _PixelValue(_effect.soften);
 	const style = (_effect.style ?? "inner bevel").toLowerCase();
+	const sizePx = _PixelValue(_effect.size);
+	// Pillow/emboss can use sub-pixel sizes from PSD; inner/outer bevel keeps a 1px floor.
+	const size = _PillowStyle(style) ? Math.max(0.25, sizePx) : Math.max(1, sizePx);
 	const depth = Math.max(0.05, _effect.strength ?? 1);
-	const radius = Math.max(style === "pillow emboss" || style === "emboss" ? 2 : 1, size + soften);
+	const radius = _PillowStyle(style)
+		? Math.max(0.5, size + soften)
+		: Math.max(1, size + soften);
 	const n = _alpha.length;
 	const height = new Float32Array(n);
-	if (style === "pillow emboss" || style === "emboss") {
+	if (_PillowStyle(style)) {
 		const dome = BlurMap(_alpha, _width, _height, radius);
 		for (let i = 0; i < n; i++) height[i] = dome[i] * depth;
 	} else if (style === "outer bevel") {

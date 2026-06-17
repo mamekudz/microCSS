@@ -127,6 +127,80 @@ body.demo-index {
 	image-rendering: pixelated;
 }
 
+.demo-sources img[data-zoom] {
+	cursor: zoom-in;
+}
+
+.demo-sources img[data-zoom]:hover {
+	border-color: var(--demo-accent);
+}
+
+body.demo-lightbox-open {
+	overflow: hidden;
+}
+
+.demo-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: grid;
+	place-items: center;
+	padding: 1.5rem;
+	background: rgb(5 8 12 / 0.92);
+	backdrop-filter: blur(4px);
+}
+
+.demo-lightbox[hidden] {
+	display: none;
+}
+
+.demo-lightbox__close {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 1px solid var(--demo-border);
+	border-radius: 4px;
+	background: var(--demo-bg-panel);
+	color: var(--demo-text);
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.demo-lightbox__close:hover {
+	border-color: var(--demo-accent);
+	color: var(--demo-accent);
+}
+
+.demo-lightbox__figure {
+	margin: 0;
+	max-width: 95vw;
+	max-height: 90vh;
+	overflow: auto;
+	text-align: center;
+}
+
+.demo-lightbox__img {
+	display: block;
+	margin: 0 auto;
+	max-width: 95vw;
+	max-height: calc(90vh - 3rem);
+	width: auto;
+	height: auto;
+	border: 1px solid var(--demo-border);
+	border-radius: 4px;
+	background: #050608;
+	image-rendering: pixelated;
+}
+
+.demo-lightbox__caption {
+	margin-top: 0.65rem;
+	font-size: 0.85rem;
+	color: var(--demo-muted);
+}
+
 .demo-sources figcaption {
 	margin-top: 0.35rem;
 	font-size: 0.8rem;

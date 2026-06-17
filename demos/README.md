@@ -60,6 +60,7 @@ npx --yes serve demos -p 5173
 - *Atari ST gimmick in the browser* (hand-pixelled sprites, 2026 build pipeline)
 - *Sound atlas from the manifest* (four WAVs → one blob + JSON, fly buzz + swat)
 - *µCSS 1 Photoshop vs µCSS 2 Node* (same assets, modern build)
+- *No Adobe subscription* — build in Node; layered PSDs in free [Affinity](https://affinity.studio/download) (vs. paid Creative Cloud for the old stack)
 
 ## Asset provenance
 

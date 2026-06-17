@@ -1,5 +1,5 @@
 node_modules/
-build/
+/build/
 # npm auth tokens must never be committed
 .npmrc
 gulp-mu-ps/test/.tmp*/
@@ -10,6 +10,7 @@ gulp-mu-ps/examples-out/
 # Demo build cache (regenerate with npx gulp demos:build)
 demos/*/.cache/
 demos/**/dev/media/final/
+dev/out/
 
 # Local / private — not published
 CLAUDE.md

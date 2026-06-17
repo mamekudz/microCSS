@@ -1,8 +1,8 @@
 // Lightweight wrapper around an ag-psd document with helpers for layer
 // lookup and programmatic visibility control.
 
-import { readFileSync } from "node:fs";
-import { readPsd } from "ag-psd";
+import { readFileSync, writeFileSync } from "node:fs";
+import { readPsd, writePsdBuffer } from "ag-psd";
 import { EnsureAgPsdInitialized } from "./InitAgPsd.mjs";
 
 export class PsDocument {
@@ -64,5 +64,15 @@ export class PsDocument {
 	// Makes a node visible including all of its ancestors.
 	static ShowNode(_node) {
 		_node.hidden = false;
+	}
+
+	Save(_fileName, _options = {}) {
+		EnsureAgPsdInitialized();
+		const buffer = writePsdBuffer(this.psd, {
+			generateThumbnail: false,
+			trimImageData: _options.trimImageData ?? false,
+			..._options
+		});
+		writeFileSync(_fileName, buffer);
 	}
 }

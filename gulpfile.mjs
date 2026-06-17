@@ -56,6 +56,20 @@ export function RenderExamples() {
 RenderExamples.displayName = "examples:render";
 RenderExamples.description = "Renders all microPS example outputs permanently into gulp-mu-ps/examples-out.";
 
+export function RenderReference() {
+	return _RunCommand("node", ["tools/render-reference.mjs"], join(rootDir, "gulp-mu-ps"));
+}
+RenderReference.displayName = "reference:render";
+RenderReference.description = "Renders mups-reference.psd into test/.tmp-mups-reference for Adobe PNG comparison.";
+
+export function VerifyImageOps() {
+	const input = process.env.VERIFY_IMAGE ?? join(rootDir, "dev/Burosch_universaltestbild_avec-3840x2160_(3).jpg");
+	const out = process.env.VERIFY_OUT ?? join(rootDir, "dev/out/image-ops");
+	return _RunCommand("node", ["tools/verify-image-ops.mjs", input, out], join(rootDir, "gulp-mu-ps"));
+}
+VerifyImageOps.displayName = "verify:image-ops";
+VerifyImageOps.description = "Renders adjustment/transform samples from a reference photo (VERIFY_IMAGE, VERIFY_OUT).";
+
 export function BuildManualDocx() {
 	return _RunCommand("node", ["tools/build-manual.mjs"], join(rootDir, "gulp-mu-css"));
 }

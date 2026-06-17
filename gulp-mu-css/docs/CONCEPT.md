@@ -9,6 +9,8 @@ benötigten Bilder, Sprites, Cursor, Fonts und Sounds. Die Bilderzeugung überni
 µPS. Anzeigenamen sind µCSS und µPS; die technischen Namen (npm-Pakete,
 Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gulp-mu-ps`.
 
+**Adobe-Unabhängigkeit & Kosten:** Build und Bild-Rendering laufen in Node (µCSS/µPS) — kein Creative Cloud. PSD-Entwürfe pflegt man üblicherweise in [Affinity](https://affinity.studio/download) (kostenlos; Canva-Konto zum Download); Photoshop ist nur noch für optionale Referenz-Exports in der µPS-Entwicklung nötig, nicht für den Produktions-Build.
+
 ---
 
 ## 1. Analyse des Bestands (AiDPix Extract)
@@ -551,6 +553,166 @@ sidecarName, namespace, vars, warnings, notes }`. CLI/Gulp:
 `node tools/convert-vue.mjs <input.vue|dir> [outDir]` bzw. Gulp-Task
 `convert:vue` (`VUE_IN`/`VUE_OUT`). Unit-Tests: `test/ConvertVue.test.mjs`.
 
+### D11 — Affinity-Authoring, Watch und Draft-Workflow (µPS)
+
+**Affinity ist nicht scriptfähig** (kein ExtendScript, kein CLI-Trigger für Makros/Batch
+Jobs beim Start oder beim Öffnen einer Datei). Makros und *File → New Batch Job*
+bleiben reine GUI-Features — eine zuverlässige Build-Automatisierung über Affinity
+heraus ist nicht vorgesehen.
+
+**Empfohlener Split:**
+
+| Phase | Werkzeug | Aufgabe |
+| :--- | :--- | :--- |
+| Authoring | [Affinity](https://affinity.studio/download) (kostenlos) | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
+| Trigger | `WatchDrafts` (µPS) + `gulp.watch` (Projekt) | `mtime`-Änderung nach Speichern (Debounce ~1,5 s) |
+| Verarbeitung | µPS (`ButtonAndIconCreator`, Compositor, …) | Ebenen lesen, Stile übertragen, compositen, PNG-Serien — **headless in Node** |
+| Optional | `OpenDrafts` (µPS) | PSD in Affinity oder Standard-App öffnen (Fehlerdiagnose, manueller Schritt) |
+
+Der Übergang Affinity → Build ist **Speichern der PSD**, nicht Abspielen eines
+Affinity-Makros. µPS übernimmt die früher Photoshop-scriptseitige Ebenenlogik; Affinity
+liefert nur die Quelldatei.
+
+**µPS-API (ab 1.0.2):**
+
+- `OpenDrafts(paths, { app: "default" | "affinity" | "<exe>" })` — OS-Standard,
+  Affinity (Pfad über `MU_AFFINITY_EXE` oder Installation) oder explizite `.exe`/`.app`.
+  Env: `MU_DRAFT_APP`, `MU_AFFINITY_EXE`.
+- `WatchDrafts(paths, onChange, { debounceMs, extension })` — Datei/Verzeichnis-Watch
+  mit Debounce (Affinity schreibt PSDs ggf. zweistufig).
+
+**CLI:** `node gulp-mu-ps/tools/open-drafts.mjs`, `node gulp-mu-ps/tools/watch-drafts.mjs`.
+
+**Gulp-Integration (Projekt):** `SkinWatch` beobachtet bereits `dev/media/final/**`
+(D5); kombiniert mit `BuildSkin` re-rendert µPS nur geänderte PSD-Steps (D7). Optional
+kann `watch-drafts.mjs` einen Skin-Task anstoßen, wenn kein globales Gulp-Watch läuft.
+
+**Bewusst nicht:** Affinity-Makros per Tastatur-Automation anstoßen (fragil, plattform-
+abhängig); PSD-Skelette schreiben (später, `ag-psd`-Write); Photoshop für Produktion
+(nur Referenz-JSX in der µPS-Entwicklung).
+
+### D12 — Oxyd-Tile-Pipeline und Bildanpassungen (µPS, geplant)
+
+Referenz: Legacy-Photoshop-Skripte und Test-Fixtures unter `oldsrcs/Oxyd/` (Kopien aus
+`Oxyd/dev/photoshopscripts/…` und `Oxyd/dev/models/nextgeneration/…`). Der produktive
+Pfad endet in gepackten Texturen (`*.tiles.png` + `*.tiles.png.json`, …) und
+Modell-Metadaten (`oxyd.models.c4d.json` mit `photoshop_gamma_O/S/L` pro Output-Serie).
+
+**Skript-Inventar → µPS-Status:**
+
+| Legacy-Skript | Funktion | µPS heute | Port-Ziel |
+| :--- | :--- | :--- | :--- |
+| `PS Tiles Image Generator.jsx` | PSD (`originals`/`shadow`/`info`) → PNG-Serie `O_*` / `S_*` | — | PSD-Export-Step oder Affinity-Export + `TileSheet`-Vorstufe |
+| *(SpriteTools / TileSheet)* | Tiles packen, Dedupe, JSON-Map, Infobits | **`TileSheet`** (Basis) | Infobits, Schatten-/Licht-Slots aus Legacy |
+| `PS DSDF Creator.jsx` | PSD (`icons`×`states`) → DSD-Sprite-Sheet mit Rahmen-Glyphen | **`ScanDsdImage`**, **`SequenceStrip`**, **`CreateDsdFromImages`** (`pivotPercent` / `pivot`), `DSD_SIGN_PATTERNS` | — (Erzeugen ✅ lokal) |
+| `oxyd.jsx` **`PostProduction`** | Pro Modell/Serie: 64×64-**Auswahlen** (O/S/L) auf Atlas-PNG, **`GammCorrection(γ)`** (PS *Exposure*), speichern | — | App-Gulpfile + **`Adjustments.ApplyGamma`** (µPS basal) |
+| `PS Tiles Image Shadow Cleaner.jsx` | *Color Range* (Lab) + Helligkeit/Kontrast auf Schatten-PNGs | — | `Adjustments` (ColorRange + BC) |
+| `seamlesstiles.jsx` | Nahtlose Kacheln (Copy/Paste/Feather, WIP) | — | später / separater Meilenstein |
+| `noise.jsx` | Zufalls-Rausch pro Pixel (Debug) | — | entfällt |
+
+**Kernproblem `oxyd.jsx` (dein Gamma-Skript):**
+
+1. Öffnet `<id>.tiles.renderorg.png` (Backup) bzw. `<id>.tiles.png`.
+2. Liest `<id>.tiles.png.json` — pro Tile 37 Felder (`TILE_NORM_XS/YS`, Schatten-/Licht-
+   Offsets, `TILE_INFOBITS_*` für O/S/L-Varianten, Serien-Index).
+3. Pro Eintrag in `oxyd.models.c4d.json`: für Serie `outputName` und Kanal **O**, **S** oder **L**
+   alle betroffenen 64×64-Rechtecke per `selection.select(…, EXTEND)` vereinigen.
+4. Einmal **`GammCorrection(photoshop_gamma_O|S|L)`** auf die **gesamte Auswahl** (PS
+   *Image → Adjustments → Exposure*, Feld `gammaCorrection`).
+5. Speichert zurück nach `.tiles.png`; analog für `.sprites.png` (ACT/EFX-Serien).
+
+In µPS entfällt die PS-Auswahl — stattdessen **direkte Raster-Ops** auf Rechtecklisten
+aus der JSON-Map. Gleiches γ pro Serie+Kanal wie im Legacy-Skript.
+
+**Geplante Schichten (Reihenfolge):**
+
+1. **`src/render/Adjustments.mjs`** ✅ — `ApplyGamma`, `ApplyBrightnessContrast`,
+   `ApplyHueSaturation`, `ApplyAdjustmentStack`; Masken via Rechteckliste, Gewichtsmap
+   oder ganzes Raster (`Mask.mjs`). Basale µPS-Ops für beliebige Workflows.
+2. **App-Gulpfile (Oxyd)** — `oldsrcs/Oxyd/tools/PostProduction.mjs` (Referenz-Port):
+   Tile-Konstanten, Rechteck-Auswahl aus JSON, ruft `ApplyGamma` auf. Gehört **nicht**
+   ins npm-Paket µPS; im echten Oxyd-Projekt ins jeweilige `gulpfile.mjs`.
+3. **Manifest-Step** — optional im Oxyd-/App-Manifest, nicht in µCSS-Core.
+4. **Tests** — `gulp test:oxyd` gegen Legacy-Fixtures (`oldsrcs/Oxyd/`).
+5. **Compositor** — Einstellungsebenen aus PSD (`ag-psd`) schrittweise anbinden.
+
+**Abhängigkeit zu D11:** Tile-PSDs weiter in Affinity/PS pflegen; **Nachbearbeitung**
+(Gamma, Schatten-Cleaner) vollständig in µPS — dort liegt der fehlende Automatisierungs-
+hebel, nicht in Affinity-Makros.
+
+**µPS-Erweiterungen (lokal, noch nicht npm):** Basale, app-neutrale Ops — kein Oxyd im
+npm-Paket (Referenz unter `oldsrcs/Oxyd/tools/`). **`CreateDsdFromImages`** (Sequenz → DSD,
+Pivot via `pivotPercent` 0…100 oder `pivot` in Pixeln; Default top-left); **`CreatePsdWithSequence`**
+/ **`InsertSequenceIntoGroup`** (Sequenz → PSD-Gruppe); **`Transforms`** (`ScaleRaster`, `CropRaster`,
+`FlipRaster`, `RotateRaster`, **`RotateRasterAround`**, `PasteRaster`). Tests: `CreateDsd.test.mjs`,
+`WritePsd.test.mjs`, `Transforms.test.mjs`; visuell: `verify:image-ops`.
+
+**Dokumentation µPS / µAU / µFT:** Kanonisch im **µCSS-Handbuch** — je Modul ein Kapitel (*microPS*, *microAU*, *microFT* in
+`docs/manual/microCSS-Handbuch.md` / `microCSS-Manual-en.md`, PDF via `npx gulp docs:manual`).
+Die npm-READMEs (`gulp-mu-ps`, `gulp-mu-au`, `gulp-mu-ft`) enthalten nur Kurzüberblick, Install-Hinweis und API-Verweis;
+Feature-Änderungen immer Handbuch + `CONCEPT.md` + `CLAUDE.md` mitziehen.
+
+### D13 — PSD-Compositor und visuelle Fidelity (µPS)
+
+Referenz: `gulp-mu-ps/examples/reference/` (`mups-reference.psd`, Adobe-PNGs unter `out/`,
+JSX in `tools/photoshop/`, MAE-Tests `ReferenceRender.test.mjs`).
+
+**Ziel:** Visuelle Nähe zu Photoshop/Affinity im getesteten Umfang (Ebenen-Compositing, Fülloptionen,
+Blend-Modi, Text, Stilübertragung CpFX/PaFX) — **keine Bit-Genauigkeit**. Abweichungen werden per
+MAE-Regression gegen Adobe-Exporte überwacht.
+
+**Deckkraft:** Drei unabhängige Stellschrauben — Pixel-Alpha, `fillOpacity` (nur Fill),
+`opacity` (gesamte Ebene). Details im Handbuch-Kapitel *microPS* (Abschnitt PSD-Compositor).
+
+**Abgrenzung:** SpriteAtlas, TileSheet, SequenceStrip/DSD und AppIconMaker nutzen eigene Legacy-Referenzen;
+die Referenz-PSD deckt die **Compositor-Oberfläche** ab.
+
+### D14 — ExtendScript-Einstieg (`MuPsDoc`, µPS)
+
+**Ziel:** Menschen mit **Photoshop-JSX-/Oxyd-Gewohnheiten** einen **dünnen Einstieg** geben —
+**keine** PS-DOM- oder ActionDescriptor-Emulation, keine Bit-Genauigkeit.
+
+**Phase 1 (lokal):** `MuPsDoc` — flache PNG/JPEG-Raster:
+
+- `Open`, `Create`, `width`/`height`
+- `selection.Select` / `SelectAll` / `Deselect` → `MaskFromRects`
+- `selection.SelectAlpha`, `MagicWand`, `ColorRange`, `Feather`, `Invert`, `Bounds` → `Selection.mjs`
+- `Copy`, `Paste`, `Duplicate`
+- `GammaCorrection`, `BrightnessContrast`, `HueSaturation`, `AdjustmentStack`
+- `ResizeImage` (ResampleMethod-Aliase → `ScaleRaster`-Kernel)
+- `CanvasSize` → `ResizeCanvas`
+- `SaveAs`, `SaveAsRetinaPair` (Legacy ButtonAndIconCreator @2x-Muster)
+
+**Phase 2 (geplant):** PSD — `OpenPsd`, `findLayer`, `copyLayerStyle`, `flatten`.
+
+Die Low-Level-API bleibt kanonisch; `MuPsDoc` ist reine Zucker-Schicht. Handbuch: Kapitel *microPS*,
+Abschnitt ExtendScript-Einstieg.
+
+### D16 — Sprite-Quellen trimmen (`sprites.pruneSources`, µCSS)
+
+**Hintergrund:** Das alte `gulp-mu-spritereducer` löschte nach dem µCSS-1-Atlas die Einzel-PNGs aus dem Cache-Feld `spriteimages` — fragwürdig gegenüber echtem Incremental-Cache, aber für **Deploy-Builds** sinnvoll (nur Atlas + CSS ausliefern).
+
+**µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas). Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
+
+**Abgrenzung:** Kein Ersatz für fehlende Quellen beim nächsten Vollbuild — für Entwicklung `pruneSources` weglassen oder Quellen aus dem Generator neu erzeugen lassen.
+
+### D15 — Bildformat CLUT / `noofbits` (µPS, geplant)
+
+**Hintergrund:** Legacy-Textur-Pipelines (Oxyd/Unity, teils PS-Skripte) reduzieren Farbtiefe
+und nutzen **Farbpaletten (CLUT)** für GPU-Texturen — unabhängig vom Compositor.
+
+**Geplant als app-neutrale Baseline in µPS** (npm, noch nicht implementiert):
+
+| Funktion (Arbeitstitel) | Zweck |
+| :--- | :--- |
+| `QuantizeToPalette` / CLUT | RGBA-Raster → indexed + Palette (N Farben) |
+| `ReduceBitDepth` / `noofbits` | Kanal-Quantisierung (z. B. 8/4/2 Bit) für Export |
+
+**Abgrenzung:** Kein Ersatz für `imageFormat: "webp"` in µCSS; Zielgruppe sind **Atlas-/Tile-Exports**
+und App-Gulpfiles. Referenz-Fixtures erst klären (Oxyd `oldsrcs/` wenn wieder verfügbar).
+
+**Abhängigkeit:** Raster-Modell + `SaveRasterAsImage`; Tests gegen Legacy-PNG/JSON-Maps.
+
 ---
 
 ## 3. Architektur
@@ -636,6 +798,14 @@ export async function SkinStd() {
 export function SkinWatch() {
 	gulp.watch(["skins/src/**/*.µ.css", "skins/src/*.mjs", "dev/media/final/**"], SkinStd);
 }
+```
+
+Siehe **D11** für Affinity-Authoring, `OpenDrafts`/`WatchDrafts` (µPS) und den
+Round-Trip „PSD speichern → Watch → µPS rendert“.
+
+```js
+// Optional: nur Medien-Watch mit Debounce (µPS-CLI)
+// node gulp-mu-ps/tools/watch-drafts.mjs dev/media/final -- npx gulp SkinStd
 ```
 
 - Ein Task pro Skin; `BuildSkin` ist idempotent und cache-gestützt (D7): nur

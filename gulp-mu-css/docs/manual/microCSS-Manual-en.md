@@ -1,6 +1,6 @@
 # Introduction
 
-µCSS is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS, which reproduces the old PS plugins without an Adobe dependency.
+µCSS is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
 
 Because the µ character keeps causing problems in package and repository names (npm, git), the technical names are `gulp-mu-css` and `gulp-mu-ps` — µCSS and µPS are the display names.
 
@@ -18,6 +18,25 @@ The key features of µCSS 2:
 - **Meaningful error messages** with file, line and source excerpt.
 
 Unlike µCSS 1, version 2 runs entirely in Node.js (version 18 and up) and needs neither Photoshop nor any other Adobe product. The build is driven via Gulp or directly through the Node API.
+
+## Tooling and cost
+
+Version 2 needs **no Adobe subscription** for the build: sprites, cursors and PSD rendering run headless via Node and µPS.
+
+If you edit layered PSD sources yourself, **[Affinity](https://affinity.studio/download)** is the recommended alternative to Photoshop — the app is **free** (sign in with a free Canva account to download and activate). Export or save as PSD; µPS reads the same layer structure as in the legacy workflow. With µCSS 1, compilation and bitmap generation both depended on an installed, licensed copy of Photoshop — recurring cost that drops away for many teams.
+
+## Draft workflow (Affinity + watch)
+
+**Affinity cannot run macros or batch jobs on file open or app start** — there is no scripting API. Automation therefore splits cleanly:
+
+| Step | Tool | Role |
+| :--- | :--- | :--- |
+| Authoring | Affinity (free) | Maintain layered PSD drafts |
+| Trigger | Save PSD → `WatchDrafts` (µPS) or `gulp.watch` | Debounced rebuild (~1.5 s) |
+| Processing | µPS in Node | Layer read, style transfer, compositing, PNG export |
+| Optional | `OpenDrafts` (µPS) | Open a draft in Affinity after a failed compare |
+
+µPS performs the layer separation and rendering that the old Photoshop script handled; Affinity only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11).
 
 ## Context: Why µCSS?
 
@@ -283,7 +302,430 @@ media: [
 ![Animation strip generated from 19 individual frames of a smoke animation](imgs/strip_result_smoke.png)
 - **`copy` / `copyFolder`** copy static files (make-style: only when the source is newer).
 
-The details of the image generators (layer structure of the drafts, DSD format, profiles) are described in the µPS documentation.
+Full reference for all image generators, DSD format, draft workflow and raster APIs: **chapter [microPS (µPS)](#microps-µps--image-generators)**.
+
+# microPS (µPS) — image generators
+
+The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
+
+µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download). Layer effects (drop shadow, gradients, glow, bevel) approximate Affinity Photo — visual closeness, not bit-exactness.
+
+## API overview
+
+| Export | Description |
+| :--- | :--- |
+| `ButtonAndIconCreator` | Button/icon series from PSD drafts (layouts × glyphs) |
+| `AppIconMaker` | App icons/favicons profile-based (`web`, `ios`, `play`) |
+| `SpriteAtlas` | Sprite atlas with deduplication and JSON map |
+| `TileSheet` | Tile texture: splitting, dedupe, empty tiles |
+| `SequenceStrip` | Horizontal animation strips from file series or DSD images |
+| `ScanDsdImage` | DSD scanner (cells, type, frame number, anchor) |
+| `CreateDsdFromImages` | Build DSD master sheets from frame images |
+| `CreatePsdWithSequence`, `InsertSequenceIntoGroup` | Write frame sequences into PSD layer groups |
+| `ApplyGamma`, `ApplyBrightnessContrast`, `ApplyHueSaturation`, `ApplyAdjustmentStack` | PS-like adjustments with optional mask |
+| `MaskFromRects`, `VisitMaskedPixels` | Mask helpers (e.g. tile selections) |
+| `MaskFromAlpha`, `MagicWand`, `ColorRange`, `FeatherMask`, `InvertMask`, `SelectionBounds`, `CopySelection` | Selection engine (alpha, magic wand, color range, feather, invert) |
+| `CreateRaster`, `CloneRaster` | Empty raster / copy |
+| `LoadRasterFromImage`, `SaveRasterAsImage`, `SaveRasterAsImageHalfSize` | Load/save images |
+| `ScaleRaster`, `CropRaster`, `FlipRaster`, `RotateRaster`, `RotateRasterAround`, `PasteRaster`, `ResizeCanvas` | Geometry and canvas size |
+| `MuPsDoc` | ExtendScript-like entry point (flat, phase 1) |
+| `OpenDrafts`, `WatchDrafts` | Affinity/draft workflow (save → rebuild) |
+| `PsDocument`, `RenderDocument` | Load and composite PSD |
+
+## ButtonAndIconCreator
+
+Expected layer structure (@2x master):
+
+```
+layouts/
+  <layout>/            e.g. "std", "alu", "aqua"
+    <state>/           e.g. "normal", "hover" — or "_" (see naming scheme)
+      …                background layers
+      icon             placeholder carrying layer effects for icons
+icons/
+  <glyphName>          one pixel layer or group per glyph, e.g. "but_login_"
+```
+
+For each glyph×state combination, the `icon` placeholder's layer effects are transferred onto the glyph (copy/paste layer style), the document is rendered and saved. Glyphs named `_` are skipped.
+
+```js
+import { ButtonAndIconCreator } from "gulp-mu-ps";
+
+await ButtonAndIconCreator.Create("drafts/buttons.psd", {
+	layout: "aqua",
+	outputDir: "imgs/aqua"
+});
+```
+
+| Option | Default | Effect |
+| :--- | :--- | :--- |
+| `layout` | — (required) | Layout group under `layouts/`; the name does **not** appear in file names — use `outputDir` to distinguish layouts. |
+| `outputDir` | — (required) | Target directory. |
+| `retina` | `true` | @2x master: `<name>@2x.<ext>` and `<name>.<ext>` (50 % downscale, Lanczos). With `false`, one file at document resolution. |
+| `format` | `"png"` | `"png"` or `"webp"`. |
+| `iconsGroupName` | `"icons"` | Glyph group name. |
+| `layoutsGroupName` | `"layouts"` | Layouts group name. |
+
+**File names:** `<glyphName><stateName>[@2x].<ext>` — state appended **without separator** (`but_login_` + `normal` → `but_login_normal.png`). State `_` → no suffix (`pointer.png`). Layout names never in file names.
+
+### CreateByTopLayerSets — one image per group
+
+No `icons` group needed: each direct child of the layout is a finished composition → one image named after the group (logos, animation frames, emoticons).
+
+```
+<layout>/
+  <setName>/           e.g. "frame01"
+    …
+  _/                   skipped
+```
+
+```js
+await ButtonAndIconCreator.CreateByTopLayerSets("drafts/activityindicator.psd", {
+	layout: "std",
+	outputDir: "imgs/general",
+	setPattern: /^frame/
+});
+```
+
+Only the current subgroup is visible when rendering; siblings are hidden — like the legacy plugin.
+
+## AppIconMaker
+
+Square master (PSD/PNG, ≥ 1024×1024):
+
+```js
+import { AppIconMaker } from "gulp-mu-ps";
+
+await AppIconMaker.Create("drafts/appicon.psd", {
+	outputDir: "icons",
+	profiles: ["web", "ios", "play"],
+	layout: "aqua",
+	appName: "AiDPix",
+	themeColor: "#0a5ae0",
+	background: "#ffffff"
+});
+```
+
+| Profile | Produces |
+| :--- | :--- |
+| `web` | `favicon.ico`, PWA icons, `apple-touch-icon`, `site.webmanifest`, HTML snippet |
+| `ios` | `appstore-icon-1024.png` (alpha removed) |
+| `play` | Play Store icon plus adaptive foreground/background layers |
+
+Custom profiles: `{ name, icons: [{ file, size, mode }] }` with `mode`: `plain`, `flatten`, `maskable`, `background`, `ico`.
+
+## SpriteAtlas and TileSheet
+
+`SpriteAtlas` packs many source images into an atlas (1×/@2x, optional WebP, JSON map). `TileSheet` splits sources into uniform tiles, deduplicates and writes square textures plus JSON map — foundation for Oxyd/Unity pipelines (app-specific post-processing: `docs/CONCEPT.md` D12).
+
+## SequenceStrip and DSD format
+
+`SequenceStrip` builds a horizontal strip plus JSON frame data from single files or a **DSD image** (legacy SpriteTools-compatible).
+
+**DSD** (“Dongleware Sprite Definition”): all frames in **one** image, each frame in a marked cell with anchor markers and label (type glyph + three-digit frame number):
+
+![DSD source (flyex)](imgs/dsd_source_flyex.png)
+
+![DSD cell magnified](imgs/dsd_cell_zoom.png)
+
+![DSD glyph reference](imgs/dsd_glyphs.png)
+
+Scanner `ScanDsdImage` detects cells automatically; `SequenceStrip` orders by frame number:
+
+![Flyex strip](imgs/strip_result_flyex.png)
+
+Trimmed content width when authoring should be **≥ 10 px** so the frame label fits inside the cell border.
+
+### Authoring DSD (`CreateDsdFromImages`)
+
+Counterpart to `ScanDsdImage` — build a DSD master from frame PNGs:
+
+```js
+import { CreateDsdFromImages, DSD_SIGN_ORIGINAL } from "gulp-mu-ps";
+
+await CreateDsdFromImages(["frames/f0.png", "frames/f1.png"], {
+	outputFile: "sprites/series.png",
+	signType: DSD_SIGN_ORIGINAL,
+	pivotPercent: { x: 0, y: 0 },   // anchor top-left of trimmed content (default)
+	frameNumbers: [0, 1]
+});
+```
+
+**Pivot:** `pivotPercent` (0…100 relative to the trimmed content rect) is the recommended form — `0/0` = top-left, `50/50` = center, `100/100` = bottom-right. Alternatively `pivot: { x, y }` in **pixel offsets** (DSD convention; negative = anchor right/below content). Each frame resolves the anchor from its own trim box.
+
+### PSD sequence groups
+
+```js
+import { CreatePsdWithSequence, InsertSequenceIntoGroup } from "gulp-mu-ps";
+
+await CreatePsdWithSequence(["frames/f0.png", "frames/f1.png"], {
+	outputFile: "drafts/sequence.psd",
+	groupName: "animation"
+});
+```
+
+`PsDocument` supports `Save()` for round-trips after in-memory edits.
+
+## Raster model, I/O and canvas size
+
+µPS works on **rasters** internally: `{ width, height, data: Float32Array }` — **RGBA 0…1**, non-premultiplied, full document area.
+
+| Export | Description |
+| :--- | :--- |
+| `CreateRaster(w, h)` | Empty canvas (transparent) |
+| `CloneRaster(raster)` | Deep copy |
+| `LoadRasterFromImage(path)` | Load PNG/WebP/JPEG/… |
+| `SaveRasterAsImage(raster, path)` | Save (`.png` / `.webp` from extension) |
+| `SaveRasterAsImageHalfSize(raster, path)` | @2x → 1× (50 % Lanczos) |
+
+```js
+import { CreateRaster, LoadRasterFromImage, SaveRasterAsImage } from "gulp-mu-ps";
+
+const blank = CreateRaster(512, 512);
+const photo = await LoadRasterFromImage("photo.jpg");
+await SaveRasterAsImage(photo, "out/photo.webp");
+```
+
+**Canvas size** (content **not** scaled — PS *Image → Canvas Size*):
+
+```js
+import { LoadRasterFromImage, ResizeCanvas, SaveRasterAsImage } from "gulp-mu-ps";
+
+const raster = await LoadRasterFromImage("icon.png");
+const padded = ResizeCanvas(raster, {
+	width: 128,
+	height: 128,
+	anchor: "middleCenter",
+	fill: [0, 0, 0, 0]
+});
+await SaveRasterAsImage(padded, "out/icon-padded.png");
+```
+
+Anchors: `topLeft`, `topCenter`, `topRight`, `middleLeft`, `middleCenter`, `middleRight`, `bottomLeft`, `bottomCenter`, `bottomRight`. Shrinking crops overflow.
+
+**Planned (baseline, not yet implemented):** indexed colour / **CLUT** and **bit-depth reduction** (`noofbits`) for texture pipelines — see `docs/CONCEPT.md` D15.
+
+## Adjustments and masks
+
+Headless counterpart to PS *Image → Adjustments*. All functions modify the raster **in place**; optionally limited to a **selection** (mask).
+
+### Masks
+
+| Form | Use |
+| :--- | :--- |
+| Rectangle list `[{ x, y, w, h }, …]` | Oxyd-style: many 64×64 tiles as one selection |
+| `MaskFromRects(w, h, rects)` | 0/1 weight map |
+| `Float32Array` (length w×h) | Soft mask 0…1 |
+| `undefined` / omitted | Whole image |
+
+### Selection engine
+
+Low-level helpers for PS-like selections on flat RGBA rasters (RGB distance 0…1):
+
+| Export | Effect |
+| :--- | :--- |
+| `MaskFromAlpha(raster, { min })` | All pixels with alpha ≥ `min` |
+| `MagicWand(raster, x, y, { tolerance })` | Connected flood-fill from seed pixel |
+| `ColorRange(raster, { rgb, fuzziness })` | All matching pixels globally (not just connected) |
+| `FeatherMask(mask, w, h, radius)` | Soft edges (box-blur approximation) |
+| `InvertMask(mask)` | Invert selection |
+| `SelectionBounds(mask, w, h)` | Bounding box or `null` |
+| `CopySelection(raster, mask?)` | Copy selected pixels into a new raster |
+
+Via **`MuPsDoc.selection`**: `SelectAlpha`, `MagicWand`, `ColorRange`, `Feather`, `Invert`, `Bounds` — plus `Copy()`, `Paste(other, { x, y })`, `Duplicate()` on the document.
+
+### ApplyGamma
+
+PS *Exposure* / Oxyd `GammCorrection(γ)`: exponent `1/γ` on RGB.
+
+| Parameter | Range | Default |
+| :--- | :--- | :--- |
+| `_gamma` | ~0.01…9.99 (1 = no change) | — |
+| `exposure` | PS exposure | `0` |
+| `offset` | PS offset | `0` |
+| `mask` | see above | whole image |
+
+### ApplyBrightnessContrast
+
+| Parameter | Range | Default |
+| :--- | :--- | :--- |
+| `brightness` | −100…100 | `0` |
+| `contrast` | −100…100 | `0` |
+| `useLegacy` | linear legacy model | `false` |
+
+### ApplyHueSaturation
+
+Master channel only (no per-colour ranges):
+
+| Parameter | Range | Default |
+| :--- | :--- | :--- |
+| `hue` | −180…180 (degrees) | `0` |
+| `saturation` | −100…100 | `0` |
+| `lightness` | −100…100 | `0` |
+
+### ApplyAdjustmentStack
+
+Multiple steps in order, **one** mask for all steps:
+
+```js
+import {
+	CreateRaster,
+	ApplyAdjustmentStack,
+	MaskFromRects
+} from "gulp-mu-ps";
+
+const raster = CreateRaster(512, 512);
+const mask = MaskFromRects(512, 512, [
+	{ x: 0, y: 0, w: 64, h: 64 },
+	{ x: 64, y: 0, w: 64, h: 64 }
+]);
+ApplyAdjustmentStack(raster, [
+	{ type: "gamma", gamma: 1.2 },
+	{ type: "brightnessContrast", brightness: 10, contrast: 5 },
+	{ type: "hueSaturation", saturation: -15 }
+], { mask });
+```
+
+Visual closeness to PS, not bit-exact — tune against reference PNGs where needed.
+
+## Raster transforms
+
+Geometry on the raster — scaling uses `sharp` kernels.
+
+| Export | Effect |
+| :--- | :--- |
+| `ScaleRaster` | Scale: `scale`, or `width`/`height`, `kernel` |
+| `CropRaster` | Rectangle `{ x, y, w, h }` (clamped to bounds) |
+| `FlipRaster` | `"horizontal"` / `"vertical"` |
+| `RotateRaster` | 90°, 180°, 270° |
+| `RotateRasterAround` | Free angle, pivot `{ x, y }` (bilinear) |
+| `PasteRaster(cw, ch, raster, { x, y })` | Place raster on larger blank canvas |
+| `ResizeCanvas` | Canvas size (see above) |
+
+```js
+import {
+	LoadRasterFromImage,
+	ScaleRaster,
+	CropRaster,
+	RotateRasterAround,
+	SaveRasterAsImage
+} from "gulp-mu-ps";
+
+const raster = await LoadRasterFromImage("photo.jpg");
+const half = await ScaleRaster(raster, { scale: 0.5, kernel: "lanczos3" });
+const patch = CropRaster(half, { x: 100, y: 50, w: 640, h: 320 });
+const tilted = RotateRasterAround(patch, 15, { x: 0, y: 0 });
+await SaveRasterAsImage(tilted, "out/patch.png");
+```
+
+**ScaleRaster kernels:** `nearest`, `linear`, `cubic`, `lanczos2`, `lanczos3` (default). PS `ResampleMethod` approximations: `BICUBICSHARPER` → `lanczos3`, `BILINEAR` → `linear`, `NEARESTNEIGHBOR` → `nearest`.
+
+Visual compare: `node gulp-mu-ps/tools/verify-image-ops.mjs <image> <outdir>`.
+
+## ExtendScript entry point (`MuPsDoc`)
+
+Optional **compatibility wrapper** for JSX/Oxyd habits — **not** a PS DOM, no `executeAction` emulation. Maps familiar names onto the raster engine (phase 1: flat images).
+
+| ExtendScript / Oxyd | `MuPsDoc` / µPS |
+| :--- | :--- |
+| `app.activeDocument` (flat) | `await MuPsDoc.Open(path)` |
+| `doc.width` / `doc.height` | `.width` / `.height` |
+| `selection.select(rects)` | `doc.selection.Select([…])` |
+| Alpha / magic wand / color range | `SelectAlpha`, `MagicWand(x,y)`, `ColorRange({ rgb, fuzziness })`, `Feather`, `Invert`, `Bounds` |
+| `GammCorrection(γ)` | `doc.GammaCorrection(γ)` |
+| Brightness/contrast | `doc.BrightnessContrast(b, c)` |
+| Hue/saturation | `doc.HueSaturation({ … })` |
+| `doc.resizeImage(…)` | `await doc.ResizeImage({ scalePercent, method: "BICUBICSHARPER" })` |
+| Canvas size | `doc.CanvasSize({ width, height, anchor })` |
+| `doc.saveAs(…)` | `await doc.SaveAs(path)` |
+| @2x + 50 % downscale | `await doc.SaveAsRetinaPair(dir, name)` |
+| Copy / paste / duplicate | `doc.Copy()`, `doc.Paste(other, { x, y })`, `doc.Duplicate()` |
+
+```js
+import { MuPsDoc } from "gulp-mu-ps";
+
+const doc = await MuPsDoc.Open("atlas.png");
+doc.selection.MagicWand(12, 8, { tolerance: 0.08 });
+doc.GammaCorrection(1.2);
+const patch = doc.Copy();
+await doc.SaveAs("out/atlas-gamma.png");
+```
+
+**Phase 2 (planned):** PSD (`OpenPsd`), `findLayer`, `copyLayerStyle`, `flatten` — see `docs/CONCEPT.md` D14.
+
+The **low-level API** (`ApplyGamma`, `ScaleRaster`, …) remains the engine; `MuPsDoc` is a migration aid only.
+
+## PSD compositor and layer compositing
+
+Under the API surface, **`PsDocument`** / **`RenderDocument`** and **`Compositor.mjs`** composite loaded PSDs: visible layers, groups, text, layer effects, blend modes. This powers **ButtonAndIconCreator** (style transfer) and direct rendering.
+
+**Visually close to Photoshop/Affinity, not bit-exact** — drift is monitored via **MAE** regression against Adobe reference PNGs (`test/ReferenceRender.test.mjs`).
+
+### Reproduced layer effects
+
+- Color overlay (`solidFill`)
+- Gradient overlay (`gradientOverlay`, linear)
+- Inner/outer glow (`innerGlow`, `outerGlow`)
+- Inner/drop shadow (`innerShadow`, `dropShadow`)
+- Bevel and emboss (`bevel`, simplified)
+
+**Blend modes:** normal, multiply, screen, overlay, darken, lighten, color burn/dodge, linear burn/dodge, hard/soft light, difference, exclusion; groups: pass-through.
+
+### Style transfer vs. layer links
+
+Legacy µCSS uses **copy/paste layer style** (CpFX/PaFX) — not PS position links. µPS implements CpFX/PaFX for ButtonAndIconCreator; the reference PSD also includes `links/` as a demo of PS **layer link** (move together).
+
+### Opacity model (three independent controls)
+
+| Control | PSD source | Effect in µPS |
+| :--- | :--- | :--- |
+| **Pixel alpha** | Per-pixel alpha in `imageData` | Shape mask for effects + compositing alpha |
+| **Fill opacity** | `fillOpacity` (iOpa), 0…1 | Scales **fill alpha only**; layer styles stay full strength |
+| **Layer opacity** | `opacity`, 0…1 | Scales the **entire** layer (fill + styles) at composite time |
+
+Rainbow discs (not flat fills) in `compositing/` expose channel/blend bugs that solid fills hide. Synthetic tests: `test/Compositing.test.mjs`.
+
+### Reference PSD and Adobe ground truth
+
+Development and tuning use the comprehensive reference under `gulp-mu-ps/examples/reference/`:
+
+| Path | Role |
+| :--- | :--- |
+| `examples/drafts/mups-reference.psd` | Reference PSD (compositor, effects, blend, text, both ButtonAndIconCreator modes) |
+| `examples/reference/out/` | Adobe-export PNGs (ground truth) |
+| `tools/photoshop/build-mups-reference.jsx` | Build PSD |
+| `tools/photoshop/export-mups-reference.jsx` | Export PNGs (re-runs skip existing files) |
+| `tools/build-reference-overview.mjs` | Contact sheet `out/overview/mups-reference-sheet.png` |
+
+**Developer workflow:** `buttons.psd` → JSX build → export → render µPS with `retina: false` → `compare-images.mjs` or `ReferenceRender` tests. Details: `gulp-mu-ps/examples/reference/README.md`.
+
+**Not in this PSD:** SpriteAtlas, TileSheet, SequenceStrip/DSD, AppIconMaker — separate legacy references under `oldsrcs/…/examples/` (PNG/sequence pipelines).
+
+### Tools (µPS development)
+
+- `node tools/inspect-psd.mjs <file.psd>` — layer tree and effects
+- `node tools/compare-images.mjs <a> <b>` — PNG compare (MAE)
+- `node tools/open-drafts.mjs` / `watch-drafts.mjs` — draft workflow from the shell
+
+## Draft workflow (Affinity + watch)
+
+Affinity has **no scripting API** — the automation path:
+
+1. Edit and save PSD in Affinity.
+2. `WatchDrafts` or `gulp.watch` detects the change (debounce ~1.5 s).
+3. µPS renders headless; µCSS build runs when needed.
+
+```js
+import { WatchDrafts, OpenDrafts } from "gulp-mu-ps";
+
+WatchDrafts(["dev/media/final/panelbuttons.psd"], async () => {
+	await BuildSkin("skins/src/std.µcss.mjs");
+}, { debounceMs: 1500 });
+
+OpenDrafts("dev/media/final/panelbuttons.psd", { app: "affinity" });
+```
+
+Environment: `MU_AFFINITY_EXE`, `MU_DRAFT_APP`. Details: `docs/CONCEPT.md` (D11).
 
 ### Intermediate steps raw → final (`outputBase`)
 
@@ -299,6 +741,154 @@ media: [
 ```
 
 The incremental build applies to these steps too: generation only happens when the result is missing or the configuration or sources (mtime/size) have changed. Alternatively, the raw → final step can of course still run as its own Gulp task before the µCSS build — `outputBase: "project"` is the way to go when everything should live in a single manifest file.
+
+# microAU (µAU) — sound atlas
+
+The sibling module **µAU** (`gulp-mu-au`) builds a **sound atlas** from many short audio files — the audio counterpart of sprite atlases: one combined WAV/MP3 blob plus a JSON timing map for the browser runtime (e.g. µLib `Sounds`).
+
+**Scope:** **build layer only.** Referencing sounds *from CSS* (µCSS sound directive) and browser runtime/speech follow later.
+
+Engine: `gulp-mu-sound-atlas` (decode → resample → optional MP3). µAU is the µPS-style wrapper with async `Create` and incremental cache.
+
+## API overview
+
+| Export | Description |
+| :--- | :--- |
+| `SoundAtlasMaker` | Collect sources → build atlas + JSON (cached) |
+| `ListAudioFiles` | Recursively list `*.wav`/`*.mp3` |
+| `CONVERT` | Sample rate, sample size, channel, stereo constants |
+
+## SoundAtlasMaker
+
+```js
+import { SoundAtlasMaker } from "gulp-mu-au";
+
+const result = await SoundAtlasMaker.Create({
+	src: "dev/media/final/sounds",
+	dataFile: "skins/std/snds/app.sounds.wav",
+	jsonFile: "skins/std/snds/app.sounds.json"
+});
+// result => { skipped, sounds, dataFile, jsonFile }
+```
+
+| Option | Default | Effect |
+| :--- | :--- | :--- |
+| `dataFile` | — (required) | Audio blob (`.wav` or `.mp3`) |
+| `jsonFile` | — (required) | JSON timing map |
+| `sounds` / `src` | — | Explicit list or recursive source directory; at least one required |
+| `format` | from extension | `"wav"` or `"mp3"` |
+| `mp3KBitRate` | `128` | MP3 bit rate |
+| `sampleRate`, `sampleSize`, `channels`, `stereo` | `CONVERT.*_HIGHEST` | Target format; `*_HIGHEST`/`*_LOWEST` derive from inputs |
+| `cacheFile` | `<dataFile>.cache.json` | Cache marker, or `false` |
+| `force` | `false` | Force rebuild |
+
+### Loop points in file names
+
+`engine.ls.100.le.400.wav` → sound name `engine`, loop from sample 100 to 400. The base name without the `.ls.…le.…` suffix is the map key.
+
+### JSON format
+
+```json
+{ "sounds": { "click": [startSec, durationSec, loopStartSec, loopEndSec], … } }
+```
+
+`-1` for `loopStart`/`loopEnd` = no loop. Consumed directly by µLib `Sounds`.
+
+### MP3 inputs
+
+For **MP3 source files**, the engine may need a `patch-package` patch in the consuming project (see `gulp-mu-sound-atlas` README). WAV inputs and MP3 *output* are unaffected.
+
+## µCSS integration (manifest `sounds`)
+
+µCSS invokes µAU via an optional **`sounds`** block in the skin manifest (parallel to `media`):
+
+```js
+export default DefineSkin({
+	sounds: {
+		src: "dev/media/final/sounds",
+		dataFile: "snds/app.sounds.wav",
+		jsonFile: "snds/app.sounds.json"
+	},
+	files: [ … ]
+});
+```
+
+Paths in `dataFile`/`jsonFile` are relative to the skin output directory; `src` relative to the project root. The build report includes `report.sounds[]` with `skipped` and the sound list. Incremental cache like µPS media steps.
+
+Alternatively, use `copyFolder` for pre-built atlases.
+
+# microFT (µFT) — icon font
+
+**µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without Adobe/IcoMoon. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS classes, IcoMoon-compatible JSON, HTML overview.
+
+Requires **Node ≥ 20.11**. Built on `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`.
+
+## Glyph naming
+
+```
+<name>-U0x<HEX>.svg
+e.g. general-control-edit-U0xE900.svg  →  name "general-control-edit", code U+E900
+```
+
+- **Directory** = group id (relative under `src`, e.g. `general` or `medical/diagnosis`)
+- Without valid `-U0x<HEX>` → skipped (drafts)
+- Duplicate codepoints → warning, conflicting files named
+
+## FontGenerator
+
+```js
+import { FontGenerator } from "gulp-mu-ft";
+
+const result = await FontGenerator.Create({
+	fontName: "DosingSymbol",
+	src: "svg",
+	outputDir: "fonts",
+	groups: {
+		general: { label: "General", description: "General UI controls.", order: 1 }
+	},
+	glyphs: {
+		"general-control-edit": { description: "Button/icon to start editing." }
+	}
+});
+// result => { skipped, glyphs, warnings, files }
+```
+
+Produces e.g. `DosingSymbol.css` (`.icon-<name>`), `DosingSymbol.json`, `DosingSymbol.html`.
+
+| Option | Default | Effect |
+| :--- | :--- | :--- |
+| `fontName`, `src`, `outputDir` | — (required) | Font name, SVG tree, target |
+| `formats` | all common | Font extensions to emit |
+| `fontHeight` | `1024` | Em height |
+| `normalize`, `centerHorizontally` | `true` | passed to `svgicons2svgfont` |
+| `classPrefix` | `"icon"` | CSS class prefix |
+| `fontUrlBase` | `""` | URL prefix in CSS/HTML |
+| `css`, `json`, `html` | enabled | control output or `false` |
+| `groups`, `glyphs` | `{}` | HTML overview metadata (**English only**) |
+| `timestamp` | fixed | reproducible font timestamps |
+| `cacheFile` | `.build-cache.json` | content signature (SHA-1), timestamp-independent |
+| `force` | `false` | force rebuild |
+
+## API building blocks
+
+| Export | Description |
+| :--- | :--- |
+| `FontGenerator` | scan → build font → write CSS/JSON/HTML |
+| `ScanGlyphs` | scan directory, derive codepoints/groups |
+| `BuildFontFormats`, `BuildFontCss`, `BuildIcoMoonJson`, `BuildOverviewHtml` | individual build steps |
+| `ListSvgFiles`, `ReadGlyphSvg` | low-level helpers |
+
+## µCSS integration
+
+Currently typically a **separate Gulp step** before the skin build, then **`copyFolder`** in the manifest:
+
+```js
+media: [
+	{ copyFolder: "dev/media/final/fonts", to: "fonts", filter: "\\.(woff2?|ttf|css)$" }
+]
+```
+
+A dedicated manifest bridge like `sounds` is not planned for µFT yet; icon fonts are referenced in `.µ.css` via `@font-face` and classes (codepoint variables in `vars`, e.g. `icon_pencil: "\\e91c"`).
 
 # Vue and component co-location
 
@@ -493,7 +1083,7 @@ export function SkinWatch() {
 }
 ```
 
-The return value of `BuildSkin` is a report with `skin`, `outputDir`, `media` (step results with a `skipped` flag), `files`, `atlas`, `atlasSkipped` and `duration`.
+The return value of `BuildSkin` is a report with `skin`, `outputDir`, `media` (step results with a `skipped` flag), `files`, `atlas`, `atlasSkipped`, `prunedSources` (deleted sprite source URLs when `sprites.pruneSources` is set) and `duration`.
 
 # Manifest reference (DefineSkin)
 
@@ -566,8 +1156,25 @@ Options of the sprite atlas — the replacement for `µ.options.sprites.*`:
 | `retina` | `true` | Additionally generates `<name>@2x` from the `@2x` source images (which must sit next to the 1x sources). |
 | `padding` | `0` | Spacing in pixels between the sprites. |
 | `preloadRule` | `false` | Generates the `div.csspreload` rule in the first stylesheet. |
+| `include` | (none) | Single images or directories (relative to skin output) to pack **without** a CSS rule (e.g. preload-only or JS assets). |
+| `pruneSources` | `false` | After a successful atlas build, **delete source PNGs/WebPs** that now live only in the atlas (1x and `@2x`). Replaces legacy `gulp-mu-spritereducer` behaviour — **opt-in** for deploy/release builds. Never deletes the atlas itself. The build report includes `prunedSources[]`. |
 
 **Resolution of the `Sprite()` source images:** the path referenced in `Sprite("…")` is resolved format-independently — first the literal path, then the same name with one of the supported raster extensions (`png`, `webp`). So if a generated source image exists as PNG even though the CSS reference says `.webp` (or vice versa), the build does not abort. An error only occurs when **no** variant exists. The `@2x` variant must have the same extension as the resolved 1x image.
+
+## sounds
+
+Optional block for the **µAU** bridge — builds a sound atlas before CSS compilation (see chapter *microAU*):
+
+| Field | Meaning |
+| :--- | :--- |
+| `src` | Source directory (recursive `*.wav`/`*.mp3`), relative to project root |
+| `sounds` | Alternative: explicit file list (may be combined with `src`) |
+| `dataFile` | Output audio blob, relative to skin directory |
+| `jsonFile` | Output JSON timing map, relative to skin directory |
+| `format`, `mp3KBitRate`, `sampleRate`, … | Passed through to `SoundAtlasMaker` (defaults as in µAU) |
+| `force` | Force rebuild |
+
+The build report includes `sounds[]` with `skipped`, `sounds` (names) and paths. Without a `sounds` block, copy sound files into the skin via `copyFolder`.
 
 ## files
 
@@ -726,7 +1333,7 @@ Besides the manifest workflow, every layer of µCSS is also usable directly as a
 | :--- | :--- |
 | `CompileMcss(source, options)` | Compiles `.µ.css` source text into a `CssDocument`. Options: `vars`, `helpers`, `from` (file name for error messages), `context` (shared `MuContext`), `sprites` (SpriteManager), `cursors` (CursorManager). |
 | `CssDocument` / `CssRule` | JSON-capable wrapper around the PostCSS AST: `FromFile`/`FromString`, `FindRule(...path)`, `FindRules(selectorOrRegex)`, `AddRule`, `GetProperty`/`AddProperty`/`ChangeProperty`/`RemoveProperty`, `ToCss()`, `ToFile()`, `ToJson()`/`FromJson()`. For special cases the raw PostCSS AST is accessible via `document.root`. |
-| `SpriteManager` | Sprite registration and atlas resolution: `new SpriteManager({ baseDir, atlasFile, retina, padding, preloadRule, preload, writeMapFile })`, `Register(rule, url, options)`, `await Resolve(document)`. |
+| `SpriteManager` | Sprite registration and atlas resolution: `new SpriteManager({ baseDir, atlasFile, retina, padding, preloadRule, preload, writeMapFile, pruneSources })`, `Register(rule, url, options)`, `await Resolve(document)` (sets `lastPruned`). |
 | `CursorManager` | Cursor definitions: `new CursorManager(definitions, { baseDir, preload })`, `Apply(rule, name)`, `Value(name)`. |
 | `PreloadRegistry` | Collects image URLs and generates the `div.csspreload` rule. |
 | `DefineSkin(config)` / `BuildSkin(manifest, options)` | Manifest declaration and skin build (see the chapter "Build process"). |

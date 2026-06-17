@@ -15,11 +15,5 @@
   "devDependencies": {
     "gulp": "^5.0.0",
     "gulp-cli": "^3.1.0"
-  },
-  "dependencies": {
-    "gulp-mu-aspx-configurator": "^1.1.1",
-    "gulp-mu-aspx-installer": "^1.1.4",
-    "gulp-mu-csharp-concat-postwork": "^1.1.0",
-    "gulp-mu-spritereducer": "^1.0.0"
   }
 }
