@@ -657,9 +657,18 @@ Feature-Änderungen immer Handbuch + `CONCEPT.md` + `CLAUDE.md` mitziehen.
 Referenz: `gulp-mu-ps/examples/reference/` (`mups-reference.psd`, Adobe-PNGs unter `out/`,
 JSX in `tools/photoshop/`, MAE-Tests `ReferenceRender.test.mjs`).
 
-**Ziel:** Visuelle Nähe zu Photoshop/Affinity im getesteten Umfang (Ebenen-Compositing, Fülloptionen,
-Blend-Modi, Text, Stilübertragung CpFX/PaFX) — **keine Bit-Genauigkeit**. Abweichungen werden per
-MAE-Regression gegen Adobe-Exporte überwacht.
+**Ziel:** Visuelle Nähe zu Photoshop/Affinity im getesteten Umfang (Ebenen-Compositing, Fülloptionen
+inkl. **Kontur**/`stroke` und **Glanz**/`satin`, Blend-Modi, Text, Stilübertragung CpFX/PaFX) — **keine Bit-Genauigkeit**.
+Abweichungen werden per MAE-Regression gegen Adobe-Exporte überwacht.
+
+**Nachgebildete Layer-Styles (µPS `Effects.mjs`):** Farb- und Verlaufsüberlagerung (linear),
+Innen-/Schlagschatten, innerer/äußerer Schein, Relief/Prägung, **Kontur** (Position innen/Mitte/außen),
+**Glanz** — **nicht:** Musterüberlagerung, Kontur mit Musterfüllung, radiale/winkel/reflektierte Verläufe.
+Details und Blend-Modi-Tabelle im Handbuch *microPS* (PSD-Compositor).
+
+**Referenz-PSD:** `layouts/fx/` enthält isolierte Presets (u. a. `strokeOutside`, `strokeInside`,
+`strokeCenter`, `strokeMultiply`, `satin`, `satin_warm`, `satin_invert`) plus Adobe-PNGs unter
+`examples/reference/out/`; Gulp `reference:render`, Test `ReferenceRender.test.mjs`.
 
 **Deckkraft:** Drei unabhängige Stellschrauben — Pixel-Alpha, `fillOpacity` (nur Fill),
 `opacity` (gesamte Ebene). Details im Handbuch-Kapitel *microPS* (Abschnitt PSD-Compositor).
@@ -695,6 +704,41 @@ Abschnitt ExtendScript-Einstieg.
 **µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas). Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
 
 **Abgrenzung:** Kein Ersatz für fehlende Quellen beim nächsten Vollbuild — für Entwicklung `pruneSources` weglassen oder Quellen aus dem Generator neu erzeugen lassen.
+
+### D17 — Sound-Bindings, Auto-Wiring & Handler-Overrides (µAU / µCSS, geplant)
+
+**Stand Build-Layer:** Manifest-`sounds` baut Atlas + Timing-JSON (Loop-Punkte pro Name, µAU umgesetzt).
+
+**Konzept (`gulp-mu-au/docs/CONCEPT.md`):**
+
+| Quelle | Phase | Wirkung |
+| :--- | :--- | :--- |
+| CSS | Build | `bindings[]` |
+| `sounds.triggers` | Build | `bindings[]` ergänzen |
+| `Sounds.installBindings` | Runtime | Listener **vollautomatisch** |
+| `sounds.handlers` | Runtime | Default-Handler **wrappen/ersetzen** |
+| App-JS | Runtime | `Sounds.play` / `Sounds.stop` |
+
+Loop-Verhalten **nur** aus `sounds[name]`; Bindings nur Events + `mode` (`oneshot`|`sustain`).
+**Phasentrennung (D-AU9):** `triggers` = Build/JSON; `handlers` = Runtime/Patch — keine Doppelrolle.
+
+**Offen:** Implementierung in `SkinBuilder` + µLib.
+
+### D18 — Icon-Font-Manifest (`font`, µFT / µCSS, geplant)
+
+**Stand:** µFT `FontGenerator` ist umgesetzt; **Manifest-Bridge** in `BuildSkin` folgt.
+
+Geplanter Block `font` (Objekt oder Array) — symmetrisch zu `sounds`/`sprites`:
+
+| Feld | Wirkung |
+| :--- | :--- |
+| `src` | Rekursives SVG-Verzeichnis (projekt-relativ) |
+| `include` | Zusätzliche Einzel-SVGs *(geplant; µFT scannt heute nur Verzeichnisse)* |
+| `outputDir` | Ziel im Skin (Font-Dateien, CSS, JSON, HTML) |
+| `fontName`, `formats`, `groups`, `glyphs`, … | Durchreichung an `FontGenerator` |
+
+Geplant zusätzlich: CSS-Direktive `-µ: Glyph("…")` für Einzelreferenz in Regeln
+(siehe `gulp-mu-au/docs/CONCEPT.md` §1). Handbuch: Kapitel *Manifest-Referenz*, Abschnitt `font`.
 
 ### D15 — Bildformat CLUT / `noofbits` (µPS, geplant)
 

@@ -283,7 +283,7 @@ media: [
 ]
 ```
 
-- **`buttonsAndIcons`** renders complete button and icon series including `@2x` variants from a layered PSD draft (layouts × icon glyphs) — the successor of the ButtonCreator plugin. The layer effects (drop shadow, gradients, glow, etc.) are reproduced by microPS.
+- **`buttonsAndIcons`** renders complete button and icon series including `@2x` variants from a layered PSD draft (layouts × icon glyphs) — the successor of the ButtonCreator plugin. The layer effects (drop shadow, gradients, glow, bevel, **stroke**, **satin**, etc.) are reproduced by µPS — see chapter *PSD compositor*.
 
 ![The same icon glyphs, rendered with two layouts of the same draft document ("alu" and "aqua")](imgs/bc_alu.png)
 
@@ -308,7 +308,7 @@ Full reference for all image generators, DSD format, draft workflow and raster A
 
 The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
 
-µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download). Layer effects (drop shadow, gradients, glow, bevel) approximate Affinity Photo — visual closeness, not bit-exactness.
+µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download). The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
 
 ## API overview
 
@@ -346,7 +346,7 @@ icons/
   <glyphName>          one pixel layer or group per glyph, e.g. "but_login_"
 ```
 
-For each glyph×state combination, the `icon` placeholder's layer effects are transferred onto the glyph (copy/paste layer style), the document is rendered and saved. Glyphs named `_` are skipped.
+For each glyph×state combination, the **`effects`** of the `icon` placeholder are transferred onto the glyph (copy/paste layer style) — **not** the placeholder blend mode or layer opacity; the document is rendered and saved. Glyphs named `_` are skipped.
 
 ```js
 import { ButtonAndIconCreator } from "gulp-mu-ps";
@@ -661,19 +661,71 @@ Under the API surface, **`PsDocument`** / **`RenderDocument`** and **`Compositor
 
 **Visually close to Photoshop/Affinity, not bit-exact** — drift is monitored via **MAE** regression against Adobe reference PNGs (`test/ReferenceRender.test.mjs`).
 
-### Reproduced layer effects
+### Reproduced layer effects (layer styles)
 
-- Color overlay (`solidFill`)
-- Gradient overlay (`gradientOverlay`, linear)
-- Inner/outer glow (`innerGlow`, `outerGlow`)
-- Inner/drop shadow (`innerShadow`, `dropShadow`)
-- Bevel and emboss (`bevel`, simplified)
+µPS reads layer effects from the PSD (`ag-psd`, field `effects`) and renders them in **`Effects.mjs`**. Visually close to Photoshop/Affinity, **not bit-exact** — drift is monitored via MAE regression against Adobe reference PNGs.
 
-**Blend modes:** normal, multiply, screen, overlay, darken, lighten, color burn/dodge, linear burn/dodge, hard/soft light, difference, exclusion; groups: pass-through.
+#### Supported
 
-### Style transfer vs. layer links
+| Photoshop / Affinity | Key (`ag-psd`) | Notes |
+| :--- | :--- | :--- |
+| Color overlay | `solidFill` | incl. opacity and **per-effect blend mode** |
+| Gradient overlay | `gradientOverlay` | **linear only** (angle from PSD); radial/angle/reflected not supported |
+| Inner glow | `innerGlow` | size, spread (choke), **range**, **contour curve** |
+| Outer glow | `outerGlow` | as inner; visible outside the shape only |
+| Inner/drop shadow | `innerShadow`, `dropShadow` | distance, angle, size, spread, color, blend mode |
+| Bevel and emboss | `bevel` | styles: inner bevel, outer bevel, pillow emboss, emboss; smooth vs. chisel hard; **contour curve** on bevel; separate highlight/shadow colors and blend modes |
+| **Stroke** | `stroke` | position inside / center / outside; solid color (simple gradient via first stop); **no** pattern stroke |
+| **Satin** | `satin` | distance, size, angle, invert, contour curve, blend mode |
 
-Legacy µCSS uses **copy/paste layer style** (CpFX/PaFX) — not PS position links. µPS implements CpFX/PaFX for ButtonAndIconCreator; the reference PSD also includes `links/` as a demo of PS **layer link** (move together).
+**Contour curve vs. stroke effect:** In effect dialogs, the *Contour* tab is the **falloff curve** for glow, bevel, and satin — µPS reads and applies it. The **Stroke** layer style is listed above as `stroke`.
+
+#### Not implemented (ignored)
+
+| Photoshop / Affinity | Key | Workaround |
+| :--- | :--- | :--- |
+| Pattern overlay | `patternOverlay` | pattern as a pixel layer (`ag-psd`: Patt section limited) |
+| Pattern stroke | `stroke` (`fillType: pattern`) | solid stroke or pixel layer |
+| Other gradient types | — | linear only in `gradientOverlay`; stroke gradient approximated (first color stop) |
+
+#### Blend modes (layers and effects)
+
+Each **layer** and each **individual effect** can carry its own blend mode (the *Mode* control in the effect dialog). µPS uses the same table in **`BlendModes.mjs`** — for layer compositing and for mixing effect colors (e.g. inner shadow with *Color Burn*).
+
+| English (`ag-psd`) | German (Photoshop) | µPS |
+| :--- | :--- | :--- |
+| normal | Normal | ✓ |
+| multiply | Multiplizieren | ✓ |
+| screen | Abwedeln | ✓ |
+| overlay | Überlagern | ✓ |
+| darken | Abdunkeln | ✓ |
+| lighten | Aufhellen | ✓ |
+| color burn | Farbig nachbelichten | ✓ |
+| color dodge | Farbig abwedeln | ✓ |
+| linear burn | Linear abwedeln (often labelled “Negativ multiplizieren”) | ✓ |
+| linear dodge | Linear abwedeln (Add) | ✓ |
+| hard light | Hartes Licht | ✓ |
+| soft light | Weiches Licht | ✓ |
+| difference | Differenz | ✓ |
+| exclusion | Ausschluss | ✓ |
+| pass through | Pass through (groups) | ✓ |
+
+**Not supported** (fallback: normal): e.g. darker/lighter color, vivid/linear/pin light, hard mix, hue, saturation, color, luminosity, divide, subtract.
+
+Reference matrix in the PSD: `layouts/blend/` → PNGs under `examples/reference/out/blend/` (normal, multiply, screen, overlay, darken, lighten, color burn).
+
+### Style transfer (ButtonAndIconCreator) vs. layer links
+
+Two different concepts — often confused:
+
+| Mechanism | Where | What happens |
+| :--- | :--- | :--- |
+| **Style copy** (CpFX/PaFX) | `ButtonAndIconCreator` | The full **`effects` block** of the `icon` placeholder is applied to the glyph (legacy Photoshop: copy/paste layer style). |
+| **Layer link** (PS *Link Layers*) | Authoring in PS/Affinity | **Move together** in the editor only — no separate render mode in µPS. |
+
+**What style transfer does not copy** (same as the legacy plugin): the placeholder’s **blend mode**, **layer opacity**, and **position** — the glyph keeps its own values. Per-effect blend modes inside `effects` (e.g. inner shadow → *Color Burn*) **are** transferred.
+
+The reference PSD includes `layouts/links/` with linked layers (`icon_master`, `follower`) for flat compositing regression — not a separate “link mode” feature.
 
 ### Opacity model (three independent controls)
 
@@ -696,6 +748,17 @@ Development and tuning use the comprehensive reference under `gulp-mu-ps/example
 | `tools/photoshop/build-mups-reference.jsx` | Build PSD |
 | `tools/photoshop/export-mups-reference.jsx` | Export PNGs (re-runs skip existing files) |
 | `tools/build-reference-overview.mjs` | Contact sheet `out/overview/mups-reference-sheet.png` |
+
+**Isolated effect layouts (`layouts/fx/`):** one preset per layer-style variant — e.g. `solidFill`,
+`dropShadow` (3 variants), `innerShadow` (4), `innerGlow`/`outerGlow` (3 each), `gradientOverlay` (3),
+**`strokeOutside`**, **`strokeInside`**, **`strokeCenter`**, **`strokeMultiply`**, **`satin`**, **`satin_warm`**, **`satin_invert`**,
+`bevelInner` (5 bevel variants). Each layout yields Adobe PNGs under `out/fx/` (style transfer onto `glyph_disc`)
+and `out/flat/fx/` (direct compositing without CpFX/PaFX).
+
+**Tuning hints:** Combined stacks (`stacks/stack_aquaIcon`) for production-like checks; isolated pairs
+for parameter sensitivity — e.g. `dropShadow` vs. `dropShadow_soft`, `bevelInner` vs. `bevelInner_chisel`,
+**`strokeOutside` vs. `strokeMultiply`**, **`satin` vs. `satin_invert`**. After changes to `Effects.mjs` or
+JSX presets: rebuild PSD → export → `npx gulp reference:render` → `npm test` (µPS).
 
 **Developer workflow:** `buttons.psd` → JSX build → export → render µPS with `retina: false` → `compare-images.mjs` or `ReferenceRender` tests. Details: `gulp-mu-ps/examples/reference/README.md`.
 
@@ -817,6 +880,29 @@ Paths in `dataFile`/`jsonFile` are relative to the skin output directory; `src` 
 
 Alternatively, use `copyFolder` for pre-built atlases.
 
+### Planned: CSS sounds, auto-wiring & handler overrides
+
+The **build layer** (atlas + JSON timing map including loop points per sound) is implemented.
+**Loop yes/no** lives in `sounds[name]` — not in bindings. Bindings only define **when** to
+play/stop (`mode`: `oneshot` vs. `sustain`).
+
+**Pipeline (fixed):** Build delivers **data** (`sounds` + `bindings[]` in JSON) — from CSS
+and optionally `soundTriggers.mjs` (runs **only** in Node). Runtime delivers **behavior**:
+first `Sounds.installBindings` (fully automatic), then optionally `soundHandlers.mjs`
+(patches default handlers in the browser — **without** changing JSON, **without** running at
+build time). `handlers` does not replace `triggers`: new events → CSS/`triggers`; different
+reaction → `handlers` or app JS.
+
+Next stages:
+
+1. **Declarative CSS** — aural properties (`cue-before`, `cue-after`, `play-during`) and directive `-µ: Sound(...)` → entries in `bindings[]` (JSON sidecar).
+2. **Automatic (µLib)** — `Sounds.installBindings(json)` installs all DOM/animation listeners; no manual event JS when CSS + `triggers` suffice.
+3. **Manifest `soundTriggers.mjs`** (`sounds.triggers`) — build time: extend `bindings[]` (helper selectors, FlyEx animations). **Not** `helpers.mjs`.
+4. **Manifest `soundHandlers.mjs`** (`sounds.handlers`, optional) — runtime: **wrap/replace** default handlers (super call to the default method), e.g. FlyEx click logic alongside auto-wiring.
+5. **App JS** — still `Sounds.play`/`Sounds.stop` for free logic without bindings.
+
+Details: `gulp-mu-au/docs/CONCEPT.md` (§5–§8, section “Pipeline”). FlyEx demo today: everything in `demo.js`; target: loops via `triggers` + auto-wiring, edge cases via `handlers`.
+
 # microFT (µFT) — icon font
 
 **µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without Adobe/IcoMoon. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS classes, IcoMoon-compatible JSON, HTML overview.
@@ -880,7 +966,9 @@ Produces e.g. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 
 ## µCSS integration
 
-Currently typically a **separate Gulp step** before the skin build, then **`copyFolder`** in the manifest:
+**Manifest (planned):** optional `font` block in chapter *Manifest reference* — `src` (SVG directory), `include` (single SVGs), `outputDir`, metadata; builds via µFT before CSS compilation.
+
+**Today:** typically a **separate Gulp step** before the skin build, then **`copyFolder`** in the manifest:
 
 ```js
 media: [
@@ -888,7 +976,7 @@ media: [
 ]
 ```
 
-A dedicated manifest bridge like `sounds` is not planned for µFT yet; icon fonts are referenced in `.µ.css` via `@font-face` and classes (codepoint variables in `vars`, e.g. `icon_pencil: "\\e91c"`).
+Also planned: CSS directive `-µ: Glyph("icons/edit.svg")` for single SVGs in rules (symmetric to `Sprite()`/`Sound()`). Reference icon fonts in `.µ.css` via `@font-face` and classes (codepoint variables in `vars`, e.g. `icon_pencil: "\\e91c"`).
 
 # Vue and component co-location
 
@@ -1107,6 +1195,8 @@ import { Borders, GlitterySprite } from "./helpers.mjs";
 helpers: { Borders, GlitterySprite }
 ```
 
+**Note:** Helpers = **CSS at compile time**. Planned: `sounds.triggers` (build → JSON data) and `sounds.handlers` (runtime → patch behavior, optional) — strictly separate; see chapter *microAU*, section “Pipeline”.
+
 ## cursors
 
 List of cursor definitions — the replacement for `µ.DefCursor`:
@@ -1172,9 +1262,62 @@ Optional block for the **µAU** bridge — builds a sound atlas before CSS compi
 | `dataFile` | Output audio blob, relative to skin directory |
 | `jsonFile` | Output JSON timing map, relative to skin directory |
 | `format`, `mp3KBitRate`, `sampleRate`, … | Passed through to `SoundAtlasMaker` (defaults as in µAU) |
+| `triggers` | *(planned)* path to `soundTriggers.mjs` — **build time only:** extend `bindings[]` (Node, not the browser) |
+| `handlers` | *(planned)* path to `soundHandlers.mjs` — **runtime only:** wrap/replace default handlers (browser, JSON unchanged) |
 | `force` | Force rebuild |
 
 The build report includes `sounds[]` with `skipped`, `sounds` (names) and paths. Without a `sounds` block, copy sound files into the skin via `copyFolder`.
+
+## font
+
+Optional block for the **µFT** bridge — builds an icon font from SVG glyphs before CSS compilation (see chapter *microFT*). Symmetric to `sounds` and `sprites`: **directory and/or individual files** register glyphs in the font even without a CSS reference.
+
+**Status:** The manifest bridge is **planned** (not yet implemented in `BuildSkin`). Typical today: `FontGenerator.Create()` as a separate Gulp step, then `copyFolder` (see below).
+
+```js
+font: {
+	fontName: "AppSymbol",
+	src: "dev/media/svg",              // recursive SVG tree, relative to project root
+	include: ["dev/media/svg/extra/special-U0xE950.svg"],  // *(planned)* extra single SVGs
+	outputDir: "fonts",                  // relative to skin output directory
+	fontUrlBase: "../fonts/",            // URL prefix in generated CSS
+	groups: {
+		general: { label: "General", description: "General UI controls.", order: 1 }
+	},
+	glyphs: {
+		"general-control-edit": { description: "Button/icon to start editing." }
+	}
+}
+```
+
+Multiple fonts: `font: [ { fontName: "AppSymbol", … }, { fontName: "MedicalSymbol", … } ]` — like `sounds` as an array.
+
+| Field | Meaning |
+| :--- | :--- |
+| `fontName` | Font family name (required) — base for file names (`AppSymbol.woff2`, …) |
+| `src` | Source directory of SVG glyphs (recursive), relative to project root |
+| `include` | *(planned)* additional single SVG files (project-relative), combinable with `src` |
+| `outputDir` | Target directory in the skin (font files, CSS, JSON, HTML overview) |
+| `formats` | Extensions to emit (default: svg, ttf, eot, woff, woff2) |
+| `fontHeight`, `normalize`, `centerHorizontally`, `classPrefix`, `fontUrlBase` | Passed through to `FontGenerator` (defaults as in µFT) |
+| `css`, `json`, `html` | Control output or `false` to skip |
+| `groups`, `glyphs` | Metadata for the HTML overview (**English only**) |
+| `force` | Force rebuild |
+
+**Glyph naming:** `<name>-U0x<HEX>.svg` — codepoint from the file name, group id from the directory under `src` (details in chapter *microFT*).
+
+**Planned — single CSS reference:** directive `-µ: Glyph("icons/edit.svg")` registers an SVG in the font and rewrites the rule with `content`/`font-family` (counterpart to `sprites.include` / `Sound()` — see `gulp-mu-au/docs/CONCEPT.md` §1).
+
+**Today without manifest bridge:**
+
+```js
+// 1. Gulp task (before BuildSkin): FontGenerator.Create({ fontName, src, outputDir: "dev/media/final/fonts" })
+media: [
+	{ copyFolder: "dev/media/final/fonts", to: "fonts", filter: "\\.(woff2?|ttf|css)$" }
+]
+```
+
+Reference icon fonts in `.µ.css` via `@font-face` and classes; codepoints often as escapes in `vars` (e.g. `icon_pencil: "\\e91c"`).
 
 ## files
 
@@ -1423,6 +1566,8 @@ Deliberately **not** carried over from the old µCSS:
 | 2026-06 | 2.2.3 | Fix: headings carry explicit outline levels so the auto-updated table of contents of the PDF manuals (DE/EN) is populated (was empty before). Tooling/docs fix only. |
 | 2026-06 | 2.2.4 | Sound atlas integration (`sounds` block in the manifest via µAU); `sprites.include` to add standalone images or directories to the sprite atlas without a CSS rule. |
 | 2026-06 | 2.3.0 | Build-time `@import` bundling (glob, recursive, Vue co-location); opt-in rule merge (`merge`, `@µ-override`, `onConflict`); namespace mode (`@µ-namespace`, `:global()`); build-type/variant filter (`buildFilter`, via `gulp-mu-build-filter`). Manual: Vue co-location chapter. Repository-only migration aids: `tools/convert-vue.mjs`, `tools/convert-less.mjs`. README/package metadata: GitHub monorepo links. Runtime dependencies added: `postcss-selector-parser`, `gulp-mu-build-filter`. |
+| 2026-06 | 2.4.x | Manual *microPS*: layer-effect tables (incl. new **stroke**/**satin**), blend modes, style transfer vs. layer links; reference PSD extended with `stroke*`/`satin*` layouts. **µPS:** `stroke` and `satin` in `Effects.mjs` with Adobe-PNG regression (`ReferenceRender.test.mjs`). |
+| 2026-06 | 2.4.2 | Manual *microAU*/*microFT*: sound pipeline (`triggers`/`handlers`), manifest section `font`; updated PDFs (DE/EN). **µPS** 1.3.0 (stroke/satin), **µAU** 0.1.3 (sound concept docs). |
 
 # Legal
 

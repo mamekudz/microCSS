@@ -88,7 +88,9 @@ function MuPsBuildReference() {
 			"innerShadow", "innerShadow_aqua", "innerShadow_multiply", "innerShadow_wide",
 			"innerGlow", "innerGlow_tight", "innerGlow_warm",
 			"outerGlow", "outerGlow_soft", "outerGlow_white",
-			"gradientOverlay", "gradientOverlay_diag", "gradientOverlay_reverse"
+			"gradientOverlay", "gradientOverlay_diag", "gradientOverlay_reverse",
+			"strokeOutside", "strokeInside", "strokeCenter", "strokeMultiply",
+			"satin", "satin_warm", "satin_invert"
 		];
 		for (var i = 0; i < profiles.length; i++) {
 			logLines.push("fx: " + profiles[i]);

@@ -1,6 +1,6 @@
 export-mups-reference (single master resolution, no history rollback)
 skip existing: yes
-started: Wed Jun 17 2026 10:23:48 GMT+0200
+started: Wed Jun 17 2026 14:05:20 GMT+0200
 
 bc/aqua
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\bc\aqua\but_login_hover.png
@@ -35,6 +35,20 @@ fx
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\bevelInner_chisel.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\bevelInner.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\bevelInner.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\satin_invert.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\satin_invert.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\satin_warm.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\satin_warm.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\satin.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\satin.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\strokeMultiply.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\strokeMultiply.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\strokeCenter.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\strokeCenter.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\strokeInside.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\strokeInside.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\strokeOutside.png
+  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\strokeOutside.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\gradientOverlay_reverse.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\flat\fx\gradientOverlay_reverse.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\fx\gradientOverlay_diag.png
@@ -99,6 +113,6 @@ compositing
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\compositing\fillOpacity\fill0_bevel.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\compositing\fillOpacity\fill50_bevel.png
   skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\compositing\fillOpacity\fill100_bevel.png
-  C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\compositing\chart\chart.png
-status: OK (1 written, 88 skipped)
+  skip C:\Projects\microCSS\gulp-mu-ps\examples\reference\out\compositing\chart\chart.png
+status: OK (14 written, 89 skipped)
 next: node gulp-mu-ps/tools/build-reference-overview.mjs

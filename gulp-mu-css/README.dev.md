@@ -15,7 +15,7 @@ Für fast jeden Teilaspekt von µCSS existiert ein etabliertes Einzelwerkzeug �
 | Bilderzeugung aus PSD-Entwürfen | — (nur Bausteine wie `ag-psd`, Asset-Export aus Figma/Sketch) | kein Serien-Rendering mit Ebenenstil-Übertragung, nicht mit dem CSS-Build gekoppelt |
 | Cursor, Preload, Skin-Manifest, Medien-Cache | handgestrickte Build-Skripte | nirgends gebündelt |
 
-µCSS vereint genau diese Punkte in **einer** Pipeline: beliebige JS-Ausdrücke im CSS (`µ(...)`) plus Direktiven mit AST-Zugriff (`-µ:`), Bitmap-Sprite-Atlas inklusive Retina, PSD-Rendering mit nachgebildeten Fülloptionen (via µPS/`gulp-mu-ps`), Cursor-/Preload-Verwaltung und ein inkrementeller Build-Cache — gesteuert über ein Manifest pro Skin. Die Quell-Stylesheets bleiben dabei **syntaktisch valides CSS** (Editoren, Linter und Diffs funktionieren unverändert), und da µCSS intern eine PostCSS-Pipeline ist, bleibt das gesamte PostCSS-Ökosystem (cssnano, Stylelint, …) andockbar.
+µCSS vereint genau diese Punkte in **einer** Pipeline: beliebige JS-Ausdrücke im CSS (`µ(...)`) plus Direktiven mit AST-Zugriff (`-µ:`), Bitmap-Sprite-Atlas inklusive Retina, PSD-Rendering mit nachgebildeten Fülloptionen (via µPS/`gulp-mu-ps`, inkl. Kontur/`stroke` und Glanz/`satin`), Cursor-/Preload-Verwaltung und ein inkrementeller Build-Cache — gesteuert über ein Manifest pro Skin. Die Quell-Stylesheets bleiben dabei **syntaktisch valides CSS** (Editoren, Linter und Diffs funktionieren unverändert), und da µCSS intern eine PostCSS-Pipeline ist, bleibt das gesamte PostCSS-Ökosystem (cssnano, Stylelint, …) andockbar.
 
 ## Status
 

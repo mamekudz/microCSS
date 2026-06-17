@@ -281,6 +281,85 @@ function _BuildShadowRaster(_alpha, _width, _height, _color, _maskBuilder) {
 	return raster;
 }
 
+function _StrokeColor(_effect) {
+	if (_effect.fillType === "gradient" && _effect.gradient?.colorStops?.length) {
+		return _EffectColor(_effect.gradient.colorStops[0].color);
+	}
+	return _EffectColor(_effect.color);
+}
+
+// Splits a stroke into interior and exterior masks (inside / outside / center).
+function _StrokeMasks(_alpha, _width, _height, _size, _position) {
+	const size = Math.max(0.5, _PixelValue(_size));
+	const pos = (_position ?? "outside").toLowerCase();
+	const interior = new Float32Array(_alpha.length);
+	const exterior = new Float32Array(_alpha.length);
+	const maxR = Math.ceil(size) + 2;
+	const insideDist = InteriorDistanceMap(_alpha, _width, _height, maxR);
+	const inverted = new Float32Array(_alpha.length);
+	for (let i = 0; i < _alpha.length; i++) inverted[i] = _alpha[i] > 0.001 ? 0 : 1;
+	const outsideDist = InteriorDistanceMap(inverted, _width, _height, maxR);
+	if (pos === "inside") {
+		for (let i = 0; i < _alpha.length; i++) {
+			if (_alpha[i] > 0.001 && insideDist[i] < size) interior[i] = 1;
+		}
+	} else if (pos === "outside") {
+		for (let i = 0; i < _alpha.length; i++) {
+			if (_alpha[i] <= 0.001 && outsideDist[i] >= 0 && outsideDist[i] < size) exterior[i] = 1;
+		}
+	} else {
+		const half = size / 2;
+		for (let i = 0; i < _alpha.length; i++) {
+			if (_alpha[i] > 0.001 && insideDist[i] < half) interior[i] = 1;
+			if (_alpha[i] <= 0.001 && outsideDist[i] >= 0 && outsideDist[i] < half) exterior[i] = 1;
+		}
+	}
+	return { interior, exterior };
+}
+
+function _ApplyStrokeInterior(_raster, _effect, _alpha) {
+	if (_effect.fillType === "pattern") return;
+	const { width, height } = _raster;
+	const { interior } = _StrokeMasks(_alpha, width, height, _effect.size, _effect.position);
+	_BlendInterior(_raster, interior, _StrokeColor(_effect), _effect.blendMode ?? "normal", _effect.opacity ?? 1);
+}
+
+function _BuildExteriorStroke(_alpha, _width, _height, _effect) {
+	if (_effect.fillType === "pattern") return null;
+	const { exterior } = _StrokeMasks(_alpha, _width, _height, _effect.size, _effect.position);
+	return _BuildShadowRaster(_alpha, _width, _height, _StrokeColor(_effect), () => exterior);
+}
+
+function _ApplySatin(_raster, _effect, _alpha) {
+	const { width, height } = _raster;
+	const distance = _PixelValue(_effect.distance);
+	const size = _PixelValue(_effect.size);
+	const angleRad = ((_effect.angle ?? 19) * Math.PI) / 180;
+	const dx1 = Math.round(-Math.cos(angleRad) * distance);
+	const dy1 = Math.round(Math.sin(angleRad) * distance);
+	const dx2 = Math.round(Math.cos(angleRad) * distance);
+	const dy2 = Math.round(-Math.sin(angleRad) * distance);
+	const offsetA = OffsetMap(_alpha, width, height, dx1, dy1);
+	const offsetB = OffsetMap(_alpha, width, height, dx2, dy2);
+	const n = _alpha.length;
+	let mask = new Float32Array(n);
+	for (let i = 0; i < n; i++) {
+		if (_alpha[i] <= 0) continue;
+		mask[i] = Math.min(1, Math.abs(offsetA[i] - offsetB[i]));
+	}
+	mask = BlurMap(mask, width, height, Math.max(0.5, size));
+	if (_effect.invert) {
+		for (let i = 0; i < n; i++) {
+			if (_alpha[i] > 0) mask[i] = 1 - mask[i];
+		}
+	}
+	for (let i = 0; i < n; i++) {
+		if (_alpha[i] <= 0) mask[i] = 0;
+		else mask[i] = _SampleContour(_effect.contour, mask[i]);
+	}
+	_BlendInterior(_raster, mask, _EffectColor(_effect.color), _effect.blendMode ?? "multiply", _effect.opacity ?? 0.5);
+}
+
 // Applies all enabled interior effects directly onto the layer raster.
 export function ApplyInteriorEffects(_raster, _effects) {
 	if (!_effects || _effects.disabled) return;
@@ -295,11 +374,17 @@ export function ApplyInteriorEffects(_raster, _effects) {
 	for (const fx of _AsArray(_effects.innerGlow)) {
 		if (fx.enabled) _ApplyInnerGlow(_raster, fx, alpha);
 	}
+	for (const fx of _AsArray(_effects.satin)) {
+		if (fx.enabled) _ApplySatin(_raster, fx, alpha);
+	}
 	for (const fx of _AsArray(_effects.solidFill)) {
 		if (fx.enabled) _ApplySolidFill(_raster, fx);
 	}
 	for (const fx of _AsArray(_effects.gradientOverlay)) {
 		if (fx.enabled) _ApplyGradientOverlay(_raster, fx, alpha);
+	}
+	for (const fx of _AsArray(_effects.stroke)) {
+		if (fx.enabled) _ApplyStrokeInterior(_raster, fx, alpha);
 	}
 }
 
@@ -334,6 +419,12 @@ export function BuildExteriorEffects(_raster, _effects) {
 			return mask;
 		});
 		result.push({ raster, blendMode: fx.blendMode ?? "screen", opacity: fx.opacity ?? 1 });
+	}
+	for (const fx of _AsArray(_effects.stroke)) {
+		if (!fx.enabled) continue;
+		const raster = _BuildExteriorStroke(alpha, width, height, fx);
+		if (!raster) continue;
+		result.push({ raster, blendMode: fx.blendMode ?? "normal", opacity: fx.opacity ?? 1 });
 	}
 	return result;
 }

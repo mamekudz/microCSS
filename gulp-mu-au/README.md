@@ -14,6 +14,7 @@ Node module that builds a **sound atlas** for the µCSS family: many short audio
 | :--- | :--- |
 | **µCSS manual (chapter *microAU*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Manual sources** | [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) · [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) |
+| **Sound/CSS concept (draft)** | [docs/CONCEPT.md](docs/CONCEPT.md) — CSS bindings, `soundTriggers` manifest module |
 
 ## Project links
 
@@ -82,6 +83,7 @@ Node-Modul für einen **Sound-Atlas** in der µCSS-Familie: viele kurze Audiodat
 | :--- | :--- |
 | **µCSS-Handbuch (Kapitel *microAU*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **Handbuch-Quellen** | [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) · [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) |
+| **Sound/CSS-Konzept (Entwurf)** | [docs/CONCEPT.md](docs/CONCEPT.md) — CSS-Bindings, Manifest-Modul `soundTriggers` |
 
 ## Projekt-Links
 

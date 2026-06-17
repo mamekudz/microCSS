@@ -1,5 +1,5 @@
 build-mups-reference
-started: Wed Jun 17 2026 07:52:29 GMT+0200
+started: Wed Jun 17 2026 13:57:03 GMT+0200
 
 source: C:\Projects\microCSS\gulp-mu-ps\examples\drafts\buttons.psd
 fx: solidFill
@@ -20,6 +20,13 @@ fx: outerGlow_white
 fx: gradientOverlay
 fx: gradientOverlay_diag
 fx: gradientOverlay_reverse
+fx: strokeOutside
+fx: strokeInside
+fx: strokeCenter
+fx: strokeMultiply
+fx: satin
+fx: satin_warm
+fx: satin_invert
 fx: bevelInner (copy from aqua icon)
 fx: bevelInner_chisel
 fx: bevelPillow

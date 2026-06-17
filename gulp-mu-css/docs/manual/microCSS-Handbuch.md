@@ -283,7 +283,7 @@ media: [
 ]
 ```
 
-- **`buttonsAndIcons`** rendert aus einem geschichteten PSD-Entwurf (Layouts × Icon-Glyphen) komplette Button- und Icon-Serien inklusive `@2x`-Varianten — der Nachfolger des ButtonCreator-Plugins. Die Fülloptionen (Schlagschatten, Verläufe, Schein usw.) werden von microPS nachgebildet.
+- **`buttonsAndIcons`** rendert aus einem geschichteten PSD-Entwurf (Layouts × Icon-Glyphen) komplette Button- und Icon-Serien inklusive `@2x`-Varianten — der Nachfolger des ButtonCreator-Plugins. Die Fülloptionen (Schlagschatten, Verläufe, Schein, Relief, **Kontur**, **Glanz** usw.) werden von µPS nachgebildet — siehe Kapitel *PSD-Compositor*.
 
 ![Dieselben Icon-Glyphen, gerendert mit zwei Layouts desselben Entwurfsdokuments („alu" und „aqua")](imgs/bc_alu.png)
 
@@ -308,7 +308,7 @@ Ausführliche Referenz aller Bildgeneratoren, DSD-Format, Draft-Workflow und Ras
 
 Das Schwester-Modul **µPS** (`gulp-mu-ps`, Anzeigename **µPS**) übernimmt die bildverarbeitenden Funktionen des alten Adobe-Workflows — **ohne Adobe-Abhängigkeit**. µCSS bindet µPS über `media`-Steps und Sprite-/Cursor-Direktiven ein; µPS ist auch **standalone** per `npm install gulp-mu-ps` nutzbar.
 
-PSD-Quellen liest µPS über `ag-psd`, Bildverarbeitung läuft über `sharp`. Geschichtete Entwürfe pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download). Fülloptionen (Schlagschatten, Verläufe, Schein, Relief) sind an Affinity Photo angenähert — visuelle Nähe, keine Bit-Genauigkeit.
+PSD-Quellen liest µPS über `ag-psd`, Bildverarbeitung läuft über `sharp`. Geschichtete Entwürfe pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download). Die wichtigsten Fülloptionen sind nachgebildet (Schlagschatten, Verläufe, Schein, Relief, **Kontur**, **Glanz**); Musterüberlagerung und exakte Verlauf-Konturen fehlen — Details im Kapitel *PSD-Compositor*.
 
 ## API-Übersicht
 
@@ -346,7 +346,7 @@ icons/
   <glyphName>          je Glyphe eine Pixel-Ebene oder Gruppe, z. B. "but_login_"
 ```
 
-Für jede Kombination aus Glyphe und State werden die Fülloptionen des `icon`-Platzhalters auf die Glyphe übertragen (Copy/Paste Layer Style), das Dokument gerendert und gespeichert. Glyphen namens `_` werden übersprungen.
+Für jede Kombination aus Glyphe und State werden die **Fülloptionen** (`effects`) des `icon`-Platzhalters auf die Glyphe übertragen (Copy/Paste Layer Style) — **nicht** der Platzhalter-Blend-Modus oder die Ebenen-Deckkraft; das Dokument wird gerendert und gespeichert. Glyphen namens `_` werden übersprungen.
 
 ```js
 import { ButtonAndIconCreator } from "gulp-mu-ps";
@@ -663,19 +663,71 @@ Unter der API-Oberfläche compositen **`PsDocument`** / **`RenderDocument`** und
 
 **Visuelle Nähe zu Photoshop/Affinity, keine Bit-Genauigkeit** — Abweichungen werden per **MAE**-Regression gegen Adobe-Referenz-PNGs überwacht (`test/ReferenceRender.test.mjs`).
 
-### Nachgebildete Fülloptionen
+### Nachgebildete Fülloptionen (Layer Styles)
 
-- Farbüberlagerung (`solidFill`)
-- Verlaufsüberlagerung (`gradientOverlay`, linear)
-- Innerer/äußerer Schein (`innerGlow`, `outerGlow`)
-- Innen-/Schlagschatten (`innerShadow`, `dropShadow`)
-- Relief (`bevel`, vereinfacht)
+µPS liest Fülloptionen aus der PSD (`ag-psd`, Feld `effects`) und rendert sie in **`Effects.mjs`**. Visuelle Nähe zu Photoshop/Affinity, **keine Bit-Genauigkeit** — Abweichungen werden per MAE-Regression gegen Adobe-Referenz-PNGs überwacht.
 
-**Blend-Modi:** normal, multiply, screen, overlay, darken, lighten, color burn/dodge, linear burn/dodge, hard/soft light, difference, exclusion; Gruppen: „pass through“.
+#### Unterstützt
 
-### Stilübertragung vs. Ebenenverknüpfung
+| Photoshop / Affinity (DE) | Schlüssel (`ag-psd`) | Anmerkung |
+| :--- | :--- | :--- |
+| Farbüberlagerung | `solidFill` | inkl. Deckkraft und **Blend-Modus pro Effekt** |
+| Verlaufsüberlagerung | `gradientOverlay` | **nur linear** (Winkel aus PSD); radial/winkel/reflektierend nicht |
+| Schein innen | `innerGlow` | Größe, Spread (Choke), **Umfang (Range)**, **Konturkurve** |
+| Schein außen | `outerGlow` | wie innen; nur außerhalb der Form sichtbar |
+| Innen-/Schlagschatten | `innerShadow`, `dropShadow` | Abstand, Winkel, Größe, Spread, Farbe, Blend-Modus |
+| Relief / Prägung | `bevel` | Stile: inner bevel, outer bevel, pillow emboss, emboss; Technik smooth vs. chisel hard; **Konturkurve** auf Relief; getrennte Highlight-/Schatten-Farben und Blend-Modi |
+| **Kontur** (Stroke) | `stroke` | Position inside / center / outside; Farbe (und einfacher Verlauf via erste Farbe); **kein** Muster-Kontur |
+| **Glanz** (Satin) | `satin` | Abstand, Größe, Winkel, Invert, Konturkurve, Blend-Modus |
 
-Legacy-µCSS nutzt **Copy/Paste Layer Style** (CpFX/PaFX) — nicht die PS-Positions-Verknüpfung. µPS implementiert CpFX/PaFX für ButtonAndIconCreator; die Referenz-PSD enthält zusätzlich `links/` als Demo für PS **Layer Link** (gemeinsames Verschieben).
+**Konturkurve vs. Kontur-Effekt:** In den Effekt-Dialogen heißt der Tab *Kontur* die **Verlaufskurve** (Falloff) von Schein, Relief und Glanz — die wird ausgelesen und angewendet. Der separate Layer-Style **Kontur** (Stroke / Umrisslinie) ist oben als `stroke` aufgeführt.
+
+#### Nicht implementiert (werden ignoriert)
+
+| Photoshop / Affinity (DE) | Schlüssel | Empfehlung |
+| :--- | :--- | :--- |
+| Musterüberlagerung | `patternOverlay` | Muster als Pixel-Ebene (`ag-psd`: Patt-Sektion eingeschränkt) |
+| Kontur mit Musterfüllung | `stroke` (`fillType: pattern`) | Farb-Kontur oder Pixel-Ebene |
+| Weitere Verlaufstypen | — | nur linear in `gradientOverlay`; Kontur-Verlauf nur Näherung (erste Farbe) |
+
+#### Blend-Modi (Ebenen und Effekte)
+
+Jede **Ebene** und jeder **einzelne Effekt** kann einen eigenen Blend-Modus tragen (PS-Dialog „Modus“ / „Ebenenverknüpfungsmodus“ am Effekt). µPS wendet dieselbe Tabelle in **`BlendModes.mjs`** an — beim Compositing der Ebene und beim Mischen von Effekt-Farben (z. B. innerer Schatten mit *Farbig abwedeln*).
+
+| Englisch (`ag-psd`) | Deutsch (Photoshop) | µPS |
+| :--- | :--- | :--- |
+| normal | Normal | ✓ |
+| multiply | Multiplizieren | ✓ |
+| screen | Abwedeln | ✓ |
+| overlay | Überlagern | ✓ |
+| darken | Abdunkeln | ✓ |
+| lighten | Aufhellen | ✓ |
+| color burn | Farbig nachbelichten | ✓ |
+| color dodge | Farbig abwedeln | ✓ |
+| linear burn | **Linear abwedeln** (oft „Negativ multiplizieren“) | ✓ |
+| linear dodge | Linear abwedeln (Addieren) | ✓ |
+| hard light | Hartes Licht | ✓ |
+| soft light | Weiches Licht | ✓ |
+| difference | Differenz | ✓ |
+| exclusion | Ausschluss | ✓ |
+| pass through | Durchreichen (Gruppen) | ✓ |
+
+**Nicht unterstützt** (Fallback: Normal): u. a. *Abdunkeln 2*, *Aufhellen 2*, *Linear abwedeln 2*, *Spitzlicht*, *Lineares Spitzlicht*, *Pin-Licht*, *Hart mischen*, *Farbe*, *Sättigung*, *Luminanz*, *Teilen*, *Subtrahieren*.
+
+Referenz-Matrix in der PSD: `layouts/blend/` → PNGs unter `examples/reference/out/blend/` (normal, multiply, screen, overlay, darken, lighten, color burn).
+
+### Stilübertragung (ButtonAndIconCreator) vs. Ebenenverknüpfung
+
+Zwei verschiedene Konzepte — im Handbuch oft verwechselt:
+
+| Mechanismus | Wo | Was passiert |
+| :--- | :--- | :--- |
+| **Stil kopieren** (CpFX/PaFX) | `ButtonAndIconCreator` | Der komplette **`effects`-Block** des Platzhalters `icon` wird auf die Glyphe gelegt (Legacy-Photoshop: Copy/Paste Layer Style). |
+| **Ebenenverknüpfung** (PS *Link Layers*) | Authoring in PS/Affinity | Nur **gemeinsames Verschieben** im Editor — kein eigener Render-Modus in µPS. |
+
+**Was Stilübertragung nicht kopiert** (wie im Legacy-Plugin): **Blend-Modus**, **Ebenen-Deckkraft** und **Position** des Platzhalters — die Glyphe behält ihre eigenen Werte. Effekt-interne Blend-Modi (z. B. innerer Schatten → *Farbig nachbelichten*) liegen im `effects`-Objekt und **werden** übernommen.
+
+Die Referenz-PSD enthält unter `layouts/links/` eine Demo mit verknüpften Ebenen (`icon_master`, `follower`) — zum visuellen Abgleich beim flachen Compositing, nicht als separates „Verknüpfungsmodus“-Feature.
 
 ### Deckkraft-Modell (drei getrennte Stellschrauben)
 
@@ -698,6 +750,17 @@ Für Entwicklung und Tuning liegt unter `gulp-mu-ps/examples/reference/` eine um
 | `tools/photoshop/build-mups-reference.jsx` | PSD erzeugen |
 | `tools/photoshop/export-mups-reference.jsx` | PNGs exportieren (Wiederholungen überspringen vorhandene Dateien) |
 | `tools/build-reference-overview.mjs` | Kontaktblatt `out/overview/mups-reference-sheet.png` |
+
+**Isolierte Effekt-Layouts (`layouts/fx/`):** je ein Preset pro Layer-Style-Variante — u. a. `solidFill`,
+`dropShadow` (3 Varianten), `innerShadow` (4), `innerGlow`/`outerGlow` (je 3), `gradientOverlay` (3),
+**`strokeOutside`**, **`strokeInside`**, **`strokeCenter`**, **`strokeMultiply`**, **`satin`**, **`satin_warm`**, **`satin_invert`**,
+`bevelInner` (5 Relief-Varianten). Pro Layout entstehen Adobe-PNGs unter `out/fx/` (Stilübertragung auf `glyph_disc`)
+und `out/flat/fx/` (direktes Compositing ohne CpFX/PaFX).
+
+**Tuning-Hinweise:** Kombinierte Stacks (`stacks/stack_aquaIcon`) für produktionsnahe Abgleiche; isolierte Paare
+für Parametersensitivität — z. B. `dropShadow` vs. `dropShadow_soft`, `bevelInner` vs. `bevelInner_chisel`,
+**`strokeOutside` vs. `strokeMultiply`**, **`satin` vs. `satin_invert`**. Nach Änderungen an `Effects.mjs` oder
+an den JSX-Presets: PSD neu bauen → exportieren → `npx gulp reference:render` → `npm test` (µPS).
 
 **Workflow (Entwickler):** `buttons.psd` → JSX bauen → exportieren → µPS mit `retina: false` rendern → `compare-images.mjs` oder `ReferenceRender`-Tests. Details: `gulp-mu-ps/examples/reference/README.md`.
 
@@ -819,6 +882,29 @@ Pfade in `dataFile`/`jsonFile` sind relativ zum Skin-Ausgabeverzeichnis; `src` r
 
 Alternativ bleibt `copyFolder` für bereits gebaute Atlanten möglich.
 
+### Geplant: CSS-Sounds, Auto-Wiring & Handler-Overrides
+
+Der **Build-Layer** (Atlas + JSON-Timing-Map inkl. Loop-Punkte pro Sound) ist umgesetzt.
+**Loop ja/nein** steht in `sounds[name]` — nicht in den Bindings. Bindings legen nur fest,
+**wann** abgespielt/gestoppt wird (`mode`: `oneshot` vs. `sustain`).
+
+**Pipeline (festgelegt):** Build liefert **Daten** (`sounds` + `bindings[]` im JSON) — aus CSS
+und optional `soundTriggers.mjs` (läuft **nur** in Node). Runtime liefert **Verhalten**:
+zuerst `Sounds.installBindings` (vollautomatisch), optional danach `soundHandlers.mjs`
+(patcht Default-Handler im Browser — **ohne** JSON zu ändern, **ohne** Build-Ausführung).
+`handlers` ersetzt nicht `triggers`: neue Events → CSS/`triggers`; abweichende Reaktion →
+`handlers` oder App-JS.
+
+Als nächste Stufen:
+
+1. **Deklarativ im CSS** — aurale Properties (`cue-before`, `cue-after`, `play-during`) und Direktive `-µ: Sound(...)` → Einträge in `bindings[]` (Sidecar im JSON).
+2. **Vollautomatisch (µLib)** — `Sounds.installBindings(json)` legt alle DOM-/Animations-Listener an; kein manuelles Event-JS nötig, wenn CSS + `triggers` reichen.
+3. **Manifest `soundTriggers.mjs`** (`sounds.triggers`) — Build-Zeit: `bindings[]` ergänzen (Helper-Selektoren, FlyEx-Animationen). **Nicht** `helpers.mjs`.
+4. **Manifest `soundHandlers.mjs`** (`sounds.handlers`, optional) — Runtime: Standard-Handler **wrappen/ersetzen** (Super-Aufruf auf die Default-Methode), z. B. für FlyEx-Klick-Logik neben Auto-Wiring.
+5. **App-JS** — weiterhin `Sounds.play`/`Sounds.stop` für freie Logik ohne Binding.
+
+Details: `gulp-mu-au/docs/CONCEPT.md` (§5–§8, Abschnitt „Pipeline“). FlyEx-Demo heute: alles in `demo.js`; Ziel: Loops über `triggers` + Auto-Wiring, Sonderfälle über `handlers`.
+
 # microFT (µFT) — Icon-Font
 
 **µFT** (`gulp-mu-ft`) erzeugt aus SVG-Glyphen einen **Icon-Font** — automatisiert wie IcoMoon, ohne Adobe/IcoMoon-Abhängigkeit. Ausgabe: Font-Dateien (SVG/TTF/EOT/WOFF/WOFF2), CSS-Klassen, IcoMoon-kompatible JSON, HTML-Übersicht.
@@ -882,7 +968,9 @@ Erzeugt u. a. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 
 ## Anbindung an µCSS
 
-Derzeit typischerweise als **eigener Gulp-Step** vor dem Skin-Build, danach **`copyFolder`** im Manifest:
+**Manifest (geplant):** optionaler Block `font` in Kapitel *Manifest-Referenz* — `src` (SVG-Verzeichnis), `include` (Einzel-SVGs), `outputDir`, Metadaten; baut über µFT vor der CSS-Kompilierung.
+
+**Heute:** typischerweise als **eigener Gulp-Step** vor dem Skin-Build, danach **`copyFolder`** im Manifest:
 
 ```js
 media: [
@@ -890,7 +978,7 @@ media: [
 ]
 ```
 
-Eine dedizierte Manifest-Bridge wie bei `sounds` ist für µFT noch nicht vorgesehen; Icon-Fonts werden in `.µ.css` per `@font-face` und Klassen referenziert (Variablen für Codepoints, z. B. `icon_pencil: "\\e91c"` in `vars`).
+Geplant zusätzlich: CSS-Direktive `-µ: Glyph("icons/edit.svg")` für Einzel-SVGs in Regeln (symmetrisch zu `Sprite()`/`Sound()`). Icon-Fonts werden in `.µ.css` per `@font-face` und Klassen referenziert (Variablen für Codepoints, z. B. `icon_pencil: "\\e91c"` in `vars`).
 
 # Vue und Komponenten-Co-Location
 
@@ -1109,6 +1197,8 @@ import { Borders, GlitterySprite } from "./helpers.mjs";
 helpers: { Borders, GlitterySprite }
 ```
 
+**Abgrenzung:** Helpers = **CSS zur Compile-Zeit**. Geplant: `sounds.triggers` (Build → JSON-Daten) und `sounds.handlers` (Runtime → Verhalten patchen, optional) — strikt getrennt; siehe Kapitel *microAU*, Abschnitt „Pipeline“.
+
 ## cursors
 
 Liste der Cursor-Definitionen — der Ersatz für `µ.DefCursor`:
@@ -1174,9 +1264,62 @@ Optionaler Block für die **µAU**-Bridge — baut einen Sound-Atlas vor der CSS
 | `dataFile` | Ausgabe-Audio-Blob, relativ zum Skin-Verzeichnis |
 | `jsonFile` | Ausgabe-JSON-Timing-Map, relativ zum Skin-Verzeichnis |
 | `format`, `mp3KBitRate`, `sampleRate`, … | Werden an `SoundAtlasMaker` durchgereicht (Defaults wie in µAU) |
+| `triggers` | *(geplant)* Pfad zu `soundTriggers.mjs` — **nur Build-Zeit:** `bindings[]` ergänzen (Node, kein Browser) |
+| `handlers` | *(geplant)* Pfad zu `soundHandlers.mjs` — **nur Runtime:** Default-Handler wrappen/ersetzen (Browser, JSON unverändert) |
 | `force` | Neubau erzwingen |
 
 Der Build-Report enthält `sounds[]` mit `skipped`, `sounds` (Namen) und Pfaden. Ohne `sounds`-Block: Sound-Dateien per `copyFolder` ins Skin kopieren.
+
+## font
+
+Optionaler Block für die **µFT**-Bridge — baut einen Icon-Font aus SVG-Glyphen vor der CSS-Kompilierung (siehe Kapitel *microFT*). Symmetrie zu `sounds` und `sprites`: **Verzeichnis und/oder Einzeldateien** registrieren Glyphen im Font, auch ohne CSS-Referenz.
+
+**Stand:** Die Manifest-Bridge ist **geplant** (noch nicht in `BuildSkin` umgesetzt). Üblich heute: `FontGenerator.Create()` als eigener Gulp-Step, danach `copyFolder` (siehe unten).
+
+```js
+font: {
+	fontName: "AppSymbol",
+	src: "dev/media/svg",              // rekursives SVG-Verzeichnis, relativ zum Projektstamm
+	include: ["dev/media/svg/extra/special-U0xE950.svg"],  // *(geplant)* zusätzliche Einzel-SVGs
+	outputDir: "fonts",                  // relativ zum Skin-Ausgabeverzeichnis
+	fontUrlBase: "../fonts/",            // URL-Präfix in der erzeugten CSS
+	groups: {
+		general: { label: "General", description: "General UI controls.", order: 1 }
+	},
+	glyphs: {
+		"general-control-edit": { description: "Button/icon to start editing." }
+	}
+}
+```
+
+Mehrere Fonts: `font: [ { fontName: "AppSymbol", … }, { fontName: "MedicalSymbol", … } ]` — analog zu `sounds` als Array.
+
+| Feld | Bedeutung |
+| :--- | :--- |
+| `fontName` | Font-Familienname (Pflicht) — Basis für Dateinamen (`AppSymbol.woff2`, …) |
+| `src` | Quellverzeichnis mit SVG-Glyphen (rekursiv), relativ zum Projektstamm |
+| `include` | *(geplant)* zusätzliche Einzel-SVG-Dateien (relativ zum Projektstamm), kombinierbar mit `src` |
+| `outputDir` | Zielverzeichnis im Skin (Font-Dateien, CSS, JSON, HTML-Übersicht) |
+| `formats` | Zu erzeugende Endungen (Default: svg, ttf, eot, woff, woff2) |
+| `fontHeight`, `normalize`, `centerHorizontally`, `classPrefix`, `fontUrlBase` | Werden an `FontGenerator` durchgereicht (Defaults wie in µFT) |
+| `css`, `json`, `html` | Ausgabe steuern oder `false` zum Unterdrücken |
+| `groups`, `glyphs` | Metadaten für die HTML-Übersicht (**nur Englisch**) |
+| `force` | Neubau erzwingen |
+
+**Glyphen-Benennung:** `<name>-U0x<HEX>.svg` — Codepoint aus dem Dateinamen, Gruppen-ID aus dem Verzeichnis unter `src` (Details im Kapitel *microFT*).
+
+**Geplant — CSS-Einzelreferenz:** Direktive `-µ: Glyph("icons/edit.svg")` registriert ein SVG zusätzlich im Font und schreibt die Regel mit `content`/`font-family` um (Gegenstück zu `sprites.include` / `Sound()` — siehe `gulp-mu-au/docs/CONCEPT.md` §1).
+
+**Heute ohne Manifest-Bridge:**
+
+```js
+// 1. Gulp-Task (vor BuildSkin): FontGenerator.Create({ fontName, src, outputDir: "dev/media/final/fonts" })
+media: [
+	{ copyFolder: "dev/media/final/fonts", to: "fonts", filter: "\\.(woff2?|ttf|css)$" }
+]
+```
+
+Icon-Fonts in `.µ.css` per `@font-face` und Klassen; Codepoints oft als Escape in `vars` (z. B. `icon_pencil: "\\e91c"`).
 
 ## files
 
@@ -1425,6 +1568,8 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS:
 | 2026-06 | 2.2.3 | Fix: Überschriften tragen explizite Outline-Level, damit das automatisch aktualisierte Inhaltsverzeichnis der PDF-Handbücher (DE/EN) befüllt wird (war zuvor leer). Reine Tooling-/Doku-Korrektur. |
 | 2026-06 | 2.2.4 | Sound-Atlas-Anbindung (`sounds`-Block im Manifest über µAU); `sprites.include` für Einzelbilder/Verzeichnisse im Sprite-Atlas ohne CSS-Regel. |
 | 2026-06 | 2.3.0 | Build-Zeit-`@import`-Bundling (Glob, rekursiv, Vue-Co-Location); opt-in Regel-Merge (`merge`, `@µ-override`, `onConflict`); Namespace-Modus (`@µ-namespace`, `:global()`); Build-Typ-/Varianten-Filter (`buildFilter`, über `gulp-mu-build-filter`). Handbuch: Kapitel Vue-Co-Location. Nur im Repository: Migrationshilfen `tools/convert-vue.mjs`, `tools/convert-less.mjs`. README/Paket-Metadaten: GitHub-Monorepo-Links. Neue Laufzeit-Abhängigkeiten: `postcss-selector-parser`, `gulp-mu-build-filter`. |
+| 2026-06 | 2.4.x | Handbuch *microPS*: Tabellen zu Fülloptionen (inkl. neu **Kontur**/**Glanz**), Blend-Modi, Stilübertragung vs. Ebenenverknüpfung; Referenz-PSD um `stroke*`/`satin*`-Layouts erweitert. **µPS:** `stroke` und `satin` in `Effects.mjs` mit Adobe-PNG-Regression (`ReferenceRender.test.mjs`). |
+| 2026-06 | 2.4.2 | Handbuch *microAU*/*microFT*: Sound-Pipeline (`triggers`/`handlers`), Manifest-Abschnitt `font`; aktualisierte PDFs (DE/EN). **µPS** 1.3.0 (Kontur/Glanz), **µAU** 0.1.3 (Sound-Konzept-Doku). |
 
 # Rechtliches
 

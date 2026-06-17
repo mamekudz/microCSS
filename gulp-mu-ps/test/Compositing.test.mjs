@@ -118,4 +118,67 @@ describe("Compositor (opacity / fill opacity)", function () {
 		expect(StyleTransferFillOpacity({ name: "glyph_disc", fillOpacity: 0 }, {})).to.equal(0);
 		expect(StyleTransferFillOpacity({ name: "but_events_" }, { fillOpacity: 0.5 })).to.equal(0.5);
 	});
+
+	it("renders an outside stroke beyond the fill bounds", function () {
+		const doc = _Doc([
+			_SolidLayer(0, 0, 64, 64, [255, 255, 255]),
+			_SolidLayer(20, 20, 24, 24, [200, 40, 40], {
+				effects: {
+					stroke: {
+						enabled: true,
+						size: { value: 4 },
+						position: "outside",
+						color: { r: 0, g: 0, b: 0 },
+						opacity: 1
+					}
+				}
+			})
+		]);
+		const raster = RenderDocument(doc);
+		expect(_Sample(raster, 18, 32)[3]).to.be.above(0.05);
+		expect(_Sample(raster, 32, 32)[0]).to.be.closeTo(200, 8);
+	});
+
+	it("renders an inside stroke on the fill edge", function () {
+		const doc = _Doc([
+			_SolidLayer(0, 0, 64, 64, [255, 255, 255]),
+			_SolidLayer(20, 20, 24, 24, [200, 40, 40], {
+				effects: {
+					stroke: {
+						enabled: true,
+						size: { value: 3 },
+						position: "inside",
+						color: { r: 0, g: 0, b: 0 },
+						opacity: 1
+					}
+				}
+			})
+		]);
+		const raster = RenderDocument(doc);
+		const edge = _Sample(raster, 21, 32);
+		const center = _Sample(raster, 32, 32);
+		expect(edge[0]).to.be.below(center[0] - 20);
+		expect(center[0]).to.be.closeTo(200, 8);
+	});
+
+	it("renders satin as a visible interior sheen", function () {
+		const doc = _Doc([
+			_SolidLayer(0, 0, 64, 64, [128, 128, 128]),
+			_SolidLayer(16, 16, 32, 32, [80, 80, 160], {
+				effects: {
+					satin: {
+						enabled: true,
+						size: { value: 5 },
+						distance: { value: 3 },
+						color: { r: 255, g: 255, b: 255 },
+						opacity: 0.8,
+						blendMode: "screen"
+					}
+				}
+			})
+		]);
+		const raster = RenderDocument(doc);
+		const center = _Sample(raster, 32, 32);
+		expect(center[2]).to.be.above(160);
+	});
 });

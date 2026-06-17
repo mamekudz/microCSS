@@ -28,6 +28,8 @@ layouts/
     innerGlow, innerGlow_tight, innerGlow_warm
     outerGlow, outerGlow_soft, outerGlow_white
     gradientOverlay, gradientOverlay_diag, gradientOverlay_reverse
+    strokeOutside, strokeInside, strokeCenter, strokeMultiply
+    satin, satin_warm, satin_invert
     bevelInner, bevelInner_chisel, bevelPillow, bevelOuter, bevelEmboss
     …/normal/{ bgrd, icon }
   stacks/                     — combined styles copied from buttons.psd
@@ -139,7 +141,7 @@ Isolated `fx/` layouts use **synthetic** single- or multi-parameter presets in `
 
 1. **`stacks/stack_aquaIcon`** — full aqua icon stack (inner shadow, bevel, …)
 2. **`innerShadow_aqua`** — isolated inner shadow matching aqua defaults (color burn, spread 14)
-3. **Variant pairs** (`dropShadow` vs `dropShadow_soft`, `bevelInner` vs `bevelInner_chisel`) — parameter sensitivity
+3. **Variant pairs** (`dropShadow` vs `dropShadow_soft`, `bevelInner` vs `bevelInner_chisel`, `strokeOutside` vs `strokeMultiply`, `satin` vs `satin_invert`) — parameter sensitivity
 
 Re-run **build → export → overview** after editing presets or PSD structure.
 
@@ -148,7 +150,7 @@ Re-run **build → export → overview** after editing presets or PSD structure.
 - **Ebenenverknüpfungen:** Legacy µCSS uses **Copy/Paste Layer Style** (`CpFX` / `PaFX`), not PS position links. Both are covered: exports use CpFX/PaFX; `links/` demonstrates PS **layer link**.
 - **Blend modes:** Each `blend/*` layout sets the icon placeholder’s blend mode in the PSD. Export copies **layer style + blend mode** onto `glyph_disc` over the aqua **bgrd** (placeholder hidden).
 - **Text layers:** Keep live text in the PSD for ag-psd development; rasterize only for ad-hoc PNG checks.
-- **Fülloptionen:** Isolated layouts map to `Effects.mjs` (`solidFill`, `gradientOverlay`, `innerGlow`, `outerGlow`, `innerShadow`, `dropShadow`, `bevel`).
+- **Fülloptionen:** Isolated layouts map to `Effects.mjs` (`solidFill`, `gradientOverlay`, `innerGlow`, `outerGlow`, `innerShadow`, `dropShadow`, `bevel`, `stroke`, `satin`).
 - **Fill opacity / layer opacity / pixel alpha:** `ag-psd` reads `fillOpacity` (iOpa). µPS implements the three-way split (see table above). Rainbow discs in `compositing/` expose channel and blend bugs that solid fills hide. Synthetic tests: `test/Compositing.test.mjs`. Rebuild PSD + re-export after changing `build-mups-reference.jsx`.
 - Commit updated PNGs under `examples/reference/out/` when adding automated regression tests.
 
@@ -163,3 +165,32 @@ Ablauf: `buttons.psd` kopieren → `build-mups-reference.jsx` → `export-mups-r
 **Deckkraft:** Drei getrennte Stellschrauben (siehe Tabelle oben): **Pixel-Alpha** im Ebeneninhalt, **Füll-Deckkraft** (`fillOpacity`, nur Fill), **Ebenen-Deckkraft** (`opacity`, gesamte Ebene). Regenbogen-Discs statt Einfarbig — erkennt Kanal-/Blend-Fehler besser. Algorithmisch in `Compositor.mjs`; Adobe-PNGs für `compositing/*` nach PSD-Neubau exportieren.
 
 **SpriteAtlas**, **TileSheet**, **SequenceStrip** und **AppIconMaker** haben eigene Legacy-Referenzen unter `oldsrcs/…/examples/` — sie hängen nicht an dieser PSD, weil sie PNG-/Sequenz-Pipelines sind, nicht Layer-Compositing.
+
+## PSD-Struktur (`mups-reference.psd`)
+
+Erweitert den bekannten **ButtonAndIconCreator**-Baum aus `buttons.psd`:
+
+```
+layouts/
+  aqua/, alu/                 — vollständige Button-Layouts (normal, hover, …)
+  fx/                         — isolierte Fülloptionen, mehrere PS-Varianten je Effekt
+    solidFill, solidFill_multiply
+    dropShadow, dropShadow_soft, dropShadow_hard
+    innerShadow, innerShadow_aqua, innerShadow_multiply, innerShadow_wide
+    innerGlow, innerGlow_tight, innerGlow_warm
+    outerGlow, outerGlow_soft, outerGlow_white
+    gradientOverlay, gradientOverlay_diag, gradientOverlay_reverse
+    strokeOutside, strokeInside, strokeCenter, strokeMultiply
+    satin, satin_warm, satin_invert
+    bevelInner, bevelInner_chisel, bevelPillow, bevelOuter, bevelEmboss
+    …/normal/{ bgrd, icon }
+  stacks/                     — kombinierte Stile aus buttons.psd
+  blend/                      — aqua-Icon-Stil + verschiedene Blend-Modi
+  links/                      — Ebenenverknüpfung (icon_master / follower)
+icons/
+  but_*                       — Original-Glyphen
+  glyph_disc, glyph_group, glyph_text, glyph_text_light
+topsets/                      — CreateByTopLayerSets-Demo (frame_01 … frame_03)
+```
+
+**Tuning:** Isolierte Paare für Parametersensitivität — u. a. `strokeOutside` vs. `strokeMultiply`, `satin` vs. `satin_invert`. Nach Änderungen an `Effects.mjs` oder JSX-Presets: PSD neu bauen → exportieren → `npx gulp reference:render` → `npm test`.

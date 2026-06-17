@@ -169,6 +169,34 @@ function MuPsApplyBevel(_layer, _opts) {
 	MuPsSetLayerEffects({ ebbl: fx });
 }
 
+function MuPsApplyStroke(_layer, _opts) {
+	app.activeDocument.activeLayer = _layer;
+	var fx = new ActionDescriptor();
+	fx.putBoolean(MuPsCharID("enab"), true);
+	fx.putEnumerated(MuPsCharID("Styl"), MuPsCharID("FStl"), MuPsCharID(_opts.position || "OutF"));
+	fx.putEnumerated(MuPsCharID("PntT"), MuPsCharID("FrFl"), MuPsCharID("SClr"));
+	fx.putEnumerated(MuPsCharID("Md  "), MuPsCharID("BlnM"), MuPsCharID(_opts.blend || "Nrml"));
+	fx.putUnitDouble(MuPsCharID("Opct"), MuPsCharID("#Prc"), (_opts.opacity || 1) * 100);
+	fx.putUnitDouble(MuPsCharID("Sz  "), MuPsCharID("#Pxl"), _opts.size || 3);
+	fx.putObject(MuPsCharID("Clr "), MuPsCharID("RGBC"), MuPsRgbDesc(_opts.rgb[0], _opts.rgb[1], _opts.rgb[2]));
+	MuPsSetLayerEffects({ FrFX: fx });
+}
+
+function MuPsApplySatin(_layer, _opts) {
+	app.activeDocument.activeLayer = _layer;
+	var fx = new ActionDescriptor();
+	fx.putBoolean(MuPsCharID("enab"), true);
+	fx.putEnumerated(MuPsCharID("Md  "), MuPsCharID("BlnM"), MuPsCharID(_opts.blend || "Mltp"));
+	fx.putUnitDouble(MuPsCharID("Opct"), MuPsCharID("#Prc"), (_opts.opacity || 0.5) * 100);
+	fx.putObject(MuPsCharID("Clr "), MuPsCharID("RGBC"), MuPsRgbDesc(_opts.rgb[0], _opts.rgb[1], _opts.rgb[2]));
+	fx.putUnitDouble(MuPsCharID("blur"), MuPsCharID("#Pxl"), _opts.size || 11);
+	fx.putUnitDouble(MuPsCharID("Dstn"), MuPsCharID("#Pxl"), _opts.distance || 11);
+	fx.putUnitDouble(MuPsCharID("lagl"), MuPsCharID("#Ang"), _opts.angle || 19);
+	if (_opts.invert) fx.putBoolean(MuPsCharID("Invr"), true);
+	fx.putObject(MuPsCharID("MpgS"), MuPsCharID("ShpC"), MuPsLinearContour());
+	MuPsSetLayerEffects({ ChFX: fx });
+}
+
 // Named presets for isolated effect tests and µPS tuning (visual match, not bit-exact).
 function MuPsApplyEffectProfile(_layer, _profile) {
 	switch (_profile) {
@@ -225,6 +253,27 @@ function MuPsApplyEffectProfile(_layer, _profile) {
 			break;
 		case "gradientOverlay_reverse":
 			MuPsApplyGradientOverlay(_layer, { from: [0, 180, 255], to: [0, 80, 200], angle: 90, opacity: 0.9, reverse: true });
+			break;
+		case "strokeOutside":
+			MuPsApplyStroke(_layer, { position: "OutF", size: 3, rgb: [0, 0, 0], opacity: 1, blend: "Nrml" });
+			break;
+		case "strokeInside":
+			MuPsApplyStroke(_layer, { position: "InsF", size: 3, rgb: [20, 20, 20], opacity: 1, blend: "Nrml" });
+			break;
+		case "strokeCenter":
+			MuPsApplyStroke(_layer, { position: "CtrF", size: 4, rgb: [255, 255, 255], opacity: 0.9, blend: "Nrml" });
+			break;
+		case "strokeMultiply":
+			MuPsApplyStroke(_layer, { position: "OutF", size: 5, rgb: [0, 60, 140], opacity: 0.85, blend: "Mltp" });
+			break;
+		case "satin":
+			MuPsApplySatin(_layer, { rgb: [0, 0, 0], opacity: 0.5, size: 11, distance: 11, angle: 19, blend: "Mltp" });
+			break;
+		case "satin_warm":
+			MuPsApplySatin(_layer, { rgb: [255, 200, 120], opacity: 0.65, size: 14, distance: 8, angle: 25, blend: "Scrn" });
+			break;
+		case "satin_invert":
+			MuPsApplySatin(_layer, { rgb: [255, 255, 255], opacity: 0.55, size: 10, distance: 10, angle: 19, invert: true, blend: "Mltp" });
 			break;
 		case "bevelInner":
 			MuPsApplyBevel(_layer, { style: "InrB", size: 4, strength: 100, technique: "SfBL" });
