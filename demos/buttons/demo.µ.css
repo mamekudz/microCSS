@@ -1,0 +1,99 @@
+/* µCSS Demos — ButtonAndIconCreator (legacy buttons.psd, µCSS 1 sample). */
+
+.demo-page--buttons .demo-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.demo-page--buttons .demo-toolbar div[class$="button"] {
+	display: inline-block;
+	cursor: default;
+}
+
+/* Aqua theme — same glyph set, layout styles from PSD group "aqua". */
+
+.theme-aqua div.loginbutton {
+	-µ: Sprite("imgs/aqua/but_login_normal.png");
+}
+
+.theme-aqua div.loginbutton:hover {
+	-µ: Sprite("imgs/aqua/but_login_hover.png");
+}
+
+.theme-aqua div.helpbutton {
+	-µ: Sprite("imgs/aqua/but_help_normal.png");
+}
+
+.theme-aqua div.helpbutton:hover {
+	-µ: Sprite("imgs/aqua/but_help_hover.png");
+}
+
+.theme-aqua div.settingsbutton {
+	-µ: Sprite("imgs/aqua/but_settings_normal.png");
+}
+
+.theme-aqua div.settingsbutton:hover {
+	-µ: Sprite("imgs/aqua/but_settings_hover.png");
+}
+
+.theme-aqua div.eventsbutton {
+	-µ: Sprite("imgs/aqua/but_events_normal.png");
+}
+
+.theme-aqua div.eventsbutton:hover {
+	-µ: Sprite("imgs/aqua/but_events_hover.png");
+}
+
+.theme-aqua div.worldbutton {
+	-µ: Sprite("imgs/aqua/but_world_normal.png");
+}
+
+.theme-aqua div.worldbutton:hover {
+	-µ: Sprite("imgs/aqua/but_world_hover.png");
+}
+
+/* Alu theme — second layout in the same PSD. */
+
+.theme-alu div.loginbutton {
+	-µ: Sprite("imgs/alu/but_login_normal.png");
+}
+
+.theme-alu div.loginbutton:hover {
+	-µ: Sprite("imgs/alu/but_login_hover.png");
+}
+
+.theme-alu div.helpbutton {
+	-µ: Sprite("imgs/alu/but_help_normal.png");
+}
+
+.theme-alu div.helpbutton:hover {
+	-µ: Sprite("imgs/alu/but_help_hover.png");
+}
+
+.theme-alu div.settingsbutton {
+	-µ: Sprite("imgs/alu/but_settings_normal.png");
+}
+
+.theme-alu div.settingsbutton:hover {
+	-µ: Sprite("imgs/alu/but_settings_hover.png");
+}
+
+.theme-alu div.eventsbutton {
+	-µ: Sprite("imgs/alu/but_events_normal.png");
+}
+
+.theme-alu div.eventsbutton:hover {
+	-µ: Sprite("imgs/alu/but_events_hover.png");
+}
+
+.theme-alu div.worldbutton {
+	-µ: Sprite("imgs/alu/but_world_normal.png");
+}
+
+.theme-alu div.worldbutton:hover {
+	-µ: Sprite("imgs/alu/but_world_hover.png");
+}

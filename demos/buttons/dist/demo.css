@@ -1,0 +1,199 @@
+/* µCSS Demos — ButtonAndIconCreator (legacy buttons.psd, µCSS 1 sample). */
+
+.demo-page--buttons .demo-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.demo-page--buttons .demo-toolbar div[class$="button"] {
+	display: inline-block;
+	cursor: default;
+}
+
+/* Aqua theme — same glyph set, layout styles from PSD group "aqua". */
+
+.theme-aqua div.loginbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.loginbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -55px 0px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.helpbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px -55px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.helpbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -55px -55px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.settingsbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -110px 0px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.settingsbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -110px -55px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.eventsbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px -110px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.eventsbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -55px -110px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.worldbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -110px -110px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-aqua div.worldbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -165px 0px;
+	width: 55px;
+	height: 55px;
+}
+
+/* Alu theme — second layout in the same PSD. */
+
+.theme-alu div.loginbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -165px -55px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.loginbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -165px -110px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.helpbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: 0px -165px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.helpbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -55px -165px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.settingsbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -110px -165px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.settingsbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -165px -165px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.eventsbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -220px 0px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.eventsbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -220px -55px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.worldbutton {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -220px -110px;
+	width: 55px;
+	height: 55px;
+}
+
+.theme-alu div.worldbutton:hover {
+	background-image: url(imgs/sprites.png);
+	background-image: image-set(url(imgs/sprites.png)1x, url(imgs/sprites@2x.png)2x);
+	background-repeat: no-repeat;
+	background-position: -220px -165px;
+	width: 55px;
+	height: 55px;
+}

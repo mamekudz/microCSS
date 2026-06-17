@@ -23,13 +23,20 @@ function _FindManifest(_demoDir, _stem) {
 
 const DEMOS = [
 	{ id: "glittery", manifest: _FindManifest(join(repoRoot, "demos", "glittery"), "glittery") },
-	{ id: "flyex", manifest: _FindManifest(join(repoRoot, "demos", "flyex"), "flyex") }
+	{ id: "flyex", manifest: _FindManifest(join(repoRoot, "demos", "flyex"), "flyex") },
+	{ id: "buttons", manifest: _FindManifest(join(repoRoot, "demos", "buttons"), "buttons") }
 ];
 
 function _CheckAssets() {
 	const glitterDir = join(repoRoot, "demos", "glittery", "dev", "media", "raw", "glittery", "imgs");
+	const buttonsPsd = join(repoRoot, "demos", "buttons", "dev", "media", "drafts", "buttons.psd");
 	if (!existsSync(glitterDir)) {
 		console.error("Demo assets missing. Run demos:build after placing raw frames under demos/*/dev/media/ (see demos/README.md).");
+		process.exit(1);
+	}
+	if (!existsSync(buttonsPsd)) {
+		console.error(`buttons.psd missing: ${buttonsPsd}`);
+		console.error("Copy from gulp-mu-ps/examples/drafts/buttons.psd (same file as the µCSS 1 sample).");
 		process.exit(1);
 	}
 	if (!existsSync(legacyRoot)) {
@@ -60,7 +67,7 @@ async function _Main() {
 		}
 		await _BuildDemo(demo);
 	}
-	console.log("\nDone. Open demos/glittery/index.html or demos/flyex/index.html (via a local static server).");
+	console.log("\nDone. Open demos/glittery/, demos/flyex/, or demos/buttons/ (via a local static server).");
 }
 
 _Main().catch((_error) => {

@@ -6,6 +6,7 @@ Interactive demos for videos and GitHub Pages — classic **Oxyd**-style glitter
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mouse move → random-offset sparkles | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
 | [flyex/](flyex/) | Fly swarm, click to swat, **Space** = 19 more | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
+| [buttons/](buttons/) | Theme toggle **aqua** / **alu**, hover states | **ButtonAndIconCreator**, legacy **`buttons.psd`**, `-µ: Sprite(...)`, combined atlas |
 
 ### FlyEx — Atari heritage
 
@@ -39,6 +40,7 @@ After enabling **Pages → Build and deployment → Source: GitHub Actions** (to
 | Index | https://mamekudz.github.io/microCSS/ |
 | Glittery | https://mamekudz.github.io/microCSS/glittery/ |
 | FlyEx | https://mamekudz.github.io/microCSS/flyex/ |
+| Buttons | https://mamekudz.github.io/microCSS/buttons/ |
 
 ## View locally
 
@@ -49,12 +51,14 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/
 # http://localhost:5173/glittery/
 # http://localhost:5173/flyex/
+# http://localhost:5173/buttons/
 ```
 
 **FlyEx:** click play area for audio; **Space** releases 19 flies (Ctrl+F6 optional). Click a fly to swat.
 
 ## YouTube / marketing angles
 
+- *One PSD, two themes, one atlas* (buttons.psd → aqua/alu → `sprites.png`)
 - *One PNG folder → sparkle animation* (Glittery pipeline in ~30 s)
 - *One DSD image → 80 CSS rules* (FlyEx macro, DevTools scroll)
 - *Atari ST gimmick in the browser* (hand-pixelled sprites, 2026 build pipeline)
@@ -78,6 +82,7 @@ Interaktive Demos für Videos und GitHub Pages — **Oxyd-**Glittery-Effekt und 
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mausbewegung → Funkeln mit Zufallsoffset | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
 | [flyex/](flyex/) | Fliegenschwarm, Klick = Klatsch, **Leertaste** = 19 weitere | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
+| [buttons/](buttons/) | Theme **aqua** / **alu**, Hover-States | **ButtonAndIconCreator**, Legacy-**`buttons.psd`**, `-µ: Sprite(...)`, gemeinsamer Atlas |
 
 ### FlyEx — Atari-Hintergrund
 
@@ -109,6 +114,7 @@ Nach **Pages → Build and deployment → Source: GitHub Actions** (oben auf der
 | Index | https://mamekudz.github.io/microCSS/ |
 | Glittery | https://mamekudz.github.io/microCSS/glittery/ |
 | FlyEx | https://mamekudz.github.io/microCSS/flyex/ |
+| Buttons | https://mamekudz.github.io/microCSS/buttons/ |
 
 ## Ansehen
 
@@ -119,6 +125,7 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/
 # http://localhost:5173/glittery/
 # http://localhost:5173/flyex/
+# http://localhost:5173/buttons/
 ```
 
 **FlyEx:** Klick in die Play-Area für Audio; **Leertaste** setzt 19 Fliegen frei (Strg+F6 optional). Auf Fliege klicken zum Klatsch.

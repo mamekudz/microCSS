@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>µCSS Demos — Buttons (PSD → atlas → CSS)</title>
+	<link rel="stylesheet" href="../shared/demo-chrome.css">
+	<link rel="stylesheet" href="dist/demo.css">
+</head>
+<body class="demo-page demo-page--buttons">
+	<div class="demo-shell">
+		<aside class="demo-panel">
+			<p class="demo-back"><a href="../">µCSS Demos</a></p>
+			<h1>Buttons</h1>
+			<p>
+				The same layered draft used in <strong>µCSS 1</strong> (<code>buttons.psd</code>): two layout
+				groups (<strong>aqua</strong> / <strong>alu</strong>), five icon glyphs, normal + hover states.
+				µPS <strong>ButtonAndIconCreator</strong> renders PNGs; µCSS packs them into one
+				<strong>sprite atlas</strong> and compiles <code>-µ: Sprite(...)</code> rules.
+			</p>
+			<div class="demo-theme-switch" role="group" aria-label="Layout theme">
+				<button type="button" class="demo-theme-btn" data-theme="aqua" aria-pressed="true">Aqua</button>
+				<button type="button" class="demo-theme-btn" data-theme="alu" aria-pressed="false">Alu</button>
+			</div>
+			<p class="demo-hint">Theme: <strong id="theme-label">aqua</strong> — hover the icons in the play area</p>
+			<section class="demo-sources">
+				<h2>Build output</h2>
+				<figure>
+					<img src="dist/imgs/sprites.png" width="320" height="120" alt="Combined sprite atlas" data-zoom>
+					<figcaption><code>sprites.png</code> — all aqua + alu buttons + <code>@2x</code> in one atlas</figcaption>
+				</figure>
+				<figure>
+					<img src="dist/imgs/aqua/but_login_normal.png" width="55" height="55" alt="Single rendered button PNG" data-zoom>
+					<figcaption>One PNG from the PSD (before atlas packing)</figcaption>
+				</figure>
+			</section>
+			<p class="demo-hint">Source PSD: <code>dev/media/drafts/buttons.psd</code> (µCSS 1 sample draft)</p>
+		</aside>
+		<main id="btn-root" class="demo-canvas theme-aqua" tabindex="0" aria-label="Button preview">
+			<div class="demo-toolbar">
+				<div class="loginbutton" title="login"></div>
+				<div class="helpbutton" title="help"></div>
+				<div class="settingsbutton" title="settings"></div>
+				<div class="eventsbutton" title="events"></div>
+				<div class="worldbutton" title="world"></div>
+			</div>
+		</main>
+	</div>
+	<script type="module" src="demo.js"></script>
+	<script type="module">
+		import { InitDemoLightbox } from "../shared/demo-lightbox.mjs";
+		InitDemoLightbox();
+	</script>
+</body>
+</html>
