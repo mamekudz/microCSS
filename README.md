@@ -71,7 +71,7 @@ npx gulp docs:manual       # rebuild manual PDFs (LibreOffice + GulpHelper macro
 npx gulp build:publish     # populate build/ with publish-ready bundles
 ```
 
-Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `demos:build`, `publish` (npm upload; see `tools/publish.mjs`).
+Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:legacy-migration` (local legacy extract only), `convert:less`, `convert:vue`, `demos:build`, `publish` (npm upload; see `tools/publish.mjs`).
 
 ## µCSS 1 (legacy)
 
@@ -156,7 +156,7 @@ npx gulp docs:manual       # Handbuch-PDFs neu bauen (LibreOffice + GulpHelper-M
 npx gulp build:publish     # build/ mit veröffentlichungsfertigen Bundles füllen
 ```
 
-Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:aidpix`, `convert:less`, `convert:vue`, `demos:build`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
+Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:legacy-migration` (nur mit lokalem Legacy-Extract), `convert:less`, `convert:vue`, `demos:build`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
 
 ## µCSS 1 (Legacy)
 

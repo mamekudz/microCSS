@@ -118,11 +118,11 @@ export const BuildAndPublish = gulp.series(BuildPublish, Publish);
 BuildAndPublish.displayName = "build:and:publish";
 BuildAndPublish.description = "Refreshes the build/ bundles and then publishes them (see 'publish' for env options).";
 
-export function AidpixConvert() {
+export function LegacyConvert() {
 	return _RunCommand("node", ["tools/convert-mucss.mjs"], join(rootDir, "gulp-mu-css"));
 }
-AidpixConvert.displayName = "aidpix:convert";
-AidpixConvert.description = "Converts the legacy AiDPix µCSS sources (oldsrcs/AiDPix Extract) to .mcss + manifest.";
+LegacyConvert.displayName = "legacy:convert";
+LegacyConvert.description = "Converts a legacy µCSS 1 skin (project dir argument) to .mcss + manifest.";
 
 export function ConvertLess() {
 	const input = process.env.LESS_IN ?? "examples/less";
@@ -150,15 +150,15 @@ export function BuildDemos() {
 BuildDemos.displayName = "demos:build";
 BuildDemos.description = "Builds marketing demos (glittery, flyex) into demos/*/dist/.";
 
-export function AidpixCompare() {
-	return _RunCommand("node", ["tools/compare-aidpix.mjs"], join(rootDir, "gulp-mu-css"));
+export function LegacyCompare() {
+	return _RunCommand("node", ["tools/compare-legacy-skin.mjs"], join(rootDir, "gulp-mu-css"));
 }
-AidpixCompare.displayName = "aidpix:compare";
-AidpixCompare.description = "M5 acceptance test: builds the converted AiDPix skin and compares it against the legacy std.css.";
+LegacyCompare.displayName = "legacy:compare";
+LegacyCompare.description = "M5 acceptance test: builds a converted legacy skin and compares it against the legacy std.css.";
 
-export const AidpixTest = gulp.series(AidpixConvert, AidpixCompare);
-AidpixTest.displayName = "test:aidpix";
-AidpixTest.description = "Runs the full AiDPix migration check (convert + compare).";
+export const LegacyTest = gulp.series(LegacyConvert, LegacyCompare);
+LegacyTest.displayName = "test:legacy-migration";
+LegacyTest.description = "Runs the full legacy µCSS 1 migration check (convert + compare). Requires a local project extract.";
 
 export const Test = gulp.series(TestMicroCSS, TestMicroPS, TestMicroFT, TestMicroAU);
 Test.displayName = "test";

@@ -1,6 +1,5 @@
-// Tests for the M4 macro layer: this-bound helpers, InsertRule ordering and
-// the AiDPix reference helpers (Borders, TableBackgrounds, GlitterySprite,
-// FlyEx, FlyExUtils) ported from the legacy µ.std.css.
+// Tests for the M4 macro helpers using the reference macro fixture
+// (Borders, TableBackgrounds, GlitterySprite, FlyEx, FlyExUtils).
 
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -8,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { expect } from "chai";
 import sharp from "sharp";
 import { CompileMcss, SpriteManager, Lighten, Alpha } from "../src/index.mjs";
-import { Borders, TableBackgrounds, GlitterySprite, FlyEx, FlyExUtils } from "./fixtures/aidpix-helpers.mjs";
+import { Borders, TableBackgrounds, GlitterySprite, FlyEx, FlyExUtils } from "./fixtures/reference-macros.mjs";
 
 sharp.cache(false);
 

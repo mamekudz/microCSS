@@ -1,6 +1,6 @@
 // Tests for the M2 sprite/cursor layer: Sprite() directive with atlas
 // creation (microPS), Cursor() directive and value form, preload rule.
-// The expected output format follows the legacy compiled AiDPix std.css,
+// The expected output format follows a legacy compiled std.css reference,
 // minus the vendor-prefixed image-set lines (CONCEPT.md, D6).
 
 import { mkdirSync, rmSync, existsSync } from "node:fs";

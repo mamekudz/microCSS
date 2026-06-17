@@ -1,4 +1,4 @@
-// Minimal port of AiDPix GUIParticles (GUI.js) for demo sparkle effects.
+// Minimal port of legacy GUIParticles for demo sparkle effects.
 
 const PI2 = Math.PI * 2;
 

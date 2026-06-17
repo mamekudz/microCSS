@@ -1,6 +1,6 @@
 # µCSS Demos
 
-Interactive demos for videos and GitHub Pages — ported from the **AiDPix / Oxyd** glittery sparkle and fly easter egg.
+Interactive demos for videos and GitHub Pages — classic **Oxyd**-style glittery sparkle and fly easter egg.
 
 | Demo | Effect | µCSS / µAU features |
 | :--- | :--- | :--- |
@@ -9,7 +9,7 @@ Interactive demos for videos and GitHub Pages — ported from the **AiDPix / Oxy
 
 ### FlyEx — Atari heritage
 
-**FlyEx** is a modern remake of a classic **Atari ST fly-swatting gimmick** — the kind of tiny desktop accessory that magazine PD disks and “gimmick” cover disks used to ship (TSR utilities, ACC files, joke programs). The demo reuses the **original hand-pixelated sprites** from that lineage (preserved via the AiDPix / Oxyd projects), now rendered through µPS sequence strips and µCSS helper macros instead of GEM.
+**FlyEx** is a modern remake of a classic **Atari ST fly-swatting gimmick** — the kind of tiny desktop accessory that magazine PD disks and “gimmick” cover disks used to ship (TSR utilities, ACC files, joke programs). The demo reuses **original hand-pixelated sprites** from that lineage, now rendered through µPS sequence strips and µCSS helper macros instead of GEM.
 
 If you want to browse the original magazine context (listings, cover disks, PD collections):
 
@@ -22,7 +22,7 @@ Search tips on PD sites: *TSR*, *Accessory* / ACC, *Desktop*, or the German maga
 
 ## Build
 
-Assets live under each demo's `dev/media/` (copied once from `oldsrcs/AiDPix Extract`).
+Assets live under each demo's `dev/media/` (see `npx gulp demos:build`; raw frames are not shipped in the public repo).
 
 ```bash
 npx gulp demos:build
@@ -51,7 +51,7 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** click play area for audio; **Space** releases 19 flies (Ctrl+F6 still works like AiDPix). Click a fly to swat.
+**FlyEx:** click play area for audio; **Space** releases 19 flies (Ctrl+F6 optional). Click a fly to swat.
 
 ## YouTube / marketing angles
 
@@ -64,15 +64,15 @@ npx --yes serve demos -p 5173
 
 ## Asset provenance
 
-- Glittery frames, FlyEx DSD sheets and fly sounds from the AiDPix project (Oxyd lineage).
+- Glittery frames, FlyEx DSD sheets and fly sounds from the legacy Oxyd demo lineage.
 - FlyEx sprites: original hand-pixelated graphics from the Atari fly-swatting gimmick tradition (see **FlyEx — Atari heritage** above).
-- Helpers: `demos/shared/effect-helpers.mjs` → `gulp-mu-css/test/fixtures/aidpix-helpers.mjs`.
+- Helpers: `demos/shared/effect-helpers.mjs` → `gulp-mu-css/test/fixtures/reference-macros.mjs`.
 
 ---
 
 # µCSS-Demos
 
-Interaktive Demos für Videos und GitHub Pages — portiert vom **AiDPix-/Oxyd-**Glittery-Effekt und dem Fliegen-Osterei.
+Interaktive Demos für Videos und GitHub Pages — **Oxyd-**Glittery-Effekt und Fliegen-Osterei.
 
 | Demo | Effekt | µCSS-/µAU-Features |
 | :--- | :--- | :--- |
@@ -81,7 +81,7 @@ Interaktive Demos für Videos und GitHub Pages — portiert vom **AiDPix-/Oxyd-*
 
 ### FlyEx — Atari-Hintergrund
 
-**FlyEx** ist ein moderner Nachbau eines klassischen **Atari-ST-Fliegen-Gimmicks** — kleine Desktop-Spielereien, die früher über PD-Disketten der Magazine (TSR-Utilities, ACC-Dateien, Scherzprogramme) verbreitet wurden. Die Demo nutzt die **original handgepixelten Sprites** aus dieser Tradition (via AiDPix/Oxyd erhalten), heute über µPS-Strips und µCSS-Makros statt über GEM.
+**FlyEx** ist ein moderner Nachbau eines klassischen **Atari-ST-Fliegen-Gimmicks** — kleine Desktop-Spielereien, die früher über PD-Disketten der Magazine (TSR-Utilities, ACC-Dateien, Scherzprogramme) verbreitet wurden. Die Demo nutzt **original handgepixelte Sprites** aus dieser Tradition, heute über µPS-Strips und µCSS-Makros statt über GEM.
 
 Archiv-Tipps zum Original-Kontext (Hefte, Listings, Disk-Inhalte):
 
@@ -121,4 +121,4 @@ npx --yes serve demos -p 5173
 # http://localhost:5173/flyex/
 ```
 
-**FlyEx:** Klick in die Play-Area für Audio; **Leertaste** setzt 19 Fliegen frei (Strg+F6 wie in AiDPix). Auf Fliege klicken zum Klatsch.
+**FlyEx:** Klick in die Play-Area für Audio; **Leertaste** setzt 19 Fliegen frei (Strg+F6 optional). Auf Fliege klicken zum Klatsch.

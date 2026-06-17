@@ -51,7 +51,7 @@ a:link {
 	border-bottom: 1px dashed µ(Lighten($.selectBaseBrgdColor, 0.7));
 }
 div.companylogo {
-	-µ: Sprite("imgs/logos/dosing_logo.png");
+	-µ: Sprite("imgs/logos/company_logo.png");
 }
 *.cursor_zoom {
 	-µ: Cursor("zoom");
@@ -279,7 +279,7 @@ a:link {
 	border-bottom: 1px dashed µ(Lighten($.selectBaseBrgdColor, 0.7));
 }
 div.companylogo {
-	-µ: Sprite("imgs/logos/dosing_logo.png");
+	-µ: Sprite("imgs/logos/company_logo.png");
 }
 *.cursor_zoom {
 	-µ: Cursor("zoom");

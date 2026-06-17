@@ -1,4 +1,4 @@
-// Converts a legacy µCSS skin (AiDPix layout) to the new microCSS format
+// Converts a legacy µCSS 1 skin layout to the new microCSS format
 // (M5 migration, CONCEPT.md section 6):
 //
 //   skins/std/µ.std.css   ->  skins/src/<skin>.µcss.mjs (manifest) + helpers.mjs
@@ -7,10 +7,10 @@
 // The translation is mechanical: -µcss: directives become -µ: directives or
 // plain declarations with µ() interpolations, µ.$.x becomes $.x, the «»¡
 // characters become {};. Legacy µ.$.* function definitions are NOT converted
-// (the AiDPix set is ported by hand in test/fixtures/aidpix-helpers.mjs, see M4).
+// (the reference macro set is ported by hand in test/fixtures/reference-macros.mjs, see M4).
 //
 // Usage: node tools/convert-mucss.mjs [projectDir] [manifestCss]
-//   projectDir   project root, default "../oldsrcs/AiDPix Extract"
+//   projectDir   project root (local legacy extract; not shipped in the public repo)
 //   manifestCss  legacy control file, default "skins/std/µ.std.css"
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
@@ -19,11 +19,11 @@ import { fileURLToPath } from "node:url";
 import postcss from "postcss";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const projectDir = resolve(here, process.argv[2] ?? "../../oldsrcs/AiDPix Extract");
+const projectDir = resolve(here, process.argv[2] ?? "../../oldsrcs/LegacySkinExtract");
 const manifestCss = join(projectDir, process.argv[3] ?? "skins/std/µ.std.css");
 const srcDir = join(projectDir, "skins/src");
 
-// Helper functions already ported to test/fixtures/aidpix-helpers.mjs; legacy
+// Helper functions already ported to test/fixtures/reference-macros.mjs; legacy
 // names on the left, new export names on the right.
 const HELPER_MAP = {
 	GlitterySpriteAfterWorkDivBlock: "GlitterySprite",
@@ -350,10 +350,10 @@ function _EmitManifest(_data, _skinName) {
 
 function _EmitHelpers() {
 	const microcssDir = resolve(here, "..");
-	const importPath = relative(srcDir, join(microcssDir, "test/fixtures/aidpix-helpers.mjs")).replace(/\\/g, "/");
+	const importPath = relative(srcDir, join(microcssDir, "test/fixtures/reference-macros.mjs")).replace(/\\/g, "/");
 	return [
-		"// AiDPix macro helpers - the legacy µ.$.* functions from µ.std.css were",
-		"// ported by hand to gulp-mu-css/test/fixtures/aidpix-helpers.mjs (M4). This file",
+		"// Reference macro helpers - the legacy µ.$.* functions from µ.std.css were",
+		"// ported by hand to gulp-mu-css/test/fixtures/reference-macros.mjs (M4). This file",
 		"// re-exports them for the skin manifest; replace the relative import when",
 		"// the skin moves into its own project.",
 		`export { Borders, TableBackgrounds, GlitterySprite, FlyEx, FlyExUtils } from "${importPath}";`,

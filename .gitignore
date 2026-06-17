@@ -1,8 +1,10 @@
 node_modules/
 /build/
+gulp-mu-css/skins/
 # npm auth tokens must never be committed
 .npmrc
 gulp-mu-ps/test/.tmp*/
+gulp-mu-ps/test/.tmp-*.png
 gulp-mu-ps/test/out/
 gulp-mu-ps/examples-out/
 *.cache

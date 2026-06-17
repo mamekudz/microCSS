@@ -7,7 +7,7 @@
   "scripts": {
     "test": "gulp test",
     "test:microps": "gulp test:microps",
-    "test:aidpix": "gulp test:aidpix",
+    "test:legacy-migration": "gulp test:legacy-migration",
     "examples:render": "gulp examples:render",
     "build:publish": "gulp build:publish",
     "demos:build": "node tools/build-demos.mjs"

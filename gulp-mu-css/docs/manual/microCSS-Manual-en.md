@@ -400,7 +400,7 @@ await AppIconMaker.Create("drafts/appicon.psd", {
 	outputDir: "icons",
 	profiles: ["web", "ios", "play"],
 	layout: "aqua",
-	appName: "AiDPix",
+	appName: "MyApp",
 	themeColor: "#0a5ae0",
 	background: "#ffffff"
 });
@@ -840,7 +840,7 @@ e.g. general-control-edit-U0xE900.svg  →  name "general-control-edit", code U+
 import { FontGenerator } from "gulp-mu-ft";
 
 const result = await FontGenerator.Create({
-	fontName: "DosingSymbol",
+	fontName: "AppSymbol",
 	src: "svg",
 	outputDir: "fonts",
 	groups: {
@@ -853,7 +853,7 @@ const result = await FontGenerator.Create({
 // result => { skipped, glyphs, warnings, files }
 ```
 
-Produces e.g. `DosingSymbol.css` (`.icon-<name>`), `DosingSymbol.json`, `DosingSymbol.html`.
+Produces e.g. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.html`.
 
 | Option | Default | Effect |
 | :--- | :--- | :--- |
@@ -974,7 +974,7 @@ Directives are declarations with the property name `-µ` (or `-mu`). Their value
 
 ```css
 div.panel.modal div.companylogo {
-	-µ: Sprite("imgs/logos/dosing_logo.png");
+	-µ: Sprite("imgs/logos/company_logo.png");
 	margin-left: auto;
 }
 *.cursor_zoom {
@@ -1268,7 +1268,7 @@ export function Borders(_baseColor, _pixelWidth, _topLighten, _rightLighten, _bo
 
 Through `this` all scope bindings are reachable: `this.AddProperty(...)`, `this.InsertRule(...)`, `this.rule`, `this.document` and `this.$`. The binding is also kept when a helper is passed as an `afterWork` value to `Sprite()`. Arrow functions have no `this` of their own and are therefore only suitable for helpers without rule access.
 
-Ported reference macros of the AiDPix project (`Borders`, `TableBackgrounds`, `GlitterySprite`, `FlyEx`, `FlyExUtils`) live in the µCSS repository under `test/fixtures/aidpix-helpers.mjs`.
+Ported reference macros (`Borders`, `TableBackgrounds`, `GlitterySprite`, `FlyEx`, `FlyExUtils`) live in the µCSS repository under `test/fixtures/reference-macros.mjs` (demo/test fixture, not part of the npm API).
 
 ## afterWork hooks
 
@@ -1401,7 +1401,7 @@ The `«»¡` function bodies are translated back to regular JavaScript and land 
 
 **raw → final automatically:** the old µCSS only copied the already finished `final` folders into the skin (e.g. `flyex`, `glittery`); the strips themselves were created elsewhere (SpriteTools). The converter recognizes such `CopyFolder2Skin` calls on `dev/media/final/<…>/<name>` and — if a matching source `dev/media/raw/<name>/imgs` exists — automatically prepends the appropriate `sequenceStrip` step with `outputBase: "project"`: a **numbered PNG frame sequence** (e.g. `glittery`) becomes a folder strip, **individually named images** (e.g. the DSD images `flyex.png`/`flyexutils.png`) each become a DSD strip. This way the new pipeline rebuilds `final` reproducibly from `raw` and the following `copyFolder` takes the result into the skin.
 
-The converter was validated against the complete AiDPix code base: a comparison tool (`tools/compare-aidpix.mjs`) builds the converted skin and compares it rule by rule and property by property against the old compiled output — result: 2,951 rules, 0 unexpected differences (53 documented drift cases, e.g. sources edited after the last µCSS run).
+The converter was validated against a complete legacy µCSS 1 code base: a comparison tool (`tools/compare-legacy-skin.mjs`, repository only) builds the converted skin and compares it rule by rule and property by property against the old compiled output — result: 2,951 rules, 0 unexpected differences (53 documented drift cases, e.g. sources edited after the last µCSS run).
 
 Deliberately **not** carried over from the old µCSS:
 
@@ -1415,7 +1415,7 @@ Deliberately **not** carried over from the old µCSS:
 | Date | Version | Notes |
 | :--- | :--- | :--- |
 | 2013 | 1.0 | Original µCSS as an Adobe Photoshop script: `-µcss:` directives, sprite atlas, PSD plugins, control via `µ.std.css`. |
-| 2026-06 | 2.0.0 | Complete Node.js reimplementation (npm package `gulp-mu-css`, without Adobe dependency): core pipeline (M1), sprites & cursors (M2), manifest & build with incremental cache (M3), hooks & macros (M4), AiDPix migration with converter and acceptance test (M5), manual (M6). |
+| 2026-06 | 2.0.0 | Complete Node.js reimplementation (npm package `gulp-mu-css`, without Adobe dependency): core pipeline (M1), sprites & cursors (M2), manifest & build with incremental cache (M3), hooks & macros (M4), legacy skin migration with converter and acceptance test (M5), manual (M6). |
 | 2026-06 | 2.1.0 | Atlas format independent of the global `imageFormat` via `sprites.format`; format-independent resolution of the `Sprite()` source images (`png`/`webp`); warning when a `copyFolder` `filter` excludes the active image format. |
 | 2026-06 | 2.2.0 | Normalization of legacy gradient directions at compile time: `linear-gradient(top\|bottom\|left\|right, …)` (invalid without a prefix) is raised to the standard `to …` form. |
 | 2026-06 | 2.2.1 | Manual update (version history extended, cover-page version corrected); no functional changes compared to 2.2.0. |

@@ -9,7 +9,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { BuildSkin } from "../gulp-mu-css/src/index.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const aidpixRoot = join(repoRoot, "oldsrcs", "AiDPix Extract");
+const legacyRoot = join(repoRoot, "oldsrcs", "LegacySkinExtract");
 
 function _FindManifest(_demoDir, _stem) {
 	const match = readdirSync(_demoDir).find(
@@ -29,11 +29,11 @@ const DEMOS = [
 function _CheckAssets() {
 	const glitterDir = join(repoRoot, "demos", "glittery", "dev", "media", "raw", "glittery", "imgs");
 	if (!existsSync(glitterDir)) {
-		console.error("Demo assets missing. Copy from oldsrcs/AiDPix Extract first (see demos/README.md).");
+		console.error("Demo assets missing. Run demos:build after placing raw frames under demos/*/dev/media/ (see demos/README.md).");
 		process.exit(1);
 	}
-	if (!existsSync(aidpixRoot)) {
-		console.warn("oldsrcs/AiDPix Extract not found — assuming demo assets were copied manually.");
+	if (!existsSync(legacyRoot)) {
+		console.warn("oldsrcs/LegacySkinExtract not found — assuming demo assets were copied manually.");
 	}
 }
 

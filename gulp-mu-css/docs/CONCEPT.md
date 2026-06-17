@@ -13,9 +13,9 @@ Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gul
 
 ---
 
-## 1. Analyse des Bestands (AiDPix Extract)
+## 1. Analyse des Bestands (Legacy-Referenz, intern)
 
-Quelle: `oldsrcs/AiDPix Extract` — die µCSS-relevanten Verzeichnisse des AiDPix-Projekts.
+Quelle: `oldsrcs/LegacySkinExtract` — ein interner µCSS-1-Referenz-Skin (nicht im öffentlichen Repository).
 
 **Struktur:**
 
@@ -114,7 +114,7 @@ Dokument verändern (mehrere Properties erzeugen, Regeln hinzufügen):
 
 ```css
 div.panel.modal div.companylogo {
-	-µ: Sprite("imgs/logos/dosing_logo.png");
+	-µ: Sprite("imgs/logos/company_logo.png");
 	margin-left: auto;
 }
 *.cursor_zoom {
@@ -245,7 +245,7 @@ Glittery-/FlyEx-Generatoren 1:1 (aber lesbar) nachbauen. Helper, die als
 (`this.AddProperty`, `this.InsertRule`, `this.rule`, `this.document`,
 `this.$`) — der Ersatz für die alten µ-Globals; die Bindung bleibt auch
 erhalten, wenn ein Helper als `afterWork`-Wert übergeben wird. Die portierten
-AiDPix-Makros liegen als Referenz/Test-Fixture unter `test/fixtures/aidpix-helpers.mjs` (M4).
+Referenz-Makros liegen als Test-Fixture unter `test/fixtures/reference-macros.mjs` (M4).
 
 ### D4 — LESS: nicht einbauen, aber nicht blockieren
 
@@ -267,7 +267,7 @@ escaped durchgereicht werden. Das wird dokumentiert, aber nicht aktiv gepflegt.
 ### D5 — Kompatibilität der Ausgabe
 
 Die Zieldateien behalten Namen und Format (`std.css`, `std_tinymce.css`, …,
-`imgs/sprites.png`), damit AiDPix ohne App-Änderung umgestellt werden kann.
+`imgs/sprites.png`), damit Bestandsskins ohne App-Änderung umgestellt werden können.
 Der Goldstandard-Test: Der neue Build muss gegen die eingecheckten alten
 Ausgaben in `skins/std` funktional äquivalentes CSS liefern (Property-weiser
 Vergleich, nicht byteweise — Formatierung darf abweichen; entfallene
@@ -278,7 +278,7 @@ Vendor-Prefix-Zeilen werden beim Vergleich ignoriert, siehe D6).
 Die alte Prefix-Generierung (`vendorPrefixSetup`: `-webkit-`/`-moz-`/`-ms-`
 für Gradients, `image-set` usw.) entfällt ersatzlos — sie zielte auf die
 IE10/Safari-6-Ära, und der Versions-Cut des Projekts verlangt ohnehin den
-Rückbau solcher Workarounds. Alles, was die AiDPix-Stylesheets nutzen, ist
+Rückbau solcher Workarounds. Alles, was die Legacy-Stylesheets nutzen, ist
 seit Jahren unprefixed verfügbar (Gradients seit ~2013, `image-set()` seit
 2023 in Chrome 113/Firefox 88/Safari 16 flächendeckend).
 
@@ -295,7 +295,7 @@ seit Jahren unprefixed verfügbar (Gradients seit ~2013, `image-set()` seit
   (`-75deg`, `0.25turn`), bereits `to …`, Farb-Stop als erstes Argument und
   `radial-gradient` bleiben unangetastet. Der Helper `NormalizeLegacyGradients`
   ist aus `compile/Compiler.mjs` importierbar (Modul-intern, nicht über
-  `index.mjs`), damit auch der AiDPix-Vergleich beide Seiten gleich normalisiert.
+  `index.mjs`), damit auch der Legacy-Vergleich beide Seiten gleich normalisiert.
 - **Abgrenzung:** Vendor-spezifische Selektoren und Properties **ohne
   Standard-Pendant** (`::-webkit-scrollbar`, `::-webkit-calendar-picker-indicator`,
   `::-moz-range-thumb`, `-webkit-user-drag`, …) sind keine Prefix-Duplikate,
@@ -456,7 +456,7 @@ damit für Bestandsskins folgenlos.
 **Rückwärtskompatibilität:** Imports greifen nur, wenn `@import` vorkommt —
 bestehende Stylesheets ohne Importe ändern sich nicht. Der Merge ist
 **opt-in** (`merge` im Manifest, pro Datei via `files[].merge` übersteuerbar)
-und bleibt damit für Bestandsskins (z. B. AiDPix, das absichtlich Selektoren
+und bleibt damit für Bestandsskins (z. B. interne Projekte, die absichtlich Selektoren
 wiederholt und sich auf die Quell-Reihenfolge/Kaskade verlässt) ohne Wirkung.
 At-Rules (`@media`, `@keyframes` …) und in ihnen verschachtelte Regeln werden
 nie zusammengeführt — ihre Kaskade ist gewollt.
@@ -738,7 +738,7 @@ gulp-mu-css/
       BuildCache.mjs       mtime-basierte Invalidierung in <outputDir>/.cache/build.json (D7, ersetzt *.css.cache)
   test/
     fixtures/
-      aidpix-helpers.mjs   Referenz-Makros (M4, AiDPix-spezifisch, nicht im npm-Paket): Borders, TableBackgrounds, Glittery, FlyEx(Utils)
+      reference-macros.mjs   Referenz-Makros (M4, Demo-Fixture, nicht im npm-Paket): Borders, TableBackgrounds, Glittery, FlyEx(Utils)
   docs/
 ```
 
@@ -789,7 +789,7 @@ await doc.ToFile("out/std.css");
 ## 5. Gulp-Integration
 
 ```js
-// gulpfile.mjs (AiDPix bzw. Projektstamm)
+// gulpfile.mjs (Projektstamm)
 import { BuildSkin } from "gulp-mu-css";
 
 export async function SkinStd() {
@@ -812,11 +812,11 @@ Round-Trip „PSD speichern → Watch → µPS rendert“.
   geänderte PSDs werden neu gerendert, der Atlas nur bei Bildänderungen neu
   gepackt, Copy-Steps laufen als Make-artiger mtime-Vergleich.
 - Tests als Gulp-Tasks im Projektstamm (Konvention dieses Repos): Unit-Tests der
-  Module plus der End-to-End-Vergleich gegen die alten AiDPix-Ausgaben.
+  Module plus der End-to-End-Vergleich gegen alte Legacy-Ausgaben (lokal).
 
 ---
 
-## 6. Migration des AiDPix-Bestands
+## 6. Migration eines Legacy-µCSS-1-Bestands
 
 Ein Konverter-Werkzeug `tools/convert-mucss.mjs` übersetzt die alte Syntax
 mechanisch (das Gros ist regelbasiert ersetzbar):
@@ -854,16 +854,16 @@ manuelle Nacharbeit ist hier eingeplant (5 Funktionen im Bestand).
    `InsertRule` (positionstreues Einfügen, ersetzt `AddBlock(n, µ.elementNo)`),
    `afterWork`-Kontext mit `url`/`baseDir`, Pfad-Adressierung statt RememberBlocks;
    Borders/TableBackgrounds/Glittery/FlyEx(Utils) als Referenz-Implementierung
-   in `test/fixtures/aidpix-helpers.mjs`, getestet in `test/Macros.test.mjs`.
-5. **M5 — Migration AiDPix** ✅ *(umgesetzt)*: `tools/convert-mucss.mjs` übersetzt
+   in `test/fixtures/reference-macros.mjs`, getestet in `test/Macros.test.mjs`.
+5. **M5 — Legacy-Migration** ✅ *(umgesetzt)*: `tools/convert-mucss.mjs` übersetzt
    `µ.std.css` → Manifest (`std.µcss.mjs` + `helpers.mjs`) und alle `src*.css` →
    `*.µ.css` (Direktiven, Setter→Platzhalter-Merge, `«»¡`, Encoding-Reparatur);
-   `tools/compare-aidpix.mjs` baut den Skin (`skins/std-new`) und vergleicht
+   `tools/compare-legacy-skin.mjs` baut den Skin (`skins/std-new`) und vergleicht
    strukturell gegen die alte Ausgabe: **2 951 Regeln, 0 unerwartete
    Differenzen**, 53 dokumentierte Legacy-Drift-Fälle (fehlende Quellbilder im
    Extract, nach dem letzten µCSS-Lauf editierte Quellen, Alpha-Quantisierung
-   ±1/255). Gulp-Tasks im Projektstamm: `aidpix:convert`, `aidpix:compare`,
-   `test:aidpix`.
+   ±1/255). Gulp-Tasks im Projektstamm: `legacy:convert`, `legacy:compare`,
+   `test:legacy-migration`.
 6. **M6 — Dokumentation** ✅ *(umgesetzt)*: Deutsches Handbuch nach dem Vorbild des
    alten `µCSS.pdf`/`µCSS.old.docx` (Kapitelstruktur: Einführung, Installation,
    Anwendungsfälle, Grundideen, Build-Ablauf, Manifest-/Kontext-Referenz,
@@ -887,7 +887,7 @@ manuelle Nacharbeit ist hier eingeplant (5 Funktionen im Bestand).
    Zielverzeichnis `<skinname>/` wird automatisch angelegt und enthält CSS,
    Medien und Build-Cache (siehe D3). Mehrere Skins = mehrere Manifeste im
    selben Quellverzeichnis, die sich `.µ.css`-Quellen und Helpers teilen können;
-   AiDPix nutzt aktuell nur `std`.
+   Der Referenz-Skin nutzt aktuell nur `std`.
 2. **`Lighten`-Semantik**: Aus `µCSS.jsx` geklärt — die aktive Implementierung
    arbeitet in **HSL** mit relativer Lightness-Skalierung:
    `L' = clamp(L + L·p, 0, 1)` (RGB→HSL, skalieren, zurück; Alpha bleibt

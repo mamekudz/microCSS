@@ -1,5 +1,5 @@
 // Verifies the color API against values that the legacy µCSS toolchain
-// produced in the compiled AiDPix std.css (bit-exactness of the hsl model).
+// produced in a legacy compiled std.css (bit-exactness of the hsl model).
 
 import { expect } from "chai";
 import { Lighten, Alpha, AlphaValue, MixColors, ParseColor, FormatColor } from "../src/index.mjs";

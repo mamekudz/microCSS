@@ -39,7 +39,7 @@ Codepoints from file names: `<name>-U0x<HEX>.svg` (e.g. `general-control-edit-U0
 import { FontGenerator } from "gulp-mu-ft";
 
 await FontGenerator.Create({
-	fontName: "DosingSymbol",
+	fontName: "AppSymbol",
 	src: "svg",
 	outputDir: "fonts"
 });
@@ -103,7 +103,7 @@ Codepoints aus Dateinamen: `<name>-U0x<HEX>.svg` (z. B. `general-control-edit-U0
 import { FontGenerator } from "gulp-mu-ft";
 
 await FontGenerator.Create({
-	fontName: "DosingSymbol",
+	fontName: "AppSymbol",
 	src: "svg",
 	outputDir: "fonts"
 });
