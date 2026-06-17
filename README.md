@@ -8,6 +8,18 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 
 **No Adobe subscription for the build.** µCSS 1 required a licensed copy of Photoshop for CSS compilation *and* bitmap generation. Version 2 runs headless in Node — sprites, cursors and PSD rendering via µPS need no Creative Cloud. For layered PSD drafts (buttons, icons, …), **[Affinity](https://affinity.studio/download)** is recommended: professional editing, **free** (Canva account for download and activation), with PSD import/export.
 
+## Interactive demos
+
+Live on **GitHub Pages** (no install): **[mamekudz.github.io/microCSS](https://mamekudz.github.io/microCSS/)**
+
+| Demo | URL | Shows |
+| :--- | :--- | :--- |
+| **Buttons** | […/buttons/](https://mamekudz.github.io/microCSS/buttons/) | Legacy `buttons.psd` → two themes → sprite atlas → CSS |
+| **Glittery** | […/glittery/](https://mamekudz.github.io/microCSS/glittery/) | Sprite strip + `GlitterySprite` hook |
+| **FlyEx** | […/flyex/](https://mamekudz.github.io/microCSS/flyex/) | DSD macros + µAU sound atlas |
+
+Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
+
 ## Documentation & npm
 
 | Resource | Link |
@@ -15,7 +27,7 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 | **µCSS manual (English)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **µCSS manual (German)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Concept & migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
-| **µCSS Demos** | [Live](https://mamekudz.github.io/microCSS/) · [source](demos/) (Glittery + FlyEx + sound atlas) |
+| **Interactive demos** | [GitHub Pages](https://mamekudz.github.io/microCSS/) · [Buttons](https://mamekudz.github.io/microCSS/buttons/) · [Glittery](https://mamekudz.github.io/microCSS/glittery/) · [FlyEx](https://mamekudz.github.io/microCSS/flyex/) · [source](demos/) |
 | **µCSS on npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **µPS on npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
@@ -47,6 +59,7 @@ microCSS/                          Repository root (this monorepo)
 ├── gulp-mu-ps/                    µPS — PSD / image rendering
 ├── gulp-mu-ft/                    µFT — icon font generation
 ├── gulp-mu-au/                    µAU — sound atlas generation
+├── demos/                         Interactive marketing demos (GitHub Pages)
 ├── tools/                         Root build helpers (publish, manual, …)
 ├── gulpfile.mjs                   Gulp tasks for tests, docs and npm publish
 ├── package.json                   Private root workspace (dev dependencies only)
@@ -93,6 +106,18 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 
 **Kein Adobe-Abo für den Build.** µCSS 1 brauchte eine lizenzierte Photoshop-Installation für CSS-Kompilierung *und* Bitmap-Erzeugung. Version 2 läuft headless in Node — Sprites, Cursor und PSD-Rendering via µPS ohne Creative Cloud. Für geschichtete PSD-Entwürfe (Buttons, Icons, …) ist **[Affinity](https://affinity.studio/download)** empfohlen: professionelle Bearbeitung, **kostenlos** (Canva-Konto zum Download und zur Aktivierung), mit PSD-Import/-Export.
 
+## Interaktive Demos
+
+Live auf **GitHub Pages** (ohne Installation): **[mamekudz.github.io/microCSS](https://mamekudz.github.io/microCSS/)**
+
+| Demo | URL | Inhalt |
+| :--- | :--- | :--- |
+| **Buttons** | […/buttons/](https://mamekudz.github.io/microCSS/buttons/) | Legacy-`buttons.psd` → zwei Themes → Sprite-Atlas → CSS |
+| **Glittery** | […/glittery/](https://mamekudz.github.io/microCSS/glittery/) | Sprite-Strip + `GlitterySprite`-Hook |
+| **FlyEx** | […/flyex/](https://mamekudz.github.io/microCSS/flyex/) | DSD-Makros + µAU-Sound-Atlas |
+
+Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
+
 ## Dokumentation & npm
 
 | Ressource | Link |
@@ -100,7 +125,7 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 | **µCSS-Handbuch (Englisch)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **µCSS-Handbuch (Deutsch)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Konzept & Migration** | [gulp-mu-css/docs/CONCEPT.md](gulp-mu-css/docs/CONCEPT.md) |
-| **µCSS-Demos** | [Live](https://mamekudz.github.io/microCSS/) · [Quellen](demos/) (Glittery + FlyEx + Sound-Atlas) |
+| **Interaktive Demos** | [GitHub Pages](https://mamekudz.github.io/microCSS/) · [Buttons](https://mamekudz.github.io/microCSS/buttons/) · [Glittery](https://mamekudz.github.io/microCSS/glittery/) · [FlyEx](https://mamekudz.github.io/microCSS/flyex/) · [Quellen](demos/) |
 | **µCSS auf npm** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **µPS auf npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
@@ -132,6 +157,7 @@ microCSS/                          Repository-Wurzel (dieses Monorepo)
 ├── gulp-mu-ps/                    µPS — PSD- / Bild-Rendering
 ├── gulp-mu-ft/                    µFT — Icon-Font-Erzeugung
 ├── gulp-mu-au/                    µAU — Sound-Atlas-Erzeugung
+├── demos/                         Interaktive Marketing-Demos (GitHub Pages)
 ├── tools/                         Root-Build-Helfer (Publish, Handbuch, …)
 ├── gulpfile.mjs                   Gulp-Tasks für Tests, Doku und npm-Publish
 ├── package.json                   Privates Root-Workspace (nur Dev-Dependencies)
