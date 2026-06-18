@@ -16,6 +16,7 @@ dev/out/
 
 # Local / private — not published
 CLAUDE.md
+demos/**/VIDEO.md
 Gemini Brainstorming.doc
 Gemini Brainstorming.docx
 newConcept.md
