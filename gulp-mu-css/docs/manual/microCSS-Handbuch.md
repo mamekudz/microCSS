@@ -1143,7 +1143,7 @@ Ein `BuildSkin`-Lauf führt fünf Schritte aus:
 2. **Kompilierung**: Jede `files`-Quelle wird geparst (PostCSS); Direktiven und Interpolationen werden in Dokumentreihenfolge ausgewertet. `Sprite()`-/`Cursor()`-Aufrufe registrieren zunächst nur ihre Bildreferenzen.
 3. **Sprite-Atlas**: Alle registrierten Bilder werden gepackt (inkl. `@2x`); danach werden die betroffenen Regeln umgeschrieben.
 4. **Hooks**: `afterWork`-Callbacks laufen mit Atlas-Ergebnis und AST-Zugriff.
-5. **Ausgabe**: Die kompilierten CSS-Dateien werden in das Skin-Verzeichnis geschrieben, der Cache wird gespeichert.
+5. **Ausgabe**: Die kompilierten CSS-Dateien werden in das Skin-Verzeichnis geschrieben (optional minifiziert über `minify`), der Cache wird gespeichert.
 
 ## Inkrementeller Build und Cache
 
@@ -1173,7 +1173,7 @@ export function SkinWatch() {
 }
 ```
 
-Der Rückgabewert von `BuildSkin` ist ein Report mit `skin`, `outputDir`, `media` (Step-Ergebnisse mit `skipped`-Flag), `files`, `atlas`, `atlasSkipped`, `prunedSources` (gelöschte Sprite-Quell-URLs bei `sprites.pruneSources`) und `duration`.
+Der Rückgabewert von `BuildSkin` ist ein Report mit `skin`, `outputDir`, `media` (Step-Ergebnisse mit `skipped`-Flag), `files`, `atlas`, `atlasSkipped`, `prunedSources` (gelöschte Sprite-Quell-URLs bei `sprites.pruneSources`), `keptSources` (geschützte Quellen bei `sprites.pruneKeep`), `minified` (`true`, wenn `minify` aktiv war) und `duration`.
 
 # Manifest-Referenz (DefineSkin)
 
@@ -1250,8 +1250,34 @@ Optionen des Sprite-Atlas — der Ersatz für `µ.options.sprites.*`:
 | `preloadRule` | `false` | Erzeugt die `div.csspreload`-Regel im ersten Stylesheet. |
 | `include` | (entfällt) | Einzelbilder oder Verzeichnisse (relativ zum Skin-Output), die **ohne** CSS-Regel in den Atlas sollen (z. B. Preload-only oder JS-Assets). |
 | `pruneSources` | `false` | Nach erfolgreichem Atlas-Build die **Quell-PNGs/WebPs löschen**, die nur noch im Atlas liegen (1x und `@2x`). Ersatz für das alte `gulp-mu-spritereducer`-Verhalten — **opt-in** für Deploy/Release-Builds. Der Atlas selbst wird nie gelöscht. Der Build-Report enthält `prunedSources[]`. |
+| `pruneKeep` | `[]` | Nur mit `pruneSources: true`: skin-relative **Dateien oder Verzeichnisse**, die vom Trim **ausgenommen** bleiben. Abgleich über die **1x-URL** jedes Sprites (exakte Datei oder Verzeichnis-Präfix); `1x` und `@2x` bleiben erhalten. Beispiel: `["imgs/general/glittery", "imgs/x/y.png"]`. Der Build-Report enthält `keptSources[]`. |
 
 **Auflösung der `Sprite()`-Quellbilder:** Der in `Sprite("…")` referenzierte Pfad wird formatunabhängig aufgelöst — zuerst der literale Pfad, dann derselbe Name mit einer der unterstützten Raster-Endungen (`png`, `webp`). Liegt ein generiertes Quellbild also als PNG vor, obwohl die CSS-Referenz `.webp` nennt (oder umgekehrt), bricht der Build nicht ab. Ein Fehler entsteht nur, wenn **keine** Variante existiert. Die `@2x`-Variante muss dieselbe Endung wie das aufgelöste 1x-Bild haben.
+
+## minify
+
+Optionales Top-Level-Feld für Deploy-/Release-Builds: Ist es gesetzt, wird jede erzeugte `files[].target`-CSS beim Schreiben durch einen Minifier geleitet.
+
+| Wert | Wirkung |
+| :--- | :--- |
+| `false` / entfällt | Keine Minifizierung; Zeilenumbrüche und Einrückung bleiben erhalten. |
+| `true` | [`uglifycss`](https://www.npmjs.com/package/uglifycss) mit Defaults `{ maxLineLen: 1000, uglyComments: true }` (Lieferumfang von µCSS). |
+| Objekt | `uglifycss` mit diesen Optionen über den Defaults. |
+| Funktion `(css) => css` | Eigener Minifier (beliebige Engine), ohne zusätzliche Abhängigkeit. |
+
+`uglifycss` ist konservativ: Es entfernt nur Whitespace und Kommentare, **sortiert oder merged keine Regeln** — die Ausgabe bleibt semantisch gleichwertig zur unminifizierten CSS.
+
+Typisches Deploy-Manifest (Trim + Minify):
+
+```js
+minify: true,
+sprites: {
+	file: "imgs/sprites.png",
+	retina: true,
+	pruneSources: true,
+	pruneKeep: ["imgs/general/glittery"]
+}
+```
 
 ## sounds
 
@@ -1478,7 +1504,7 @@ Neben dem Manifest-Workflow ist jede Schicht von µCSS auch direkt als Node-API 
 | :--- | :--- |
 | `CompileMcss(source, options)` | Kompiliert `.µ.css`-Quelltext zu einem `CssDocument`. Optionen: `vars`, `helpers`, `from` (Dateiname für Fehlermeldungen), `context` (gemeinsamer `MuContext`), `sprites` (SpriteManager), `cursors` (CursorManager). |
 | `CssDocument` / `CssRule` | JSON-fähiger Wrapper über den PostCSS-AST: `FromFile`/`FromString`, `FindRule(...pfad)`, `FindRules(selektorOderRegex)`, `AddRule`, `GetProperty`/`AddProperty`/`ChangeProperty`/`RemoveProperty`, `ToCss()`, `ToFile()`, `ToJson()`/`FromJson()`. Für Spezialfälle ist der rohe PostCSS-AST über `document.root` zugänglich. |
-| `SpriteManager` | Sprite-Registrierung und Atlas-Auflösung: `new SpriteManager({ baseDir, atlasFile, retina, padding, preloadRule, preload, writeMapFile, pruneSources })`, `Register(rule, url, optionen)`, `await Resolve(document)` (setzt `lastPruned`). |
+| `SpriteManager` | Sprite-Registrierung und Atlas-Auflösung: `new SpriteManager({ baseDir, atlasFile, retina, padding, preloadRule, preload, writeMapFile, pruneSources, pruneKeep })`, `Register(rule, url, optionen)`, `await Resolve(document)` (setzt `lastPruned` mit `pruned[]`/`kept[]`). |
 | `CursorManager` | Cursor-Definitionen: `new CursorManager(definitionen, { baseDir, preload })`, `Apply(rule, name)`, `Value(name)`. |
 | `PreloadRegistry` | Sammelt Bild-URLs und erzeugt die `div.csspreload`-Regel. |
 | `DefineSkin(config)` / `BuildSkin(manifest, options)` | Manifest-Deklaration und Skin-Build (siehe Kapitel „Build-Ablauf"). |
@@ -1570,6 +1596,8 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS:
 | 2026-06 | 2.3.0 | Build-Zeit-`@import`-Bundling (Glob, rekursiv, Vue-Co-Location); opt-in Regel-Merge (`merge`, `@µ-override`, `onConflict`); Namespace-Modus (`@µ-namespace`, `:global()`); Build-Typ-/Varianten-Filter (`buildFilter`, über `gulp-mu-build-filter`). Handbuch: Kapitel Vue-Co-Location. Nur im Repository: Migrationshilfen `tools/convert-vue.mjs`, `tools/convert-less.mjs`. README/Paket-Metadaten: GitHub-Monorepo-Links. Neue Laufzeit-Abhängigkeiten: `postcss-selector-parser`, `gulp-mu-build-filter`. |
 | 2026-06 | 2.4.x | Handbuch *microPS*: Tabellen zu Fülloptionen (inkl. neu **Kontur**/**Glanz**), Blend-Modi, Stilübertragung vs. Ebenenverknüpfung; Referenz-PSD um `stroke*`/`satin*`-Layouts erweitert. **µPS:** `stroke` und `satin` in `Effects.mjs` mit Adobe-PNG-Regression (`ReferenceRender.test.mjs`). |
 | 2026-06 | 2.4.2 | Handbuch *microAU*/*microFT*: Sound-Pipeline (`triggers`/`handlers`), Manifest-Abschnitt `font`; aktualisierte PDFs (DE/EN). **µPS** 1.3.0 (Kontur/Glanz), **µAU** 0.1.3 (Sound-Konzept-Doku). |
+| 2026-06 | 2.5.0 | Manifest `minify` (CSS-Minifizierung via `uglifycss`, optional eigene Funktion); `sprites.pruneKeep` schützt Quellbilder vor `pruneSources`; Build-Report `keptSources[]`/`minified`. Neue Laufzeit-Abhängigkeit `uglifycss`. |
+| 2026-06 | 2.5.1 | Handbuch/PDFs (DE/EN): Kapitel `minify`, `sprites.pruneKeep`, Build-Report; Versionshistorie; keine funktionalen Änderungen gegenüber 2.5.0. |
 
 # Rechtliches
 
@@ -1591,4 +1619,4 @@ Photoshop ist eine eingetragene Marke von Adobe Inc.; Affinity Photo ist eine Ma
 
 ## Verwendete Bibliotheken
 
-µCSS und µPS nutzen Open-Source-Bibliotheken Dritter, insbesondere PostCSS (CSS-Parser, MIT-Lizenz), sharp (Bildverarbeitung, Apache-2.0-Lizenz) und ag-psd (PSD-Leser, MIT-Lizenz). Der Bin-Packer des Sprite-Atlas basiert auf node-bin-packing (©2011 Jake Gordon und Mitwirkende, MIT-Lizenz).
+µCSS und µPS nutzen Open-Source-Bibliotheken Dritter, insbesondere PostCSS (CSS-Parser, MIT-Lizenz), sharp (Bildverarbeitung, Apache-2.0-Lizenz), ag-psd (PSD-Leser, MIT-Lizenz) und uglifycss (CSS-Minifizierung, MIT-Lizenz). Der Bin-Packer des Sprite-Atlas basiert auf node-bin-packing (©2011 Jake Gordon und Mitwirkende, MIT-Lizenz).

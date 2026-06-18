@@ -232,8 +232,9 @@ export default DefineSkin({
 		/* ... */
 	],
 
-	/* Output — ersetzt µ.$.overloadOptions */
-	output: { minify: true, comments: false }
+	/* Deploy — optional: CSS minifizieren (uglifycss) und Sprite-Quellen trimmen */
+	minify: true
+	// sprites: { pruneSources: true, pruneKeep: ["imgs/general/glittery"] }
 });
 ```
 
@@ -703,7 +704,24 @@ Abschnitt ExtendScript-Einstieg.
 
 **µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas). Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
 
+**Ausnahmen:** `sprites.pruneKeep: string[]` — skin-relative Dateien oder Verzeichnisse, die vom Trim ausgenommen bleiben (Match über die 1x-URL; `1x` + `@2x` bleiben). Report: `keptSources[]`.
+
 **Abgrenzung:** Kein Ersatz für fehlende Quellen beim nächsten Vollbuild — für Entwicklung `pruneSources` weglassen oder Quellen aus dem Generator neu erzeugen lassen.
+
+### D19 — CSS-Minifizierung (`minify`, µCSS)
+
+**Hintergrund:** Deploy-Skins sollen schlanke CSS liefern; im Legacy-Stack übernahm oft `gulp-uglifycss` nach dem µCSS-Lauf.
+
+**µCSS 2.5:** Top-Level-Manifest `minify`:
+
+| Wert | Wirkung |
+| :--- | :--- |
+| `false` / entfällt | Unveränderte Formatierung |
+| `true` | `uglifycss` (Defaults wie gulp-uglifycss: nur Whitespace/Kommentare) |
+| Objekt | `uglifycss`-Optionen |
+| `(css) => css` | Eigener Minifier |
+
+Gilt für alle `files[].target`-Ausgaben. Report: `minified: boolean`. Laufzeit-Dependency `uglifycss`.
 
 ### D17 — Sound-Bindings, Auto-Wiring & Handler-Overrides (µAU / µCSS, geplant)
 
