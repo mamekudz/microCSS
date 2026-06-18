@@ -1,12 +1,10 @@
-# µCSS (npm package `gulp-mu-css`)
+# µCSS V2.5.3 (microCSS)
 
-*English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)*
+*English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
 Node module for compiling **µCSS**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript and PSD-based image generation, driven by a skin manifest. µCSS 2 is the Adobe-independent Node reimplementation of µCSS, originally introduced in 2013 as a Photoshop script.
 
-The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS** is the display name.
-
-**Version:** **2.5.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS** is the display name. Bump the **H1** version when releasing (must match `package.json`).
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
@@ -230,15 +228,13 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS (npm-Paket `gulp-mu-css`)
+# µCSS V2.5.3 (microCSS)
 
-*[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)*
+*[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
 Node-Modul zur Kompilierung von **µCSS**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript und PSD-basierte Bilderzeugung, gesteuert über ein Skin-Manifest. µCSS 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS.
 
-Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename.
-
-**Version:** **2.5.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen).
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 

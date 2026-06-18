@@ -1,4 +1,4 @@
-# µCSS (microCSS)
+# µCSS V2.5.3 (microCSS)
 
 *English (below) · [Deutsch](#µcss-microcss-1)*
 
@@ -22,7 +22,7 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
 
-Badges show the latest version on npm; bump the table when releasing (must match each module’s `package.json`).
+The **H1** shows the current **µCSS** release; bump it with `gulp-mu-css/package.json` when publishing µCSS. Badges show live npm versions; bump the table for all modules when releasing (must match each `package.json`).
 
 ## Interactive demos
 
@@ -114,7 +114,7 @@ The µCSS 2 modules and this monorepo tooling are published under the **MIT Lice
 
 <a id="µcss-microcss-1"></a>
 
-# µCSS (microCSS)
+# µCSS V2.5.3 (microCSS)
 
 Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** und **µAU** — der Adobe-unabhängige Nachfolger des ursprünglichen Photoshop-Skripts µCSS von 2013. Die historische ExtendScript-Version (µCSS 1) liegt unter [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/).
 
@@ -136,7 +136,7 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
 
-Badges = aktuelle npm-Version; Tabelle beim Release mit `package.json` je Modul abgleichen.
+Die **H1** zeigt die aktuelle **µCSS**-Version; beim µCSS-Release mit `gulp-mu-css/package.json` anheben. Badges = live npm; Tabelle für alle Module beim Release mit je `package.json` abgleichen.
 
 ## Interaktive Demos
 
