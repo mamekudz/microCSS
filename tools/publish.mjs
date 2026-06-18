@@ -3,14 +3,15 @@
 // flags or environment variables:
 //
 //   --otp=<code>     | MU_OTP        one-time 2FA code, forwarded to npm publish
+//   --login          | MU_LOGIN=1    run `npm login --auth-type=web` first (browser)
 //   --only=a,b       | MU_ONLY       restrict to these package names
 //   --tag=<dist-tag> | MU_TAG        npm dist-tag (default: latest)
 //   --build          | MU_BUILD=1    run tools/prepare-publish.mjs first
 //   --dry-run        | MU_DRY_RUN=1  show what would happen, publish nothing
 //
-// For unattended runs (no OTP prompt) configure an npm "Automation" access
-// token, e.g. via the NPM_TOKEN/NODE_AUTH_TOKEN env or an .npmrc with
-// //registry.npmjs.org/:_authToken=...; automation tokens bypass 2FA.
+// Interactive publish: use `npx gulp build:and:publish` — it sets MU_LOGIN=1 so npm
+// opens the browser for web login before the first publish. For unattended runs
+// configure an npm "Automation" access token via NODE_AUTH_TOKEN / .npmrc.
 
 import { existsSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -38,6 +39,7 @@ function _Option(_name, _envName) {
 
 const options = {
 	otp: _Option("otp", "MU_OTP"),
+	login: !!_Option("login", "MU_LOGIN"),
 	only: _Option("only", "MU_ONLY"),
 	tag: _Option("tag", "MU_TAG"),
 	build: !!_Option("build", "MU_BUILD"),
@@ -62,6 +64,41 @@ function _IsPublished(_name, _version) {
 	return result.status === 0 && result.stdout.trim() === _version;
 }
 
+// Returns true when `npm whoami` succeeds.
+function _IsLoggedIn() {
+	const result = spawnSync("npm", ["whoami"], {
+		stdio: ["ignore", "pipe", "ignore"],
+		shell: true,
+		encoding: "utf8"
+	});
+	return result.status === 0 && !!result.stdout.trim();
+}
+
+// Opens the browser for npm web login (OAuth). Required for interactive 2FA accounts.
+function _NpmLoginWeb() {
+	console.log("npm: opening browser for login (--auth-type=web)...\n");
+	const result = spawnSync("npm", ["login", "--auth-type=web"], {
+		stdio: "inherit",
+		shell: true
+	});
+	if (result.status !== 0) {
+		console.error("npm login failed.");
+		process.exit(1);
+	}
+	console.log();
+}
+
+function _EnsureNpmAuth() {
+	if (options.dryRun) return;
+	if (options.login || !_IsLoggedIn()) {
+		_NpmLoginWeb();
+		if (!_IsLoggedIn()) {
+			console.error("npm login did not complete. Try again: MU_LOGIN=1 npx gulp publish");
+			process.exit(1);
+		}
+	}
+}
+
 function _Publish(_bundleDir) {
 	const args = ["publish"];
 	if (options.tag && typeof options.tag === "string") args.push(`--tag=${options.tag}`);
@@ -83,6 +120,8 @@ if (options.build) {
 	}
 	console.log();
 }
+
+_EnsureNpmAuth();
 
 const summary = { published: [], skipped: [], missing: [], failed: [] };
 
@@ -115,6 +154,8 @@ for (const name of PUBLISH_ORDER) {
 		summary.published.push(`${name}@${version}`);
 	} else {
 		console.error(`! ${name}@${version}: npm publish failed.`);
+		console.error("  If 2FA blocked publish: MU_LOGIN=1 npx gulp publish  (browser login)");
+		console.error("  Or pass a one-time code: MU_OTP=<code> npx gulp publish");
 		summary.failed.push(`${name}@${version}`);
 		break; // stop so a dependent package is never published before its dependency
 	}
