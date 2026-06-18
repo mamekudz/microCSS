@@ -2,16 +2,17 @@
 // versions that are already on the registry (idempotent). Options come from CLI
 // flags or environment variables:
 //
-//   --otp=<code>     | MU_OTP        one-time 2FA code, forwarded to npm publish
-//   --login          | MU_LOGIN=1    run `npm login --auth-type=web` first (browser)
+//   --otp=<code>     | MU_OTP        one-time 2FA code (6+ digits only; invalid values ignored)
+//   --login          | MU_LOGIN=1    run `npm login --auth-type=web` first (browser); default on
+//   --no-login       | MU_LOGIN=0    skip browser login (use existing .npmrc / automation token)
 //   --only=a,b       | MU_ONLY       restrict to these package names
 //   --tag=<dist-tag> | MU_TAG        npm dist-tag (default: latest)
 //   --build          | MU_BUILD=1    run tools/prepare-publish.mjs first
 //   --dry-run        | MU_DRY_RUN=1  show what would happen, publish nothing
 //
-// Interactive publish: use `npx gulp build:and:publish` — it sets MU_LOGIN=1 so npm
-// opens the browser for web login before the first publish. For unattended runs
-// configure an npm "Automation" access token via NODE_AUTH_TOKEN / .npmrc.
+// Browser login runs by default (also for `node tools/publish.mjs`). Disable with
+// MU_LOGIN=0 or --no-login. Do not set MU_OTP to placeholder text — invalid codes
+// cause npm 400 errors instead of opening the browser.
 
 import { existsSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -37,9 +38,21 @@ function _Option(_name, _envName) {
 	return env === "0" || env.toLowerCase() === "false" ? undefined : env;
 }
 
+// npm publish --otp must be numeric; placeholder text (e.g. "DEIN_CODE") yields HTTP 400.
+function _SanitizeOtp(_raw) {
+	if (_raw == null || _raw === "") return undefined;
+	const otp = String(_raw).trim();
+	if (/^\d{6,8}$/.test(otp)) return otp;
+	console.warn(`Ignoring invalid MU_OTP / --otp "${otp}" (expected 6–8 digits, not placeholder text).`);
+	console.warn("Unset MU_OTP or use browser login (default). Example: Remove-Item Env:MU_OTP\n");
+	return undefined;
+}
+
+const _loginDisabled = _Flag("no-login") || process.env.MU_LOGIN === "0";
+
 const options = {
-	otp: _Option("otp", "MU_OTP"),
-	login: !!_Option("login", "MU_LOGIN"),
+	otp: _SanitizeOtp(_Option("otp", "MU_OTP")),
+	login: !_loginDisabled,
 	only: _Option("only", "MU_ONLY"),
 	tag: _Option("tag", "MU_TAG"),
 	build: !!_Option("build", "MU_BUILD"),
@@ -90,12 +103,18 @@ function _NpmLoginWeb() {
 
 function _EnsureNpmAuth() {
 	if (options.dryRun) return;
-	if (options.login || !_IsLoggedIn()) {
+	if (options.login) {
 		_NpmLoginWeb();
 		if (!_IsLoggedIn()) {
-			console.error("npm login did not complete. Try again: MU_LOGIN=1 npx gulp publish");
+			console.error("npm login did not complete. Finish the browser flow, then retry.");
 			process.exit(1);
 		}
+		return;
+	}
+	if (!_IsLoggedIn()) {
+		console.error("Not logged in to npm. Run: node tools/publish.mjs  (browser login is default)");
+		console.error("Or: MU_LOGIN=0 after configuring an automation token in .npmrc");
+		process.exit(1);
 	}
 }
 
@@ -154,8 +173,13 @@ for (const name of PUBLISH_ORDER) {
 		summary.published.push(`${name}@${version}`);
 	} else {
 		console.error(`! ${name}@${version}: npm publish failed.`);
-		console.error("  If 2FA blocked publish: MU_LOGIN=1 npx gulp publish  (browser login)");
-		console.error("  Or pass a one-time code: MU_OTP=<code> npx gulp publish");
+		if (options.otp) {
+			console.error("  OTP rejected — generate a fresh code: MU_OTP=<6 digits> node tools/publish.mjs");
+		} else {
+			console.error("  Try browser login again: node tools/publish.mjs");
+			console.error("  Or one-time code: MU_OTP=<6 digits> node tools/publish.mjs");
+			console.error("  Unattended: automation token in .npmrc (MU_LOGIN=0)");
+		}
 		summary.failed.push(`${name}@${version}`);
 		break; // stop so a dependent package is never published before its dependency
 	}

@@ -109,11 +109,10 @@ BuildPublish.displayName = "build:publish";
 BuildPublish.description = "Copies publish-ready bundles (microCSS, microPS, microFT, microAU) into build/ (run docs:manual first to refresh the bundled PDF).";
 
 export function Publish() {
-	process.env.MU_LOGIN = process.env.MU_LOGIN ?? "1";
 	return _RunCommand("node", ["tools/publish.mjs"], rootDir);
 }
 Publish.displayName = "publish";
-Publish.description = "Publishes build/ bundles to npm (MU_LOGIN=1 opens browser login by default). Env: MU_OTP, MU_ONLY, MU_TAG, MU_BUILD, MU_DRY_RUN.";
+Publish.description = "Publishes build/ bundles to npm (browser login by default in tools/publish.mjs). Env: MU_OTP, MU_LOGIN=0, MU_ONLY, MU_TAG, MU_BUILD, MU_DRY_RUN.";
 
 export const BuildAndPublish = gulp.series(BuildPublish, Publish);
 BuildAndPublish.displayName = "build:and:publish";
