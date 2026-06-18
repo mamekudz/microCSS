@@ -6,6 +6,8 @@ Node module for compiling **µCSS**-enhanced stylesheets — sprites, cursors, c
 
 The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS** is the display name.
 
+**Version:** **2.5.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
 **No Adobe subscription for the build** — unlike µCSS 1, compilation and PSD rendering run in Node. Layered drafts are typically edited in **[Affinity](https://affinity.studio/download)** (free; Canva account for download), which exports PSD with layer fidelity.
@@ -184,7 +186,7 @@ export function SkinWatch() {
 
 `BuildSkin(manifestPath, { force?, outputDir?, rootDir? })` first runs the `media` steps (`buttonsAndIcons`, `appIcons`, `sequenceStrip`, `copy`, `copyFolder`), then compiles every `files` entry, resolves the sprite atlas and writes everything to `skins/<skinname>/`. The global switch `imageFormat: "webp"` turns the image-generating steps (and, unless `sprites.format` overrides it, the atlas) to WebP; `sprites: { format: "webp" }` switches the atlas alone. See the manual (`docs/microCSS-en.pdf`) for details and all options.
 
-**Deploy trim & minify (optional).** `sprites: { pruneSources: true }` deletes the source images packed into the atlas (their `@2x` too) so the output directory ships without the redundant per-sprite files; `sprites: { pruneKeep: ["imgs/general/glittery", "imgs/x/y.png"] }` protects directories or single files from that trim (matched against a sprite's 1x URL, keeps `1x` + `@2x`). `minify: true` minifies every emitted stylesheet with [`uglifycss`](https://www.npmjs.com/package/uglifycss) (defaults `{ maxLineLen: 1000, uglyComments: true }`; whitespace/comments only, no rule reordering) — pass an options object to tune it, or a function `(css) => css` to use a different engine.
+**Deploy trim & minify (optional).** `sprites: { pruneSources: true }` deletes the source images packed into the atlas (their `@2x` too) and any **sequence-strip sidecar** `<strip>.json` next to a packed 1x source (compile-time map only); `sprites: { pruneKeep: ["imgs/general/glittery", "imgs/x/y.png"] }` protects directories or single files from that trim (matched against a sprite's 1x URL, keeps `1x` + `@2x` + sidecar JSON). `minify: true` minifies every emitted stylesheet with [`uglifycss`](https://www.npmjs.com/package/uglifycss) (defaults `{ maxLineLen: 1000, uglyComments: true }`; whitespace/comments only, no rule reordering) — pass an options object to tune it, or a function `(css) => css` to use a different engine.
 
 ## Programmatic use
 
@@ -235,6 +237,8 @@ MIT
 Node-Modul zur Kompilierung von **µCSS**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript und PSD-basierte Bilderzeugung, gesteuert über ein Skin-Manifest. µCSS 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS.
 
 Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename.
+
+**Version:** **2.5.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 
@@ -414,7 +418,7 @@ export function SkinWatch() {
 
 `BuildSkin(manifestPfad, { force?, outputDir?, rootDir? })` führt zuerst die `media`-Steps aus (`buttonsAndIcons`, `appIcons`, `sequenceStrip`, `copy`, `copyFolder`), kompiliert dann alle `files`-Einträge, löst den Sprite-Atlas auf und schreibt alles nach `skins/<skinname>/`. Der globale Schalter `imageFormat: "webp"` stellt die bilderzeugenden Steps (und, sofern `sprites.format` es nicht überschreibt, den Atlas) auf WebP um; `sprites: { format: "webp" }` stellt allein den Atlas um. Details und alle Optionen stehen im Handbuch (`docs/microCSS-de.pdf`).
 
-**Deploy-Trim & Minify (optional).** `sprites: { pruneSources: true }` löscht die in den Atlas gepackten Quellbilder (inkl. `@2x`), sodass das Ausgabeverzeichnis ohne die redundanten Einzel-Sprites ausgeliefert wird; `sprites: { pruneKeep: ["imgs/general/glittery", "imgs/x/y.png"] }` nimmt Verzeichnisse oder einzelne Dateien davon aus (Match über die 1x-URL einer Sprite-Quelle, behält `1x` + `@2x`). `minify: true` minifiziert jede erzeugte CSS mit [`uglifycss`](https://www.npmjs.com/package/uglifycss) (Defaults `{ maxLineLen: 1000, uglyComments: true }`; nur Whitespace/Kommentare, keine Regel-Umsortierung) — ein Optionsobjekt feinjustiert, eine Funktion `(css) => css` nutzt einen anderen Engine.
+**Deploy-Trim & Minify (optional).** `sprites: { pruneSources: true }` löscht die in den Atlas gepackten Quellbilder (inkl. `@2x`) sowie die **Sequence-Strip-Sidecar-**`<strip>.json` neben der gepackten 1x-Quelle (nur Compile-Zeit-Map); `sprites: { pruneKeep: ["imgs/general/glittery", "imgs/x/y.png"] }` nimmt Verzeichnisse oder einzelne Dateien davon aus (Match über die 1x-URL einer Sprite-Quelle, behält `1x` + `@2x` + Sidecar-JSON). `minify: true` minifiziert jede erzeugte CSS mit [`uglifycss`](https://www.npmjs.com/package/uglifycss) (Defaults `{ maxLineLen: 1000, uglyComments: true }`; nur Whitespace/Kommentare, keine Regel-Umsortierung) — ein Optionsobjekt feinjustiert, eine Funktion `(css) => css` nutzt einen anderen Engine.
 
 ## Programmatische Nutzung
 

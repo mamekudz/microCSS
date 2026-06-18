@@ -4,6 +4,8 @@
 
 The technical package name is `gulp-mu-au` (the µ character causes trouble in npm/git names); **µAU** is the display name.
 
+**Version:** **0.1.4** · [![npm version](https://img.shields.io/npm/v/gulp-mu-au.svg)](https://www.npmjs.com/package/gulp-mu-au)
+
 Node module that builds a **sound atlas** for the µCSS family: many short audio files → one combined WAV/MP3 blob plus a JSON timing map for the browser runtime. Audio counterpart of sprite atlases.
 
 > **Documentation policy:** Loop points, conversion options, incremental cache, JSON format and µCSS manifest integration are documented **centrally in the µCSS manual** (chapter *microAU*). This README is a quick npm overview only.
@@ -72,6 +74,8 @@ npx gulp test     # in the project root
 *[English](#µau-npm-package-gulp-mu-au) · Deutsch (unten)*
 
 Der technische Paketname ist `gulp-mu-au`; **µAU** ist der Anzeigename.
+
+**Version:** **0.1.4** · [![npm version](https://img.shields.io/npm/v/gulp-mu-au.svg)](https://www.npmjs.com/package/gulp-mu-au)
 
 Node-Modul für einen **Sound-Atlas** in der µCSS-Familie: viele kurze Audiodateien → kombinierter WAV/MP3-Blob plus JSON-Timing-Map für die Browser-Runtime. Audio-Gegenstück zu Sprite-Atlanten.
 

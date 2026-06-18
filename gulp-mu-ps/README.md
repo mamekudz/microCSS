@@ -4,6 +4,8 @@
 
 The technical package name is `gulp-mu-ps` (the µ character causes trouble in npm/git names); **µPS** is the display name.
 
+**Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
+
 Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency**. PSD sources via `ag-psd`, rendering via `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download).
 
 > **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS manual** (chapter *microPS*). This README is a quick npm overview only.
@@ -76,6 +78,8 @@ npx gulp test     # in the project root
 *[English](#µps-npm-package-gulp-mu-ps) · Deutsch (unten)*
 
 Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
+
+**Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
 Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos).
 

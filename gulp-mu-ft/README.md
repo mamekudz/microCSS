@@ -4,6 +4,8 @@
 
 The technical package name is `gulp-mu-ft` (the µ character causes trouble in npm/git names); **µFT** is the display name.
 
+**Version:** **0.1.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ft.svg)](https://www.npmjs.com/package/gulp-mu-ft)
+
 Node module that builds an **icon font** from a directory of SVG glyphs — automated like IcoMoon, without Adobe or IcoMoon. Output: font files, CSS classes, IcoMoon-compatible JSON, HTML overview.
 
 > **Documentation policy:** Glyph naming, all `FontGenerator` options, incremental cache and µCSS integration are documented **centrally in the µCSS manual** (chapter *microFT*). This README is a quick npm overview only.
@@ -67,6 +69,8 @@ npx gulp test     # in the project root
 *[English](#µft-npm-package-gulp-mu-ft) · Deutsch (unten)*
 
 Der technische Paketname ist `gulp-mu-ft`; **µFT** ist der Anzeigename.
+
+**Version:** **0.1.3** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ft.svg)](https://www.npmjs.com/package/gulp-mu-ft)
 
 Node-Modul für **Icon-Fonts** aus SVG-Glyphen — automatisiert wie IcoMoon, ohne Adobe/IcoMoon. Ausgabe: Font-Dateien, CSS-Klassen, IcoMoon-JSON, HTML-Übersicht.
 

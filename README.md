@@ -8,6 +8,22 @@ Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node mo
 
 **No Adobe subscription for the build.** µCSS 1 required a licensed copy of Photoshop for CSS compilation *and* bitmap generation. Version 2 runs headless in Node — sprites, cursors and PSD rendering via µPS need no Creative Cloud. For layered PSD drafts (buttons, icons, …), **[Affinity](https://affinity.studio/download)** is recommended: professional editing, **free** (Canva account for download and activation), with PSD import/export.
 
+## Releases (npm)
+
+[![gulp-mu-css](https://img.shields.io/npm/v/gulp-mu-css.svg?label=gulp-mu-css)](https://www.npmjs.com/package/gulp-mu-css)
+[![gulp-mu-ps](https://img.shields.io/npm/v/gulp-mu-ps.svg?label=gulp-mu-ps)](https://www.npmjs.com/package/gulp-mu-ps)
+[![gulp-mu-ft](https://img.shields.io/npm/v/gulp-mu-ft.svg?label=gulp-mu-ft)](https://www.npmjs.com/package/gulp-mu-ft)
+[![gulp-mu-au](https://img.shields.io/npm/v/gulp-mu-au.svg?label=gulp-mu-au)](https://www.npmjs.com/package/gulp-mu-au)
+
+| Display name | npm package | Version in repo (`package.json`) |
+| :--- | :--- | :--- |
+| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.3** |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.0** |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
+
+Badges show the latest version on npm; bump the table when releasing (must match each module’s `package.json`).
+
 ## Interactive demos
 
 Live on **GitHub Pages** (no install): **[mamekudz.github.io/microCSS](https://mamekudz.github.io/microCSS/)**
@@ -36,12 +52,12 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 
 ## npm packages
 
-| Display name | npm package | Role |
-| :--- | :--- | :--- |
-| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | Builds sound atlases (combined WAV/MP3 + JSON timing map) for the µCSS family |
+| Display name | npm package | Version in repo | Role |
+| :--- | :--- | :--- | :--- |
+| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.3** | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.0** | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Builds sound atlases (combined WAV/MP3 + JSON timing map) for the µCSS family |
 
 Install the compiler in your project:
 
@@ -106,6 +122,22 @@ Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** un
 
 **Kein Adobe-Abo für den Build.** µCSS 1 brauchte eine lizenzierte Photoshop-Installation für CSS-Kompilierung *und* Bitmap-Erzeugung. Version 2 läuft headless in Node — Sprites, Cursor und PSD-Rendering via µPS ohne Creative Cloud. Für geschichtete PSD-Entwürfe (Buttons, Icons, …) ist **[Affinity](https://affinity.studio/download)** empfohlen: professionelle Bearbeitung, **kostenlos** (Canva-Konto zum Download und zur Aktivierung), mit PSD-Import/-Export.
 
+## Veröffentlichte Versionen (npm)
+
+[![gulp-mu-css](https://img.shields.io/npm/v/gulp-mu-css.svg?label=gulp-mu-css)](https://www.npmjs.com/package/gulp-mu-css)
+[![gulp-mu-ps](https://img.shields.io/npm/v/gulp-mu-ps.svg?label=gulp-mu-ps)](https://www.npmjs.com/package/gulp-mu-ps)
+[![gulp-mu-ft](https://img.shields.io/npm/v/gulp-mu-ft.svg?label=gulp-mu-ft)](https://www.npmjs.com/package/gulp-mu-ft)
+[![gulp-mu-au](https://img.shields.io/npm/v/gulp-mu-au.svg?label=gulp-mu-au)](https://www.npmjs.com/package/gulp-mu-au)
+
+| Anzeigename | npm-Paket | Version im Repo (`package.json`) |
+| :--- | :--- | :--- |
+| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.3** |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.0** |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
+
+Badges = aktuelle npm-Version; Tabelle beim Release mit `package.json` je Modul abgleichen.
+
 ## Interaktive Demos
 
 Live auf **GitHub Pages** (ohne Installation): **[mamekudz.github.io/microCSS](https://mamekudz.github.io/microCSS/)**
@@ -134,12 +166,12 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 
 ## npm-Pakete
 
-| Anzeigename | npm-Paket | Aufgabe |
-| :--- | :--- | :--- |
-| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3 + JSON-Timing-Map) für die µCSS-Familie |
+| Anzeigename | npm-Paket | Version im Repo | Aufgabe |
+| :--- | :--- | :--- | :--- |
+| **µCSS** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.3** | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.0** | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3 + JSON-Timing-Map) für die µCSS-Familie |
 
 Installation des Compilers im eigenen Projekt:
 
