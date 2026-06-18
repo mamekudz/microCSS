@@ -241,5 +241,43 @@ describe("Sprites and cursors (M2)", function () {
 			await _WritePng("imgs/logos/logo.png", 134, 25, red);
 			await _WritePng("imgs/logos/logo@2x.png", 268, 50, red);
 		});
+
+		it("pruneKeep protects matched files and directories from pruning", async () => {
+			const red = { r: 255, g: 0, b: 0, alpha: 1 };
+			await _WritePng("imgs/keeptest/keep.png", 20, 20, red);
+			await _WritePng("imgs/keeptest/keep@2x.png", 40, 40, red);
+			await _WritePng("imgs/keepdir/inside.png", 20, 20, red);
+			await _WritePng("imgs/keepdir/inside@2x.png", 40, 40, red);
+			await _WritePng("imgs/dropdir/drop.png", 20, 20, red);
+			await _WritePng("imgs/dropdir/drop@2x.png", 40, 40, red);
+
+			const sprites = new SpriteManager({
+				baseDir: tmpDir,
+				atlasFile: "imgs/sprites_keep.png",
+				retina: true,
+				pruneSources: true,
+				pruneKeep: ["imgs/keeptest/keep.png", "imgs/keepdir"]
+			});
+			const document = CompileMcss(
+				"div.a { -µ: Sprite(\"imgs/keeptest/keep.png\"); }"
+				+ "div.b { -µ: Sprite(\"imgs/keepdir/inside.png\"); }"
+				+ "div.c { -µ: Sprite(\"imgs/dropdir/drop.png\"); }",
+				{ sprites }
+			);
+			await sprites.Resolve(document);
+
+			// Exact-file keep (incl. its @2x) and whole directory subtree survive.
+			expect(existsSync(join(tmpDir, "imgs/keeptest/keep.png"))).to.equal(true);
+			expect(existsSync(join(tmpDir, "imgs/keeptest/keep@2x.png"))).to.equal(true);
+			expect(existsSync(join(tmpDir, "imgs/keepdir/inside.png"))).to.equal(true);
+			expect(existsSync(join(tmpDir, "imgs/keepdir/inside@2x.png"))).to.equal(true);
+			// Unmatched sources are pruned as usual.
+			expect(existsSync(join(tmpDir, "imgs/dropdir/drop.png"))).to.equal(false);
+			expect(existsSync(join(tmpDir, "imgs/dropdir/drop@2x.png"))).to.equal(false);
+
+			expect(sprites.lastPruned.kept).to.include("imgs/keeptest/keep.png");
+			expect(sprites.lastPruned.kept).to.include("imgs/keepdir/inside.png");
+			expect(sprites.lastPruned.deleted).to.include("imgs/dropdir/drop.png");
+		});
 	});
 });

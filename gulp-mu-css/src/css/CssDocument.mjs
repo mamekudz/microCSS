@@ -237,8 +237,9 @@ export class CssDocument {
 		return this.root.toString();
 	}
 
-	async ToFile(_path) {
+	async ToFile(_path, _transform) {
 		await mkdir(dirname(_path), { recursive: true });
-		await writeFile(_path, this.ToCss(), "utf8");
+		const css = this.ToCss();
+		await writeFile(_path, _transform ? _transform(css) : css, "utf8");
 	}
 }

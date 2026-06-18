@@ -47,6 +47,20 @@ function _Origin(_rule) {
 	return ` - ${parts.join(" ")}`;
 }
 
+// A keep pattern protects a packed source file from prune deletion. It matches
+// a skin-relative URL when it equals the URL (exact file) or is a directory
+// prefix of it (pattern, then pattern + "/"). Patterns are normalized to
+// forward slashes and trailing slashes are ignored, so both "imgs/foo" and
+// "imgs/foo/" keep the whole "imgs/foo" subtree.
+function _MatchesKeep(_url, _patterns) {
+	for (const raw of _patterns) {
+		const pattern = String(raw).split("\\").join("/").replace(/\/+$/, "");
+		if (!pattern) continue;
+		if (_url === pattern || _url.startsWith(`${pattern}/`)) return true;
+	}
+	return false;
+}
+
 export class SpriteManager {
 	// _options: {
 	//   baseDir = "."              skin output dir; sprite URLs and the atlas
@@ -59,6 +73,10 @@ export class SpriteManager {
 	//   preload = null             PreloadRegistry (required for preloadRule)
 	//   writeMapFile = false       persist "<atlas>.json" mapping data
 	//   pruneSources = false       delete packed source images after Resolve
+	//   pruneKeep = []             skin-relative files/dirs kept from pruning;
+	//                              matched against each sprite's 1x URL (exact
+	//                              file or directory-prefix), keeps 1x + @2x,
+	//                              e.g. ["imgs/general/gui/glittery", "imgs/x/y.png"]
 	// }
 	constructor(_options = {}) {
 		this.options = {
@@ -70,6 +88,7 @@ export class SpriteManager {
 			preload: null,
 			writeMapFile: false,
 			pruneSources: false,
+			pruneKeep: [],
 			..._options
 		};
 		this.registrations = [];
@@ -160,16 +179,19 @@ export class SpriteManager {
 	}
 
 	// Deletes 1x/@2x source files that were packed into the atlas (deploy trim).
-	// Never removes the atlas itself. Returns skin-relative URLs deleted.
+	// Never removes the atlas itself, and never a file matched by pruneKeep.
+	// Returns skin-relative URLs deleted and kept.
 	PruneSources() {
 		if (!this.options.pruneSources || !this.registrations.length) {
-			return { deleted: [] };
+			return { deleted: [], kept: [] };
 		}
+		const keep = this.options.pruneKeep ?? [];
 		const atlasPaths = new Set([
 			join(this.options.baseDir, this.options.atlasFile),
 			join(this.options.baseDir, _RetinaUrl(this.options.atlasFile))
 		]);
 		const deleted = [];
+		const kept = [];
 		const seen = new Set();
 		for (const reg of this.registrations) {
 			if (seen.has(reg.url)) continue;
@@ -178,13 +200,21 @@ export class SpriteManager {
 				?? join(this.options.baseDir, reg.url);
 			const candidates = [resolved];
 			if (this.options.retina) candidates.push(_RetinaUrl(resolved));
+			// Keep is decided per sprite source (by its 1x URL): a protected
+			// source retains both its 1x and @2x file.
+			const protectedSource = _MatchesKeep(reg.url.split("\\").join("/"), keep);
 			for (const file of candidates) {
 				if (atlasPaths.has(file) || !existsSync(file)) continue;
+				const url = relative(this.options.baseDir, file).split("\\").join("/");
+				if (protectedSource) {
+					kept.push(url);
+					continue;
+				}
 				unlinkSync(file);
-				deleted.push(relative(this.options.baseDir, file).split("\\").join("/"));
+				deleted.push(url);
 			}
 		}
-		return { deleted };
+		return { deleted, kept };
 	}
 
 	// Builds the atlas and rewrites all registered rules.
@@ -257,7 +287,7 @@ export class SpriteManager {
 		if (this.options.preloadRule && this.options.preload && _document) {
 			this.options.preload.CreateRule(_document);
 		}
-		this.lastPruned = atlas ? this.PruneSources() : { deleted: [] };
+		this.lastPruned = atlas ? this.PruneSources() : { deleted: [], kept: [] };
 		return atlas;
 	}
 }

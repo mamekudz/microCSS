@@ -6,6 +6,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, dirname, parse, resolve, relative, sep } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
+import uglifycss from "uglifycss";
 import { SoundAtlasMaker } from "gulp-mu-au";
 import { CompileMcss } from "../compile/Compiler.mjs";
 import { SpriteManager } from "../api/Sprites.mjs";
@@ -27,6 +28,19 @@ function _SwapExtension(_file, _format) {
 function _RetinaUrl(_url) {
 	const dot = _url.lastIndexOf(".");
 	return dot < 0 ? `${_url}@2x` : `${_url.slice(0, dot)}@2x${_url.slice(dot)}`;
+}
+
+// CSS minification for the manifest `minify` option. The default engine is
+// uglifycss (the library behind gulp-uglifycss): conservative - it strips
+// whitespace/comments but never reorders or merges rules, so the deployed CSS
+// stays byte-for-byte equivalent to the legacy gulp-uglifycss output.
+//   minify: true            uglifycss with defaults { maxLineLen: 1000, uglyComments: true }
+//   minify: { ...options }  uglifycss with these options merged over the defaults
+//   minify: (css) => css    custom minifier (any engine), no extra dependency
+function _MinifyCss(_css, _minify) {
+	if (typeof _minify === "function") return _minify(_css);
+	const options = (_minify && typeof _minify === "object") ? _minify : {};
+	return uglifycss.processString(_css, { maxLineLen: 1000, uglyComments: true, ...options });
 }
 
 // Raster extensions accepted for manifest-level sprite includes.
@@ -261,7 +275,8 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 		padding: spritesConfig.padding ?? 0,
 		preloadRule: !!spritesConfig.preloadRule,
 		preload,
-		pruneSources: !!spritesConfig.pruneSources
+		pruneSources: !!spritesConfig.pruneSources,
+		pruneKeep: spritesConfig.pruneKeep ?? []
 	});
 
 	// 3. Compile all stylesheets (sprite rules register, nothing is packed yet).
@@ -308,11 +323,13 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 	// documents; the preload rule goes into the first stylesheet.
 	const atlasResult = await _ResolveSprites(sprites, compiled[0]?.document ?? null, cache, force);
 
-	// 5. Emit.
+	// 5. Emit (optionally minified via the manifest `minify` option).
+	const minify = config.minify ?? false;
+	const minifyTransform = minify ? (_css) => _MinifyCss(_css, minify) : undefined;
 	const files = [];
 	for (const { entry, document } of compiled) {
 		const target = join(outputDir, entry.target);
-		await document.ToFile(target);
+		await document.ToFile(target, minifyTransform);
 		files.push({ source: entry.source, target });
 	}
 
@@ -326,6 +343,8 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 		atlas: atlasResult.atlas,
 		atlasSkipped: atlasResult.skipped,
 		prunedSources: sprites.lastPruned?.deleted ?? [],
+		keptSources: sprites.lastPruned?.kept ?? [],
+		minified: !!minify,
 		duration: Date.now() - startedAt
 	};
 }

@@ -423,4 +423,53 @@ export default DefineSkin({
 		expect(error.message).to.include("copyFolder: source folder not found");
 		expect(error.message).to.include("missing-strips");
 	});
+
+	it("minifies CSS via the manifest minify option (uglifycss default + custom function)", async () => {
+		writeFileSync(join(srcDir, "src-min.µ.css"),
+			"div.a {\n\tcolor: red;\n\t/* a comment */\n}\ndiv.b {\n\tcolor: blue;\n}\n");
+
+		// minify: true -> uglifycss defaults: comments stripped, whitespace collapsed.
+		const minManifest = join(srcDir, "min.µcss.mjs");
+		writeFileSync(minManifest, `import { DefineSkin } from "${indexUrl}";
+export default DefineSkin({
+	minify: true,
+	files: [{ source: "src-min.µ.css", target: "min.css" }]
+});
+`);
+		const minOut = join(projectDir, "skins", "min");
+		const report = await BuildSkin(minManifest, { outputDir: minOut });
+		const css = readFileSync(join(minOut, "min.css"), "utf8");
+		expect(report.minified).to.equal(true);
+		expect(css).to.not.include("/* a comment */");
+		expect(css).to.not.include("\n");
+		expect(css).to.not.include("\t");
+		expect(css).to.include("div.a");
+		expect(css).to.include("div.b");
+		expect(css).to.include("red");
+
+		// minify: function -> used verbatim as a custom minifier (any engine).
+		const fnManifest = join(srcDir, "minfn.µcss.mjs");
+		writeFileSync(fnManifest, `import { DefineSkin } from "${indexUrl}";
+export default DefineSkin({
+	minify: (css) => "/*X*/" + css,
+	files: [{ source: "src-min.µ.css", target: "minfn.css" }]
+});
+`);
+		const fnOut = join(projectDir, "skins", "minfn");
+		await BuildSkin(fnManifest, { outputDir: fnOut });
+		const fnCss = readFileSync(join(fnOut, "minfn.css"), "utf8");
+		expect(fnCss.startsWith("/*X*/")).to.equal(true);
+
+		// minify omitted -> output keeps its original formatting (newlines present).
+		const rawManifest = join(srcDir, "minraw.µcss.mjs");
+		writeFileSync(rawManifest, `import { DefineSkin } from "${indexUrl}";
+export default DefineSkin({
+	files: [{ source: "src-min.µ.css", target: "minraw.css" }]
+});
+`);
+		const rawOut = join(projectDir, "skins", "minraw");
+		const rawReport = await BuildSkin(rawManifest, { outputDir: rawOut });
+		expect(rawReport.minified).to.equal(false);
+		expect(readFileSync(join(rawOut, "minraw.css"), "utf8")).to.include("\n");
+	});
 });
