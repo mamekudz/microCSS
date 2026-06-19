@@ -40,7 +40,24 @@ If you edit layered PSD sources yourself, use **[Affinity](https://affinity.stud
 | Processing | µPS in Node | Layer read, style transfer, compositing, PNG export |
 | Optional | `OpenDrafts` (µPS) | Open a draft in the default desktop app after a failed compare |
 
-µPS performs the layer separation and rendering that the old Photoshop script handled; the editor only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11).
+µPS performs the layer separation and rendering that the old Photoshop script handled; the editor only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `OpenPhotopeaDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11/D11b).
+
+### Photopea (browser)
+
+[Photopea](https://www.photopea.com/) is a free online PSD editor (full PSD, local processing). µPS opens drafts via **`OpenPhotopeaDrafts`** — a localhost CORS server plus Photopea [URL/API](https://www.photopea.com/api/). Save in Photopea (*File → Save*) POSTs the PSD back to disk when `saveBack` is enabled (default).
+
+```js
+import { OpenPhotopeaDrafts, WatchDrafts } from "gulp-mu-ps";
+
+WatchDrafts(["dev/media/final/general/gui/buttons.psd"], () => buildSkin());
+
+await OpenPhotopeaDrafts(["dev/media/final/general/gui/buttons.psd"], {
+	saveBack: true,
+	onSave: ({ path }) => console.log("Updated:", path)
+});
+```
+
+CLI: `node gulp-mu-ps/tools/open-drafts.mjs --app photopea path/to/draft.psd` (keeps running for save-back until Ctrl+C). Env: `MU_PHOTOPEA_SCRIPT` (optional script after load).
 
 ## Context: Why µCSS?
 
@@ -286,6 +303,24 @@ media: [
 	{ copyFolder: "dev/media/final/fonts", to: "fonts" }
 ]
 ```
+
+### Custom media steps (plugins)
+
+Built-in steps cover the legacy µCSS plugins. For project-specific generators (similar to a custom ButtonAndIconCreator), register a handler **before** `BuildSkin`:
+
+```js
+import { RegisterMediaStep, BuildSkin } from "gulp-mu-css";
+
+RegisterMediaStep("myTiles", async (step, ctx) => {
+	// use gulp-mu-ps primitives or your own logic
+	return { type: "myTiles", skipped: false, outputs: [/* absolute paths */] };
+});
+
+await BuildSkin("mySkin.µcss.mjs");
+// manifest: { myTiles: { source: "…", outputDir: "…" } }
+```
+
+See `docs/CONCEPT.md` (D13). Built-in keys (`buttonsAndIcons`, `copy`, …) cannot be overridden.
 
 - **`buttonsAndIcons`** renders complete button and icon series including `@2x` variants from a layered PSD draft (layouts × icon glyphs) — the successor of the ButtonCreator plugin. The layer effects (drop shadow, gradients, glow, bevel, **stroke**, **satin**, etc.) are reproduced by µPS — see chapter *PSD compositor*.
 

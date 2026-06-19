@@ -15,3 +15,8 @@ export { PreloadRegistry, PRELOAD_SELECTOR } from "./api/Preload.mjs";
 export { DefineSkin, BuildSkin } from "./build/SkinBuilder.mjs";
 export { BuildCache, FileFingerprint, FingerprintFiles, FingerprintsMatch } from "./build/BuildCache.mjs";
 export { RunMediaStep } from "./build/MediaSteps.mjs";
+export {
+	RegisterMediaStep,
+	ListMediaStepTypes,
+	GetMediaStepHandler
+} from "./build/MediaStepRegistry.mjs";

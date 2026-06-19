@@ -598,23 +598,81 @@ kann `watch-drafts.mjs` einen Skin-Task anstoßen, wenn kein globales Gulp-Watch
 abhängig); PSD-Skelette schreiben (später, `ag-psd`-Write); Photoshop für Produktion
 (nur Referenz-JSX in der µPS-Entwicklung); Photopea als Render-Engine (µPS bleibt Node).
 
-### D11b — Photopea-API (Perspektive für µPS / µCSS)
+### D11b — Photopea-API (µPS, implementiert)
 
-Photopea kann per URL konfiguriert werden: `https://www.photopea.com#` + URL-kodiertes JSON
-(`files`, `resources`, optional `script`, optional `server` mit Save-back). Die
-[API-Doku](https://www.photopea.com/api/) ist kostenlos nutzbar.
+[Photopea](https://www.photopea.com/) öffnet PSDs im Browser (volle PSD-Unterstützung, lokal auf
+dem Gerät). Die [URL/API](https://www.photopea.com/api/) übergibt per Hash-JSON `files`,
+optional `script` und optional `server` (Save-back per POST).
 
-**Sinnvolle Integration (geplant, nicht Release-blockierend):**
+**Implementierung (µPS ≥ 1.3.1):**
 
-| Idee | Nutzen |
+| Export / CLI | Funktion |
 | :--- | :--- |
-| `OpenDrafts(paths, { app: "photopea" })` | Mini-HTTP-Server mit CORS liefert die PSD; Browser öffnet Photopea mit `files: [url]` — kein Desktop-Editor nötig |
-| `server.url` + Save in Photopea | Geänderte PSD per POST zurück → Datei ersetzen → `WatchDrafts` / Skin-Rebuild |
-| `script` nach dem Laden | Einmalige Anpassungen im Editor, die µPS (noch) nicht abbildet — Ergänzung, kein Ersatz für µPS |
+| `OpenPhotopeaDrafts(paths, options)` | Startet lokalen CORS-Server, baut Photopea-URL, öffnet Browser |
+| `CreatePhotopeaDraftServer`, `BuildPhotopeaUrl` | Low-Level (Tests, eigene Integration) |
+| `node tools/open-drafts.mjs --app photopea <file.psd>` | CLI; Save-back standardmäßig an, Prozess bleibt bis Ctrl+C |
+| `MU_PHOTOPEA_SCRIPT` | Optionales Photopea-Skript nach dem Laden |
+| `MU_PHOTOPEA_NO_BROWSER=1` | Kein Browser öffnen (Tests) |
 
-**Abgrenzung:** Rendering, Sprite-Atlas und Button-Matrix bleiben in **µPS (Node)**.
-Photopea ist Authoring und optionaler „open & save“-Kanal, analog zu `OpenDrafts` +
-Affinity — nicht die Build-Pipeline selbst.
+**Typischer Workflow:**
+
+1. Terminal A: `node gulp-mu-ps/tools/watch-drafts.mjs dev/media/…/buttons.psd` (optional Skin-Task)
+2. Terminal B: `node gulp-mu-ps/tools/open-drafts.mjs --app photopea dev/media/…/buttons.psd`
+3. In Photopea bearbeiten → *File → Save* → POST an `localhost` → PSD auf Platte → Watch → µPS-Rebuild
+
+```js
+import { OpenPhotopeaDrafts } from "gulp-mu-ps";
+
+const { url, close } = await OpenPhotopeaDrafts(["dev/media/final/general/gui/buttons.psd"], {
+	saveBack: true,
+	onSave: ({ path }) => console.log("Saved:", path)
+});
+// … await close() when done
+```
+
+**Abgrenzung:** Rendering bleibt in **µPS (Node)**. Photopea ist Authoring + Save-back-Kanal.
+
+### D13 — Plugin-System (Media-Steps & µPS-Erweiterungen)
+
+µCSS 1 kannte fest eingebaute Photoshop-Plugins (`µ.plugins.ButtonAndIconCreator`, …).
+Version 2 mappt das auf **manifest-`media`-Steps** (built-in) plus eine **Registry für
+Custom Steps**.
+
+**Heute (Phase 1 — implementiert in µCSS):**
+
+```js
+import { RegisterMediaStep, BuildSkin } from "gulp-mu-css";
+import { TileSheet } from "gulp-mu-ps";
+
+RegisterMediaStep("tileSheet", async (step, ctx) => {
+	const outputs = await TileSheet.Create(/* step.tileSheet, ctx */);
+	return { type: "tileSheet", skipped: false, outputs };
+});
+
+// Manifest: { tileSheet: { source: "…", output: "…" } }
+await BuildSkin("mySkin.µcss.mjs");
+```
+
+- `RegisterMediaStep(type, handler)` — `_type` ist der Manifest-Schlüssel; Handler erhält
+  `(step, ctx)` wie interne Steps (`rootDir`, `outputDir`, `imageFormat`, `cache`, `index`).
+- Built-in-Typen (`buttonsAndIcons`, `copy`, …) haben Vorrang — keine Kollisionen nutzen.
+- **Kein** dynamisches `import()` aus dem Manifest (Sicherheit) — Registrierung im
+  Projekt-/`gulpfile`-Code vor `BuildSkin`.
+
+**Empfohlene Phasen:**
+
+| Phase | Inhalt |
+| :--- | :--- |
+| **1** ✅ | `RegisterMediaStep` — eigene Generator-Steps im Manifest |
+| **2** | npm-Konvention `gulp-mu-plugin-*` mit `export function Register(mucss) { … }` |
+| **3** | µPS-**Creator**-Registry analog (`RegisterPsCreator`) für wiederverwendbare Renderer |
+| **4** | Compile-Hooks (Post-Process CSS, Custom `-µ:`-Direktiven) — nur bei Bedarf |
+
+**Neue „ButtonAndIconCreator“-Klassen:** als **npm-Paket** oder Projektmodul, das
+`RegisterMediaStep` + µPS-Primitives (`PsDocument`, `Compositor`, `StyleTransfer`) nutzt —
+nicht als Photoshop-Plugin. Schwere Logik in µPS/Plugin-Paket, dünne Manifest-Zeile in µCSS.
+
+**Bewusst nicht:** Beliebige JS-Strings im Manifest ausführen; Photoshop-JSX zur Laufzeit.
 
 ### D12 — Oxyd-Tile-Pipeline und Bildanpassungen (µPS, geplant)
 

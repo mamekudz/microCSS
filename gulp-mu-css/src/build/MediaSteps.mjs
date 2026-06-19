@@ -8,6 +8,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from "node
 import { join, basename, dirname } from "node:path";
 import { ButtonAndIconCreator, AppIconMaker, SequenceStrip } from "gulp-mu-ps";
 import { FileFingerprint, FingerprintFiles, FingerprintsMatch } from "./BuildCache.mjs";
+import { GetMediaStepHandler, MatchRegisteredMediaStep } from "./MediaStepRegistry.mjs";
 
 // "imgs/smoke.png" + "webp" -> "imgs/smoke.webp"
 function _SwapExtension(_file, _format) {
@@ -53,6 +54,12 @@ export async function RunMediaStep(_step, _ctx) {
 	if (_step.buttonsAndIcons) return _RunGenerator(_step, _ctx, "buttonsAndIcons", _ButtonsAndIcons);
 	if (_step.appIcons) return _RunGenerator(_step, _ctx, "appIcons", _AppIcons);
 	if (_step.sequenceStrip) return _RunGenerator(_step, _ctx, "sequenceStrip", _SequenceStrip);
+	const registeredType = MatchRegisteredMediaStep(_step);
+	if (registeredType) {
+		const handler = GetMediaStepHandler(registeredType);
+		const result = await handler(_step, _ctx);
+		return { type: registeredType, skipped: !!result.skipped, outputs: result.outputs ?? [] };
+	}
 	throw new Error(`unknown media step: ${JSON.stringify(_step)}`);
 }
 

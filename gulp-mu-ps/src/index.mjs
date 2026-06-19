@@ -42,4 +42,14 @@ export { ScanDsdImage } from "./strips/DsdFormat.mjs";
 export { CreateDsdFromImages, ResolveDsdPivotOffsets } from "./strips/CreateDsd.mjs";
 export { InsertSequenceIntoGroup, CreatePsdWithSequence } from "./psd/WritePsd.mjs";
 export { OpenDrafts, ResolveAffinityExecutable } from "./io/OpenDrafts.mjs";
+export {
+	OpenPhotopeaDrafts,
+	GetActivePhotopeaDraftServer
+} from "./io/OpenPhotopeaDrafts.mjs";
+export {
+	BuildPhotopeaUrl,
+	CreatePhotopeaDraftServer,
+	WritePhotopeaSaveBack,
+	PHOTOPEA_ORIGIN
+} from "./io/PhotopeaDraftServer.mjs";
 export { WatchDrafts } from "./io/WatchDrafts.mjs";

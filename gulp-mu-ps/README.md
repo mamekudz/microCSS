@@ -4,7 +4,7 @@
 
 The technical package name is `gulp-mu-ps` (the µ character causes trouble in npm/git names); **µPS** is the display name.
 
-**Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
+**Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
 Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency**. PSD sources via `ag-psd`, rendering via `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD).
 
@@ -39,7 +39,7 @@ Node module that replaces the image-processing functions of the old Adobe-based 
 | `ApplyAdjustmentStack`, `Transforms`, `MaskFromRects`, `ResizeCanvas` | Adjustments, raster ops, canvas size, masks |
 | `CreateRaster`, `CloneRaster`, `MuPsDoc` | Raster baseline + JSX-style entry |
 | `PsDocument`, `RenderDocument` | PSD load and layer compositing |
-| `OpenDrafts`, `WatchDrafts` | Draft workflow: save PSD → rebuild (Affinity, Photopea, …) |
+| `OpenDrafts`, `OpenPhotopeaDrafts`, `WatchDrafts` | Draft workflow: Affinity, Photopea (browser + save-back), OS default |
 
 App-specific pipelines (e.g. Oxyd tile post-production) belong in the app `gulpfile`, not in this npm package.
 
@@ -55,6 +55,9 @@ await ButtonAndIconCreator.Create("drafts/buttons.psd", {
 ```
 
 Integrated into µCSS via `media` steps in the skin manifest — see the µCSS manual.
+
+**Photopea:** `await OpenPhotopeaDrafts(["draft.psd"], { saveBack: true })` or  
+`node tools/open-drafts.mjs --app photopea draft.psd` — see [Photopea API](https://www.photopea.com/api/).
 
 ## Requirements
 
@@ -79,7 +82,7 @@ npx gulp test     # in the project root
 
 Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
 
-**Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
+**Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
 Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD).
 
@@ -114,7 +117,7 @@ Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflow
 | `ApplyAdjustmentStack`, `Transforms`, `MaskFromRects`, `ResizeCanvas` | Anpassungen, Raster-Ops, Arbeitsblatt, Masken |
 | `CreateRaster`, `CloneRaster`, `MuPsDoc` | Raster-Baseline + ExtendScript-Einstieg |
 | `PsDocument`, `RenderDocument` | PSD laden und Ebenen compositen |
-| `OpenDrafts`, `WatchDrafts` | Draft-Workflow: PSD speichern → Rebuild (Affinity, Photopea, …) |
+| `OpenDrafts`, `OpenPhotopeaDrafts`, `WatchDrafts` | Draft-Workflow: Affinity, Photopea (Browser + Save-back), OS-Standard |
 
 App-spezifische Pipelines (z. B. Oxyd) gehören ins App-`gulpfile`, nicht ins npm-Paket.
 

@@ -60,6 +60,12 @@ export function ResolveAffinityExecutable() {
 
 function _ResolveAppTarget(_app) {
 	const app = _app ?? process.env.MU_DRAFT_APP ?? "default";
+	if (app === "photopea") {
+		throw new Error(
+			'app "photopea" is async — use await OpenPhotopeaDrafts(paths, options) instead. '
+			+ "CLI: node tools/open-drafts.mjs --app photopea [--wait] <file.psd>"
+		);
+	}
 	if (app === "default") return { mode: "default" };
 	if (app === "affinity") {
 		const exe = ResolveAffinityExecutable();
@@ -117,8 +123,9 @@ function _OpenOne(_path, _appTarget) {
 /**
  * Opens one or more draft files in the default app or Affinity.
  * @param {string | string[]} _paths File or directory paths (directories are skipped).
- * @param {{ app?: "default" | "affinity" | string }} [_options]
- *   `app`: `"default"` (OS association), `"affinity"`, or absolute path to an executable.
+ * @param {{ app?: "default" | "affinity" | "photopea" | string }} [_options]
+ *   `app`: `"default"` (OS association), `"affinity"`, absolute path to an executable,
+ *   or `"photopea"` (use `OpenPhotopeaDrafts` instead — async).
  *   Override via env `MU_DRAFT_APP` / `MU_AFFINITY_EXE`.
  * @returns {string[]} Absolute paths that were opened.
  */

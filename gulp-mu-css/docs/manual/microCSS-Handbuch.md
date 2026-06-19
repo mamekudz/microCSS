@@ -40,7 +40,24 @@ Geschichtete PSD-Entwürfe bearbeitet man in **[Affinity](https://affinity.studi
 | Verarbeitung | µPS in Node | Ebenen lesen, Stile übertragen, compositen, PNG-Export |
 | Optional | `OpenDrafts` (µPS) | Entwurf in der Standard-Desktop-App öffnen |
 
-µPS übernimmt die Ebenenlogik des alten Photoshop-Skripts; der Editor liefert nur die Quelldatei. API in `gulp-mu-ps`: `OpenDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11).
+µPS übernimmt die Ebenenlogik des alten Photoshop-Skripts; der Editor liefert nur die Quelldatei. API in `gulp-mu-ps`: `OpenDrafts`, `OpenPhotopeaDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11/D11b).
+
+### Photopea (Browser)
+
+[Photopea](https://www.photopea.com/) ist ein kostenloser Online-PSD-Editor (volle PSD, lokale Verarbeitung). µPS öffnet Entwürfe über **`OpenPhotopeaDrafts`** — lokaler CORS-Server plus Photopea-[URL/API](https://www.photopea.com/api/). *File → Save* in Photopea schickt die PSD per POST zurück auf die Platte (`saveBack`, Standard an).
+
+```js
+import { OpenPhotopeaDrafts, WatchDrafts } from "gulp-mu-ps";
+
+WatchDrafts(["dev/media/final/general/gui/buttons.psd"], () => buildSkin());
+
+await OpenPhotopeaDrafts(["dev/media/final/general/gui/buttons.psd"], {
+	saveBack: true,
+	onSave: ({ path }) => console.log("Aktualisiert:", path)
+});
+```
+
+CLI: `node gulp-mu-ps/tools/open-drafts.mjs --app photopea pfad/zum/entwurf.psd` (läuft bis Ctrl+C für Save-back). Env: `MU_PHOTOPEA_SCRIPT` (optionales Skript nach dem Laden).
 
 ## Einordnung: Warum µCSS?
 
@@ -286,6 +303,23 @@ media: [
 	{ copyFolder: "dev/media/final/fonts", to: "fonts" }
 ]
 ```
+
+### Eigene media-Steps (Plugins)
+
+Eingebaute Steps ersetzen die Legacy-µCSS-Plugins. Für projektspezifische Generatoren (analog ButtonAndIconCreator) Handler **vor** `BuildSkin` registrieren:
+
+```js
+import { RegisterMediaStep, BuildSkin } from "gulp-mu-css";
+
+RegisterMediaStep("myTiles", async (step, ctx) => {
+	return { type: "myTiles", skipped: false, outputs: [/* absolute Pfade */] };
+});
+
+await BuildSkin("mySkin.µcss.mjs");
+// Manifest: { myTiles: { source: "…", outputDir: "…" } }
+```
+
+Siehe `docs/CONCEPT.md` (D13). Built-in-Schlüssel (`buttonsAndIcons`, `copy`, …) sind nicht überschreibbar.
 
 - **`buttonsAndIcons`** rendert aus einem geschichteten PSD-Entwurf (Layouts × Icon-Glyphen) komplette Button- und Icon-Serien inklusive `@2x`-Varianten — der Nachfolger des ButtonCreator-Plugins. Die Fülloptionen (Schlagschatten, Verläufe, Schein, Relief, **Kontur**, **Glanz** usw.) werden von µPS nachgebildet — siehe Kapitel *PSD-Compositor*.
 
