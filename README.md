@@ -1,12 +1,12 @@
 # µCSS V2.5.3 (microCSS)
 
+Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
+
 *English (below) · [Deutsch](#µcss-microcss-1)*
 
-Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** Node modules — the Adobe-independent successor to the original 2013 Photoshop-script µCSS. The historical ExtendScript version (µCSS 1) is preserved in [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/).
+Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** modules. µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. Display names **µCSS**, **µPS**, **µFT**, **µAU**; technical npm names `gulp-mu-*` (the µ character is awkward in package names).
 
-µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. The technical npm names use `gulp-mu-*` because the µ character is awkward in package names; **µCSS**, **µPS**, **µFT** and **µAU** are the display names.
-
-**No Adobe subscription for the build.** µCSS 1 required a licensed copy of Photoshop for CSS compilation *and* bitmap generation. Version 2 runs headless in Node — sprites, cursors and PSD rendering via µPS need no Creative Cloud. For layered PSD drafts (buttons, icons, …), **[Affinity](https://affinity.studio/download)** is recommended: professional editing, **free** (Canva account for download and activation), with PSD import/export.
+Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. Layered PSD drafts (buttons, icons, …) are typically edited in **[Affinity](https://affinity.studio/download)** (free; Canva account for download), which exports PSD with layer fidelity.
 
 ## Releases (npm)
 
@@ -104,7 +104,7 @@ Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microa
 
 ## µCSS 1 (legacy)
 
-The 2005–2014 Photoshop-script implementation lives under [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/). For new projects, use the npm packages above. Clone with `--recurse-submodules` so `jsxlibs/` is available for the legacy script.
+The 2005–2014 ExtendScript implementation lives under [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/). µCSS 1 required a licensed desktop imaging app for CSS compilation and bitmap generation; version 2 does not. For new projects, use the npm packages above. Clone with `--recurse-submodules` so `jsxlibs/` is available for the legacy script.
 
 ## License
 
@@ -116,11 +116,11 @@ The µCSS 2 modules and this monorepo tooling are published under the **MIT Lice
 
 # µCSS V2.5.3 (microCSS)
 
-Monorepo für **µCSS 2** und die zugehörigen Node-Module **µPS**, **µFT** und **µAU** — der Adobe-unabhängige Nachfolger des ursprünglichen Photoshop-Skripts µCSS von 2013. Die historische ExtendScript-Version (µCSS 1) liegt unter [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/).
+Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
-µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Die technischen npm-Namen lauten `gulp-mu-*`, weil das µ-Zeichen in Paketnamen unhandlich ist; **µCSS**, **µPS**, **µFT** und **µAU** sind die Anzeigenamen.
+Monorepo für **µCSS 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich).
 
-**Kein Adobe-Abo für den Build.** µCSS 1 brauchte eine lizenzierte Photoshop-Installation für CSS-Kompilierung *und* Bitmap-Erzeugung. Version 2 läuft headless in Node — Sprites, Cursor und PSD-Rendering via µPS ohne Creative Cloud. Für geschichtete PSD-Entwürfe (Buttons, Icons, …) ist **[Affinity](https://affinity.studio/download)** empfohlen: professionelle Bearbeitung, **kostenlos** (Canva-Konto zum Download und zur Aktivierung), mit PSD-Import/-Export.
+Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. Geschichtete PSD-Entwürfe (Buttons, Icons, …) pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download), das PSD mit Ebenen-Treue exportiert.
 
 ## Veröffentlichte Versionen (npm)
 
@@ -218,7 +218,7 @@ Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:mi
 
 ## µCSS 1 (Legacy)
 
-Die Photoshop-Script-Implementation von 2005–2014 liegt unter [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/). Für neue Projekte die npm-Pakete oben verwenden. Beim Klonen `--recurse-submodules` setzen, damit `jsxlibs/` für das Legacy-Skript vorhanden ist.
+Die ExtendScript-Implementation von 2005–2014 liegt unter [`µCSS 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/). µCSS 1 brauchte eine lizenzierte Desktop-Bildbearbeitung für CSS-Kompilierung und Bitmap-Erzeugung; Version 2 nicht. Für neue Projekte die npm-Pakete oben verwenden. Beim Klonen `--recurse-submodules` setzen, damit `jsxlibs/` für das Legacy-Skript vorhanden ist.
 
 ## Lizenz
 
