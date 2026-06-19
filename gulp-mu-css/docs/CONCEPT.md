@@ -554,39 +554,50 @@ sidecarName, namespace, vars, warnings, notes }`. CLI/Gulp:
 `node tools/convert-vue.mjs <input.vue|dir> [outDir]` bzw. Gulp-Task
 `convert:vue` (`VUE_IN`/`VUE_OUT`). Unit-Tests: `test/ConvertVue.test.mjs`.
 
-### D11 — PSD-Authoring (Affinity / Photopea), Watch und Draft-Workflow (µPS)
+### D11 — PSD-Authoring (Editor frei wählbar), Watch und Draft-Workflow (µPS)
+
+**Kein Editor ist vorgeschrieben** — Affinity, Adobe Photoshop, Photopea oder die
+OS-Standard-App sind gleichwertige **Authoring**-Optionen. Der **Build** (µPS in Node)
+ist davon unabhängig; entscheidend ist nur: PSD speichern → `WatchDrafts` / Rebuild.
+
+| Editor | Öffnen (µPS) | Hinweis |
+| :--- | :--- | :--- |
+| **Affinity** | `OpenDrafts(…, { app: "affinity" })` | Kostenlose Desktop-App; `MU_AFFINITY_EXE` |
+| **Adobe Photoshop** | `OpenDrafts(…, { app: "default" })` oder `{ app: "<Photoshop.exe>" }` | Wer CC hat, darf PS nutzen — Build braucht kein PS |
+| **Photopea** | `await OpenPhotopeaDrafts(…)` / `--app photopea` | Browser-Alternative, siehe **D11b** |
+| **OS-Standard** | `OpenDrafts(…)` (Default) | Was auch immer `.psd` auf dem System öffnet |
+
+Env **`MU_DRAFT_APP`**: `default` (Default), `affinity`, `photopea` (async), oder Pfad zu
+einer `.exe`/`.app` (z. B. Photoshop). Affinity-spezifisch: **`MU_AFFINITY_EXE`**.
 
 **Affinity ist nicht scriptfähig** (kein ExtendScript, kein CLI-Trigger für Makros/Batch
-Jobs beim Start oder beim Öffnen einer Datei). Makros und *File → New Batch Job*
-bleiben reine GUI-Features — eine zuverlässige Build-Automatisierung über Affinity
-heraus ist nicht vorgesehen.
+Jobs beim Start oder beim Öffnen einer Datei). Das gilt analog für manuelles Authoring
+in Photoshop — Makros ersetzen nicht den µPS-Build.
 
-**[Photopea](https://www.photopea.com/)** ist eine kostenlose Browser-Alternative mit voller
-PSD-Unterstützung; Dateien werden lokal verarbeitet (kein Upload zum Server). Speichern
-als PSD → derselbe µPS-Build wie bei Affinity. Photopea bietet zudem eine
-[URL/API](https://www.photopea.com/api/) (JSON im Hash: `files`, optional `script`,
-optional `server` für Save-back per POST) — siehe **D11b**.
+**[Photopea](https://www.photopea.com/)** ist eine optionale Browser-Alternative mit voller
+PSD-Unterstützung; Dateien werden lokal verarbeitet. Speichern als PSD → derselbe µPS-Build
+wie bei Desktop-Editoren. [URL/API](https://www.photopea.com/api/) — siehe **D11b**.
 
 **Empfohlener Split:**
 
 | Phase | Werkzeug | Aufgabe |
 | :--- | :--- | :--- |
-| Authoring | [Affinity](https://affinity.studio/download) oder [Photopea](https://www.photopea.com/) | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
+| Authoring | Affinity, Photoshop, Photopea oder OS-Standard | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
 | Trigger | `WatchDrafts` (µPS) + `gulp.watch` (Projekt) | `mtime`-Änderung nach Speichern (Debounce ~1,5 s) |
 | Verarbeitung | µPS (`ButtonAndIconCreator`, Compositor, …) | Ebenen lesen, Stile übertragen, compositen, PNG-Serien — **headless in Node** |
-| Optional | `OpenDrafts` (µPS) | PSD in Affinity, Standard-App oder (geplant) Photopea-URL öffnen |
+| Optional | `OpenDrafts` / `OpenPhotopeaDrafts` | Entwurf im gewählten Editor öffnen |
 
 Der Übergang Authoring → Build ist **Speichern der PSD**, nicht Abspielen eines
-Desktop-Makros. µPS übernimmt die früher Photoshop-scriptseitige Ebenenlogik; Affinity
-oder Photopea liefern nur die Quelldatei.
+Desktop-Makros. µPS übernimmt die früher Photoshop-scriptseitige Ebenenlogik; der Editor
+liefert nur die Quelldatei.
 
 **µPS-API (ab 1.0.2):**
 
-- `OpenDrafts(paths, { app: "default" | "affinity" | "<exe>" })` — OS-Standard,
-  Affinity (Pfad über `MU_AFFINITY_EXE` oder Installation) oder explizite `.exe`/`.app`.
-  Env: `MU_DRAFT_APP`, `MU_AFFINITY_EXE`.
+- `OpenDrafts(paths, { app: "default" | "affinity" | "<exe>" })` — Desktop/OS (inkl. Photoshop
+  über Standard-Verknüpfung oder expliziten Pfad).
+- `OpenPhotopeaDrafts(paths, …)` — Browser (nur wenn `app: "photopea"` gewünscht).
 - `WatchDrafts(paths, onChange, { debounceMs, extension })` — Datei/Verzeichnis-Watch
-  mit Debounce (Affinity schreibt PSDs ggf. zweistufig).
+  mit Debounce (Desktop-Editoren schreiben PSDs ggf. zweistufig).
 
 **CLI:** `node gulp-mu-ps/tools/open-drafts.mjs`, `node gulp-mu-ps/tools/watch-drafts.mjs`.
 
@@ -594,9 +605,9 @@ oder Photopea liefern nur die Quelldatei.
 (D5); kombiniert mit `BuildSkin` re-rendert µPS nur geänderte PSD-Steps (D7). Optional
 kann `watch-drafts.mjs` einen Skin-Task anstoßen, wenn kein globales Gulp-Watch läuft.
 
-**Bewusst nicht:** Affinity-Makros per Tastatur-Automation anstoßen (fragil, plattform-
-abhängig); PSD-Skelette schreiben (später, `ag-psd`-Write); Photoshop für Produktion
-(nur Referenz-JSX in der µPS-Entwicklung); Photopea als Render-Engine (µPS bleibt Node).
+**Bewusst nicht:** Desktop-Makros per Tastatur-Automation anstoßen (fragil); PSD-Skelette
+schreiben (später, `ag-psd`-Write); Photoshop **für den Produktions-Build** (nur optional
+Authoring + Referenz-JSX in der µPS-Entwicklung); Photopea als Render-Engine (µPS bleibt Node).
 
 ### D11b — Photopea-API (µPS, implementiert)
 

@@ -1,4 +1,6 @@
-// Opens draft files (PSD, PNG, …) in the OS default app or in Affinity Photo.
+// Opens draft files (PSD, PNG, …) in the OS default app, Affinity, a custom executable
+// (e.g. Adobe Photoshop), or — via OpenPhotopeaDrafts — in the browser (Photopea).
+// Configure with options.app or MU_DRAFT_APP: default | affinity | photopea | <exe path>
 
 import { accessSync, constants } from "node:fs";
 import { spawn } from "node:child_process";

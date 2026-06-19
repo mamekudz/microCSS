@@ -10,7 +10,16 @@ Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, 
 
 Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** modules. µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. Display names **µCSS**, **µPS**, **µFT**, **µAU**; technical npm names `gulp-mu-*` (the µ character is awkward in package names).
 
-Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. Layered PSD drafts (buttons, icons, …) are edited in **[Affinity](https://affinity.studio/download)** (free desktop app) or **[Photopea](https://www.photopea.com/)** (free in the browser, full PSD support, files stay on your device). Save as PSD — µPS reads the same layer structure as in the legacy workflow.
+Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. **Authoring** layered PSD drafts (buttons, icons, …) is your choice — the build always goes through µPS the same way:
+
+| Editor | Open with µPS | Configuration |
+| :--- | :--- | :--- |
+| **[Affinity](https://affinity.studio/download)** | `OpenDrafts(path, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
+| **Adobe Photoshop** | `OpenDrafts(path, { app: "default" })` if `.psd` is associated, or `{ app: "<path/to/Photoshop.exe>" }` | CC license on your side; **not** required for the build |
+| **[Photopea](https://www.photopea.com/)** (browser) | `await OpenPhotopeaDrafts(path)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async API) |
+| **OS default** | `OpenDrafts(path)` | `MU_DRAFT_APP=default` (default) |
+
+Save as PSD — µPS reads the same layer structure regardless of editor. CLI: `node gulp-mu-ps/tools/open-drafts.mjs [--app default|affinity|photopea|<exe>] draft.psd`.
 
 ### From PSD layers to CSS sprites
 
@@ -137,7 +146,16 @@ Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cur
 
 Monorepo für **µCSS 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich).
 
-Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. Geschichtete PSD-Entwürfe (Buttons, Icons, …) bearbeitet man in **[Affinity](https://affinity.studio/download)** (kostenlose Desktop-App) oder **[Photopea](https://www.photopea.com/)** (kostenlos im Browser, volle PSD-Unterstützung, Dateien bleiben lokal). Als PSD speichern — µPS liest dieselbe Ebenenstruktur wie im Legacy-Workflow.
+Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. **Authoring** geschichteter PSD-Entwürfe (Buttons, Icons, …) ist frei wählbar — der Build läuft immer gleich über µPS:
+
+| Editor | Öffnen mit µPS | Konfiguration |
+| :--- | :--- | :--- |
+| **[Affinity](https://affinity.studio/download)** | `OpenDrafts(pfad, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
+| **Adobe Photoshop** | `OpenDrafts(pfad, { app: "default" })` wenn `.psd` verknüpft, oder `{ app: "<Pfad/Photoshop.exe>" }` | CC-Lizenz bei Ihnen; für den **Build nicht** nötig |
+| **[Photopea](https://www.photopea.com/)** (Browser) | `await OpenPhotopeaDrafts(pfad)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async) |
+| **OS-Standard** | `OpenDrafts(pfad)` | `MU_DRAFT_APP=default` (Default) |
+
+Als PSD speichern — µPS liest dieselbe Ebenenstruktur unabhängig vom Editor. CLI: `node gulp-mu-ps/tools/open-drafts.mjs [--app default|affinity|photopea|<exe>] entwurf.psd`.
 
 ### Von PSD-Ebenen zu CSS-Sprites
 

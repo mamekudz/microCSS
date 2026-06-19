@@ -6,7 +6,7 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 
 **Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency**. PSD sources via `ag-psd`, rendering via `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD).
+Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency for the build**. PSD sources via `ag-psd`, rendering via `sharp`. **Authoring** layered drafts: your choice — Affinity, Adobe Photoshop (via OS association or explicit `.exe`), Photopea (browser), or any app via `OpenDrafts({ app: "<exe>" })`. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
 
 > **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS manual** (chapter *microPS*). This README is a quick npm overview only.
 
@@ -56,8 +56,8 @@ await ButtonAndIconCreator.Create("drafts/buttons.psd", {
 
 Integrated into µCSS via `media` steps in the skin manifest — see the µCSS manual.
 
-**Photopea:** `await OpenPhotopeaDrafts(["draft.psd"], { saveBack: true })` or  
-`node tools/open-drafts.mjs --app photopea draft.psd` — see [Photopea API](https://www.photopea.com/api/).
+**Photopea (optional):** `await OpenPhotopeaDrafts(["draft.psd"], { saveBack: true })` — only if you prefer the browser.  
+**Affinity / Photoshop:** `OpenDrafts(["draft.psd"], { app: "affinity" })` or `{ app: "default" }` / path to `Photoshop.exe`.
 
 ## Requirements
 
@@ -84,7 +84,7 @@ Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
 
 **Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD).
+Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **Build ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe: frei wählbar — Affinity, Photoshop, Photopea oder `OpenDrafts({ app: "<exe>" })`. **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | Pfad zur `.exe`.
 
 > **Doku-Richtlinie:** Generatoren, DSD, Anpassungen, Transformationen, PSD-Compositor, Referenz-Regression und Draft-Workflow stehen **zentral im µCSS-Handbuch** (Kapitel *microPS*). Diese README ist nur ein npm-Kurzüberblick.
 

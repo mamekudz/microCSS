@@ -27,24 +27,33 @@ Unlike µCSS 1, version 2 runs entirely in Node.js (version 18 and up) and needs
 
 Version 2 needs **no Adobe subscription** for the build: sprites, cursors and PSD rendering run headless via Node and µPS.
 
-If you edit layered PSD sources yourself, use **[Affinity](https://affinity.studio/download)** (free desktop app) or **[Photopea](https://www.photopea.com/)** (free in the browser — full PSD support, files stay on your device). Save as PSD; µPS reads the same layer structure as in the legacy workflow. With µCSS 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
+If you edit layered PSD sources yourself, pick any editor — the build is identical. **Affinity** and **Photopea** are common no-/low-cost options; **Adobe Photoshop** works too if `.psd` is associated with it or you pass the executable path. Save as PSD; µPS reads the same layer structure. With µCSS 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
 
 ## Draft workflow (authoring + watch)
 
-**Affinity has no scripting API** — macros and batch jobs cannot be triggered on open or app start. **Photopea** runs in the browser and exposes a [URL/API](https://www.photopea.com/api/) (open files, optional script, optional save-back to your server); a future `OpenDrafts({ app: "photopea" })` in µPS could use that — see `docs/CONCEPT.md` (D11/D11b). Today, automation splits cleanly:
+No editor is required for the build. For **opening** drafts from µPS, set **`MU_DRAFT_APP`** (or `OpenDrafts(…, { app })`):
+
+| `app` / env | Editor |
+| :--- | :--- |
+| `default` (default) | OS default for `.psd` (often Photoshop if installed) |
+| `affinity` | Affinity Photo (`MU_AFFINITY_EXE` optional) |
+| `<path to .exe/.app>` | Explicit app, e.g. Photoshop |
+| `photopea` | Browser — use **`await OpenPhotopeaDrafts(…)`** (async), not `OpenDrafts` |
+
+Automation splits cleanly (same for all editors):
 
 | Step | Tool | Role |
 | :--- | :--- | :--- |
-| Authoring | Affinity or Photopea | Maintain layered PSD drafts |
+| Authoring | Your editor (Affinity, Photoshop, Photopea, …) | Maintain layered PSD drafts |
 | Trigger | Save PSD → `WatchDrafts` (µPS) or `gulp.watch` | Debounced rebuild (~1.5 s) |
 | Processing | µPS in Node | Layer read, style transfer, compositing, PNG export |
-| Optional | `OpenDrafts` (µPS) | Open a draft in the default desktop app after a failed compare |
+| Optional | `OpenDrafts` / `OpenPhotopeaDrafts` | Open a draft in the chosen editor |
 
 µPS performs the layer separation and rendering that the old Photoshop script handled; the editor only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `OpenPhotopeaDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11/D11b).
 
-### Photopea (browser)
+### Photopea (browser, optional)
 
-[Photopea](https://www.photopea.com/) is a free online PSD editor (full PSD, local processing). µPS opens drafts via **`OpenPhotopeaDrafts`** — a localhost CORS server plus Photopea [URL/API](https://www.photopea.com/api/). Save in Photopea (*File → Save*) POSTs the PSD back to disk when `saveBack` is enabled (default).
+If you prefer not to install a desktop app, [Photopea](https://www.photopea.com/) is a free online PSD editor (full PSD, local processing). Use **`OpenPhotopeaDrafts`** only when you want the browser — otherwise `OpenDrafts` with Affinity or Photoshop is fine.
 
 ```js
 import { OpenPhotopeaDrafts, WatchDrafts } from "gulp-mu-ps";
