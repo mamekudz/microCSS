@@ -1,4 +1,4 @@
-# µCSS V2.5.5 (microCSS)
+# µCSS V2.5.6 (microCSS)
 
 <p align="center">
   <img src="docs/manual/imgs/logo.png" alt="µCSS logo" width="180">
@@ -233,7 +233,7 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS V2.5.5 (microCSS)
+# µCSS V2.5.6 (microCSS)
 
 *[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
