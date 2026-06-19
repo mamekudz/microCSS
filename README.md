@@ -1,12 +1,24 @@
 # µCSS V2.5.3 (microCSS)
 
+<p align="center">
+  <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS logo" width="220">
+</p>
+
 Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
 
 *English (below) · [Deutsch](#µcss-microcss-1)*
 
 Monorepo for **µCSS 2** and the related **µPS**, **µFT** and **µAU** modules. µCSS extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. Display names **µCSS**, **µPS**, **µFT**, **µAU**; technical npm names `gulp-mu-*` (the µ character is awkward in package names).
 
-Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. Layered PSD drafts (buttons, icons, …) are typically edited in **[Affinity](https://affinity.studio/download)** (free; Canva account for download), which exports PSD with layer fidelity.
+Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. Layered PSD drafts (buttons, icons, …) are edited in **[Affinity](https://affinity.studio/download)** (free desktop app) or **[Photopea](https://www.photopea.com/)** (free in the browser, full PSD support, files stay on your device). Save as PSD — µPS reads the same layer structure as in the legacy workflow.
+
+### From PSD layers to CSS sprites
+
+| Layered draft (`icons` × `layouts` × states) | Rendered button themes (µPS) |
+| :---: | :---: |
+| ![PSD layer structure for a button draft](gulp-mu-css/docs/manual/imgs/psd_button_layers.png) | ![Button theme rendered from the same draft](gulp-mu-css/docs/manual/imgs/bc_alu.png) |
+
+Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamekudz.github.io/microCSS/buttons/).
 
 ## Releases (npm)
 
@@ -48,7 +60,8 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 | **µPS on npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU on npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
-| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free; recommended Photoshop alternative |
+| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
+| **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD, local processing |
 
 ## npm packages
 
@@ -116,11 +129,23 @@ The µCSS 2 modules and this monorepo tooling are published under the **MIT Lice
 
 # µCSS V2.5.3 (microCSS)
 
+<p align="center">
+  <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS logo" width="220">
+</p>
+
 Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
 Monorepo für **µCSS 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich).
 
-Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. Geschichtete PSD-Entwürfe (Buttons, Icons, …) pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download), das PSD mit Ebenen-Treue exportiert.
+Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. Geschichtete PSD-Entwürfe (Buttons, Icons, …) bearbeitet man in **[Affinity](https://affinity.studio/download)** (kostenlose Desktop-App) oder **[Photopea](https://www.photopea.com/)** (kostenlos im Browser, volle PSD-Unterstützung, Dateien bleiben lokal). Als PSD speichern — µPS liest dieselbe Ebenenstruktur wie im Legacy-Workflow.
+
+### Von PSD-Ebenen zu CSS-Sprites
+
+| Geschichteter Entwurf (`icons` × `layouts` × Zustände) | Gerenderte Button-Themes (µPS) |
+| :---: | :---: |
+| ![PSD-Ebenenstruktur eines Button-Entwurfs](gulp-mu-css/docs/manual/imgs/psd_button_layers.png) | ![Button-Theme aus demselben Entwurf](gulp-mu-css/docs/manual/imgs/bc_alu.png) |
+
+Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mamekudz.github.io/microCSS/buttons/).
 
 ## Veröffentlichte Versionen (npm)
 
@@ -162,7 +187,8 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 | **µPS auf npm** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 | **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU auf npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
-| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlos; empfohlene Photoshop-Alternative |
+| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
+| **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD, lokale Verarbeitung |
 
 ## npm-Pakete
 

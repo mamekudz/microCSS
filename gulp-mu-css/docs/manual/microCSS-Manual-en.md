@@ -1,5 +1,9 @@
 # Introduction
 
+<p align="center">
+  <img src="imgs/logo.png" alt="µCSS logo" width="200">
+</p>
+
 µCSS is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
 
 Because the µ character keeps causing problems in package and repository names (npm, git), the technical names are `gulp-mu-css` and `gulp-mu-ps` — µCSS and µPS are the display names.
@@ -23,20 +27,20 @@ Unlike µCSS 1, version 2 runs entirely in Node.js (version 18 and up) and needs
 
 Version 2 needs **no Adobe subscription** for the build: sprites, cursors and PSD rendering run headless via Node and µPS.
 
-If you edit layered PSD sources yourself, **[Affinity](https://affinity.studio/download)** is the recommended alternative to Photoshop — the app is **free** (sign in with a free Canva account to download and activate). Export or save as PSD; µPS reads the same layer structure as in the legacy workflow. With µCSS 1, compilation and bitmap generation both depended on an installed, licensed copy of Photoshop — recurring cost that drops away for many teams.
+If you edit layered PSD sources yourself, use **[Affinity](https://affinity.studio/download)** (free desktop app) or **[Photopea](https://www.photopea.com/)** (free in the browser — full PSD support, files stay on your device). Save as PSD; µPS reads the same layer structure as in the legacy workflow. With µCSS 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
 
-## Draft workflow (Affinity + watch)
+## Draft workflow (authoring + watch)
 
-**Affinity cannot run macros or batch jobs on file open or app start** — there is no scripting API. Automation therefore splits cleanly:
+**Affinity has no scripting API** — macros and batch jobs cannot be triggered on open or app start. **Photopea** runs in the browser and exposes a [URL/API](https://www.photopea.com/api/) (open files, optional script, optional save-back to your server); a future `OpenDrafts({ app: "photopea" })` in µPS could use that — see `docs/CONCEPT.md` (D11/D11b). Today, automation splits cleanly:
 
 | Step | Tool | Role |
 | :--- | :--- | :--- |
-| Authoring | Affinity (free) | Maintain layered PSD drafts |
+| Authoring | Affinity or Photopea | Maintain layered PSD drafts |
 | Trigger | Save PSD → `WatchDrafts` (µPS) or `gulp.watch` | Debounced rebuild (~1.5 s) |
 | Processing | µPS in Node | Layer read, style transfer, compositing, PNG export |
-| Optional | `OpenDrafts` (µPS) | Open a draft in Affinity after a failed compare |
+| Optional | `OpenDrafts` (µPS) | Open a draft in the default desktop app after a failed compare |
 
-µPS performs the layer separation and rendering that the old Photoshop script handled; Affinity only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11).
+µPS performs the layer separation and rendering that the old Photoshop script handled; the editor only supplies the source file. See `gulp-mu-ps` API: `OpenDrafts`, `WatchDrafts`; CLI: `tools/open-drafts.mjs`, `tools/watch-drafts.mjs`. Details: `docs/CONCEPT.md` (D11).
 
 ## Context: Why µCSS?
 
@@ -285,6 +289,8 @@ media: [
 
 - **`buttonsAndIcons`** renders complete button and icon series including `@2x` variants from a layered PSD draft (layouts × icon glyphs) — the successor of the ButtonCreator plugin. The layer effects (drop shadow, gradients, glow, bevel, **stroke**, **satin**, etc.) are reproduced by µPS — see chapter *PSD compositor*.
 
+![Layer structure of a button PSD draft (`icons`, `layouts`, states)](imgs/psd_button_layers.png)
+
 ![The same icon glyphs, rendered with two layouts of the same draft document ("alu" and "aqua")](imgs/bc_alu.png)
 
 ![](imgs/bc_aqua.png)
@@ -308,7 +314,7 @@ Full reference for all image generators, DSD format, draft workflow and raster A
 
 The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
 
-µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download). The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
+µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD). The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
 
 ## API overview
 
@@ -770,11 +776,11 @@ JSX presets: rebuild PSD → export → `npx gulp reference:render` → `npm tes
 - `node tools/compare-images.mjs <a> <b>` — PNG compare (MAE)
 - `node tools/open-drafts.mjs` / `watch-drafts.mjs` — draft workflow from the shell
 
-## Draft workflow (Affinity + watch)
+## Draft workflow (authoring + watch)
 
-Affinity has **no scripting API** — the automation path:
+Authoring in **Affinity** or **Photopea** — neither replaces µPS rendering. The automation path:
 
-1. Edit and save PSD in Affinity.
+1. Edit and save PSD (desktop or browser).
 2. `WatchDrafts` or `gulp.watch` detects the change (debounce ~1.5 s).
 3. µPS renders headless; µCSS build runs when needed.
 
@@ -1596,6 +1602,7 @@ Deliberately **not** carried over from the old µCSS:
 | 2026-06 | 2.4.2 | Manual *microAU*/*microFT*: sound pipeline (`triggers`/`handlers`), manifest section `font`; updated PDFs (DE/EN). **µPS** 1.3.0 (stroke/satin), **µAU** 0.1.3 (sound concept docs). |
 | 2026-06 | 2.5.0 | Manifest `minify` (CSS minification via `uglifycss`, optional custom function); `sprites.pruneKeep` protects sources from `pruneSources`; build report `keptSources[]`/`minified`. New runtime dependency `uglifycss`. |
 | 2026-06 | 2.5.1 | Manual/PDFs (DE/EN): chapter `minify`, `sprites.pruneKeep`, build report; version history; no functional changes compared to 2.5.0. |
+| 2026-06 | 2.5.3 | `pruneSources` also deletes sequence-strip sidecar JSON (`<strip>.json` next to a packed 1x source); protected sources keep their sidecar via `pruneKeep`. |
 
 # Legal
 
@@ -1613,7 +1620,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Trademarks
 
-Photoshop is a registered trademark of Adobe Inc.; Affinity Photo is a trademark of Serif (Europe) Ltd. Names and products are mentioned for information only and do not constitute any misuse of the respective trade names or trademarks.
+Photoshop is a registered trademark of Adobe Inc.; Affinity Photo is a trademark of Serif (Europe) Ltd. Photopea is an independent online photo editor ([photopea.com](https://www.photopea.com/)). Names and products are mentioned for information only and do not constitute any misuse of the respective trade names or trademarks.
 
 ## Third-party libraries
 

@@ -1,5 +1,9 @@
 # µCSS V2.5.3 (microCSS)
 
+<p align="center">
+  <img src="docs/manual/imgs/logo.png" alt="µCSS logo" width="180">
+</p>
+
 *English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
 Node module for compiling **µCSS**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript and PSD-based image generation, driven by a skin manifest. µCSS 2 is the Adobe-independent Node reimplementation of µCSS, originally introduced in 2013 as a Photoshop script.
@@ -8,7 +12,7 @@ The technical package name is `gulp-mu-css` (the µ character causes trouble in 
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
-**No Adobe subscription for the build** — unlike µCSS 1, compilation and PSD rendering run in Node. Layered drafts are typically edited in **[Affinity](https://affinity.studio/download)** (free; Canva account for download), which exports PSD with layer fidelity.
+**No Adobe subscription for the build** — unlike µCSS 1, compilation and PSD rendering run in Node. Layered drafts are edited in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing). Save as PSD for µPS.
 
 ## Project links
 
@@ -19,7 +23,8 @@ The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf
 | **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
-| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free; recommended Photoshop alternative |
+| **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
+| **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD |
 
 ## Installation
 
@@ -238,7 +243,7 @@ Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 
-**Kein Adobe-Abo für den Build** — anders als µCSS 1 laufen Kompilierung und PSD-Rendering in Node. Geschichtete Entwürfe pflegt man üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos; Canva-Konto zum Download), das PSD mit Ebenen-Treue exportiert.
+**Kein Adobe-Abo für den Build** — anders als µCSS 1 laufen Kompilierung und PSD-Rendering in Node. Entwürfe bearbeitet man in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal). Als PSD speichern für µPS.
 
 ## Projekt-Links
 
@@ -249,7 +254,8 @@ Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.p
 | **µPS** | [npm](https://www.npmjs.com/package/gulp-mu-ps) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ps) |
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
-| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlos; empfohlene Photoshop-Alternative |
+| **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
+| **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD |
 
 ## Installation
 

@@ -9,7 +9,7 @@ benötigten Bilder, Sprites, Cursor, Fonts und Sounds. Die Bilderzeugung überni
 µPS. Anzeigenamen sind µCSS und µPS; die technischen Namen (npm-Pakete,
 Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gulp-mu-ps`.
 
-**Adobe-Unabhängigkeit & Kosten:** Build und Bild-Rendering laufen in Node (µCSS/µPS) — kein Creative Cloud. PSD-Entwürfe pflegt man üblicherweise in [Affinity](https://affinity.studio/download) (kostenlos; Canva-Konto zum Download); Photoshop ist nur noch für optionale Referenz-Exports in der µPS-Entwicklung nötig, nicht für den Produktions-Build.
+**Adobe-Unabhängigkeit & Kosten:** Build und Bild-Rendering laufen in Node (µCSS/µPS) — kein Creative Cloud. PSD-Entwürfe pflegt man in [Affinity](https://affinity.studio/download) (kostenlose Desktop-App) oder [Photopea](https://www.photopea.com/) (kostenlos im Browser, volle PSD, lokal auf dem Gerät). Photoshop ist nur noch für optionale Referenz-Exports in der µPS-Entwicklung nötig, nicht für den Produktions-Build.
 
 ---
 
@@ -554,25 +554,31 @@ sidecarName, namespace, vars, warnings, notes }`. CLI/Gulp:
 `node tools/convert-vue.mjs <input.vue|dir> [outDir]` bzw. Gulp-Task
 `convert:vue` (`VUE_IN`/`VUE_OUT`). Unit-Tests: `test/ConvertVue.test.mjs`.
 
-### D11 — Affinity-Authoring, Watch und Draft-Workflow (µPS)
+### D11 — PSD-Authoring (Affinity / Photopea), Watch und Draft-Workflow (µPS)
 
 **Affinity ist nicht scriptfähig** (kein ExtendScript, kein CLI-Trigger für Makros/Batch
 Jobs beim Start oder beim Öffnen einer Datei). Makros und *File → New Batch Job*
 bleiben reine GUI-Features — eine zuverlässige Build-Automatisierung über Affinity
 heraus ist nicht vorgesehen.
 
+**[Photopea](https://www.photopea.com/)** ist eine kostenlose Browser-Alternative mit voller
+PSD-Unterstützung; Dateien werden lokal verarbeitet (kein Upload zum Server). Speichern
+als PSD → derselbe µPS-Build wie bei Affinity. Photopea bietet zudem eine
+[URL/API](https://www.photopea.com/api/) (JSON im Hash: `files`, optional `script`,
+optional `server` für Save-back per POST) — siehe **D11b**.
+
 **Empfohlener Split:**
 
 | Phase | Werkzeug | Aufgabe |
 | :--- | :--- | :--- |
-| Authoring | [Affinity](https://affinity.studio/download) (kostenlos) | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
+| Authoring | [Affinity](https://affinity.studio/download) oder [Photopea](https://www.photopea.com/) | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
 | Trigger | `WatchDrafts` (µPS) + `gulp.watch` (Projekt) | `mtime`-Änderung nach Speichern (Debounce ~1,5 s) |
 | Verarbeitung | µPS (`ButtonAndIconCreator`, Compositor, …) | Ebenen lesen, Stile übertragen, compositen, PNG-Serien — **headless in Node** |
-| Optional | `OpenDrafts` (µPS) | PSD in Affinity oder Standard-App öffnen (Fehlerdiagnose, manueller Schritt) |
+| Optional | `OpenDrafts` (µPS) | PSD in Affinity, Standard-App oder (geplant) Photopea-URL öffnen |
 
-Der Übergang Affinity → Build ist **Speichern der PSD**, nicht Abspielen eines
-Affinity-Makros. µPS übernimmt die früher Photoshop-scriptseitige Ebenenlogik; Affinity
-liefert nur die Quelldatei.
+Der Übergang Authoring → Build ist **Speichern der PSD**, nicht Abspielen eines
+Desktop-Makros. µPS übernimmt die früher Photoshop-scriptseitige Ebenenlogik; Affinity
+oder Photopea liefern nur die Quelldatei.
 
 **µPS-API (ab 1.0.2):**
 
@@ -590,7 +596,25 @@ kann `watch-drafts.mjs` einen Skin-Task anstoßen, wenn kein globales Gulp-Watch
 
 **Bewusst nicht:** Affinity-Makros per Tastatur-Automation anstoßen (fragil, plattform-
 abhängig); PSD-Skelette schreiben (später, `ag-psd`-Write); Photoshop für Produktion
-(nur Referenz-JSX in der µPS-Entwicklung).
+(nur Referenz-JSX in der µPS-Entwicklung); Photopea als Render-Engine (µPS bleibt Node).
+
+### D11b — Photopea-API (Perspektive für µPS / µCSS)
+
+Photopea kann per URL konfiguriert werden: `https://www.photopea.com#` + URL-kodiertes JSON
+(`files`, `resources`, optional `script`, optional `server` mit Save-back). Die
+[API-Doku](https://www.photopea.com/api/) ist kostenlos nutzbar.
+
+**Sinnvolle Integration (geplant, nicht Release-blockierend):**
+
+| Idee | Nutzen |
+| :--- | :--- |
+| `OpenDrafts(paths, { app: "photopea" })` | Mini-HTTP-Server mit CORS liefert die PSD; Browser öffnet Photopea mit `files: [url]` — kein Desktop-Editor nötig |
+| `server.url` + Save in Photopea | Geänderte PSD per POST zurück → Datei ersetzen → `WatchDrafts` / Skin-Rebuild |
+| `script` nach dem Laden | Einmalige Anpassungen im Editor, die µPS (noch) nicht abbildet — Ergänzung, kein Ersatz für µPS |
+
+**Abgrenzung:** Rendering, Sprite-Atlas und Button-Matrix bleiben in **µPS (Node)**.
+Photopea ist Authoring und optionaler „open & save“-Kanal, analog zu `OpenDrafts` +
+Affinity — nicht die Build-Pipeline selbst.
 
 ### D12 — Oxyd-Tile-Pipeline und Bildanpassungen (µPS, geplant)
 
@@ -702,9 +726,9 @@ Abschnitt ExtendScript-Einstieg.
 
 **Hintergrund:** Das alte `gulp-mu-spritereducer` löschte nach dem µCSS-1-Atlas die Einzel-PNGs aus dem Cache-Feld `spriteimages` — fragwürdig gegenüber echtem Incremental-Cache, aber für **Deploy-Builds** sinnvoll (nur Atlas + CSS ausliefern).
 
-**µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas). Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
+**µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas), sowie die **Sidecar-JSON** (`<strip>.json` neben der 1x-Quelle), die nur für Compile-Zeit-`afterWork`-Hooks (Sequence Strips) gebraucht wird. Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
 
-**Ausnahmen:** `sprites.pruneKeep: string[]` — skin-relative Dateien oder Verzeichnisse, die vom Trim ausgenommen bleiben (Match über die 1x-URL; `1x` + `@2x` bleiben). Report: `keptSources[]`.
+**Ausnahmen:** `sprites.pruneKeep: string[]` — skin-relative Dateien oder Verzeichnisse, die vom Trim ausgenommen bleiben (Match über die 1x-URL; `1x` + `@2x` + Sidecar-JSON bleiben). Report: `keptSources[]`.
 
 **Abgrenzung:** Kein Ersatz für fehlende Quellen beim nächsten Vollbuild — für Entwicklung `pruneSources` weglassen oder Quellen aus dem Generator neu erzeugen lassen.
 
@@ -862,7 +886,7 @@ export function SkinWatch() {
 }
 ```
 
-Siehe **D11** für Affinity-Authoring, `OpenDrafts`/`WatchDrafts` (µPS) und den
+Siehe **D11/D11b** für PSD-Authoring (Affinity/Photopea), `OpenDrafts`/`WatchDrafts` (µPS) und den
 Round-Trip „PSD speichern → Watch → µPS rendert“.
 
 ```js

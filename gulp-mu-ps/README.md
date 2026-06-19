@@ -6,7 +6,7 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 
 **Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency**. PSD sources via `ag-psd`, rendering via `sharp`. Layered drafts are typically authored in **[Affinity](https://affinity.studio/download)** (free; Canva account for download).
+Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency**. PSD sources via `ag-psd`, rendering via `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD).
 
 > **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS manual** (chapter *microPS*). This README is a quick npm overview only.
 
@@ -39,7 +39,7 @@ Node module that replaces the image-processing functions of the old Adobe-based 
 | `ApplyAdjustmentStack`, `Transforms`, `MaskFromRects`, `ResizeCanvas` | Adjustments, raster ops, canvas size, masks |
 | `CreateRaster`, `CloneRaster`, `MuPsDoc` | Raster baseline + JSX-style entry |
 | `PsDocument`, `RenderDocument` | PSD load and layer compositing |
-| `OpenDrafts`, `WatchDrafts` | Affinity draft workflow (save → rebuild) |
+| `OpenDrafts`, `WatchDrafts` | Draft workflow: save PSD → rebuild (Affinity, Photopea, …) |
 
 App-specific pipelines (e.g. Oxyd tile post-production) belong in the app `gulpfile`, not in this npm package.
 
@@ -81,7 +81,7 @@ Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
 
 **Version:** **1.3.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe üblicherweise in **[Affinity](https://affinity.studio/download)** (kostenlos).
+Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD).
 
 > **Doku-Richtlinie:** Generatoren, DSD, Anpassungen, Transformationen, PSD-Compositor, Referenz-Regression und Draft-Workflow stehen **zentral im µCSS-Handbuch** (Kapitel *microPS*). Diese README ist nur ein npm-Kurzüberblick.
 
@@ -114,7 +114,7 @@ Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflow
 | `ApplyAdjustmentStack`, `Transforms`, `MaskFromRects`, `ResizeCanvas` | Anpassungen, Raster-Ops, Arbeitsblatt, Masken |
 | `CreateRaster`, `CloneRaster`, `MuPsDoc` | Raster-Baseline + ExtendScript-Einstieg |
 | `PsDocument`, `RenderDocument` | PSD laden und Ebenen compositen |
-| `OpenDrafts`, `WatchDrafts` | Affinity-Draft-Workflow |
+| `OpenDrafts`, `WatchDrafts` | Draft-Workflow: PSD speichern → Rebuild (Affinity, Photopea, …) |
 
 App-spezifische Pipelines (z. B. Oxyd) gehören ins App-`gulpfile`, nicht ins npm-Paket.
 
