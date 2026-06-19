@@ -3,7 +3,7 @@
 // The expected output format follows a legacy compiled std.css reference,
 // minus the vendor-prefixed image-set lines (CONCEPT.md, D6).
 
-import { mkdirSync, rmSync, existsSync } from "node:fs";
+import { mkdirSync, rmSync, existsSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect } from "chai";
@@ -240,6 +240,28 @@ describe("Sprites and cursors (M2)", function () {
 			const red = { r: 255, g: 0, b: 0, alpha: 1 };
 			await _WritePng("imgs/logos/logo.png", 134, 25, red);
 			await _WritePng("imgs/logos/logo@2x.png", 268, 50, red);
+		});
+
+		it("pruneSources deletes sequence-strip sidecar JSON with packed sources", async () => {
+			const red = { r: 255, g: 0, b: 0, alpha: 1 };
+			await _WritePng("imgs/strips/anim.png", 32, 32, red);
+			await _WritePng("imgs/strips/anim@2x.png", 64, 64, red);
+			const sidecar = join(tmpDir, "imgs/strips/anim.json");
+			writeFileSync(sidecar, JSON.stringify({ info: { maxWidth: 32, maxHeight: 32, offX: 0, offY: 0 }, sprites: [] }));
+			const sprites = new SpriteManager({
+				baseDir: tmpDir,
+				atlasFile: "imgs/sprites_sidecar.png",
+				retina: true,
+				pruneSources: true
+			});
+			const document = CompileMcss("div.a { -µ: Sprite(\"imgs/strips/anim.png\"); }", { sprites });
+			await sprites.Resolve(document);
+			expect(existsSync(join(tmpDir, "imgs/strips/anim.png"))).to.equal(false);
+			expect(existsSync(sidecar)).to.equal(false);
+			expect(sprites.lastPruned.deleted).to.include("imgs/strips/anim.json");
+			// Restore strip sources for other tests.
+			await _WritePng("imgs/strips/anim.png", 32, 32, red);
+			await _WritePng("imgs/strips/anim@2x.png", 64, 64, red);
 		});
 
 		it("pruneKeep protects matched files and directories from pruning", async () => {

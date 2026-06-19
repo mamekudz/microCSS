@@ -213,6 +213,16 @@ export class SpriteManager {
 				unlinkSync(file);
 				deleted.push(url);
 			}
+			// Sequence-strip sidecar maps (<strip>.json) are only needed while
+			// compiling afterWork hooks; drop them with the packed 1x source.
+			if (!protectedSource) {
+				const sidecarJson = resolved.replace(/\.[a-z0-9]+$/i, ".json");
+				if (sidecarJson !== resolved && existsSync(sidecarJson) && !atlasPaths.has(sidecarJson)) {
+					const sidecarUrl = relative(this.options.baseDir, sidecarJson).split("\\").join("/");
+					unlinkSync(sidecarJson);
+					deleted.push(sidecarUrl);
+				}
+			}
 		}
 		return { deleted, kept };
 	}
