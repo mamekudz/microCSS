@@ -1,8 +1,8 @@
-# µCSS Demos
+# µCSS™ Demos
 
 Interactive demos for videos and GitHub Pages — classic **Oxyd**-style glittery sparkle and fly easter egg.
 
-| Demo | Effect | µCSS / µAU features |
+| Demo | Effect | µCSS™ / µAU features |
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mouse move → random-offset sparkles | `sequenceStrip`, sprite atlas, **GlitterySprite** `afterWork` hook |
 | [flyex/](flyex/) | Fly swarm, click to swat, **Space** = 19 more | **FlyEx** / **FlyExUtils** macros, DSD strips, **µAU sound atlas** (`fly1`, `swatter`, `crush`) |
@@ -10,7 +10,7 @@ Interactive demos for videos and GitHub Pages — classic **Oxyd**-style glitter
 
 ### FlyEx — Atari heritage
 
-**FlyEx** is a modern remake of a classic **Atari ST fly-swatting gimmick** — the kind of tiny desktop accessory that magazine PD disks and “gimmick” cover disks used to ship (TSR utilities, ACC files, joke programs). The demo reuses **original hand-pixelated sprites** from that lineage, now rendered through µPS sequence strips and µCSS helper macros instead of GEM.
+**FlyEx** is a modern remake of a classic **Atari ST fly-swatting gimmick** — the kind of tiny desktop accessory that magazine PD disks and “gimmick” cover disks used to ship (TSR utilities, ACC files, joke programs). The demo reuses **original hand-pixelated sprites** from that lineage, now rendered through µPS sequence strips and µCSS™ helper macros instead of GEM.
 
 If you want to browse the original magazine context (listings, cover disks, PD collections):
 
@@ -63,7 +63,7 @@ npx --yes serve demos -p 5173
 - *One DSD image → 80 CSS rules* (FlyEx macro, DevTools scroll)
 - *Atari ST gimmick in the browser* (hand-pixelled sprites, 2026 build pipeline)
 - *Sound atlas from the manifest* (four WAVs → one blob + JSON, fly buzz + swat)
-- *µCSS 1 Photoshop vs µCSS 2 Node* (same assets, modern build)
+- *µCSS™ 1 Photoshop vs µCSS™ 2 Node* (same assets, modern build)
 - *No Adobe subscription* — build in Node; layered PSDs in free [Affinity](https://affinity.studio/download) (vs. paid Creative Cloud for the old stack)
 
 ## Asset provenance
@@ -74,11 +74,11 @@ npx --yes serve demos -p 5173
 
 ---
 
-# µCSS-Demos
+# µCSS™-Demos
 
 Interaktive Demos für Videos und GitHub Pages — **Oxyd-**Glittery-Effekt und Fliegen-Osterei.
 
-| Demo | Effekt | µCSS-/µAU-Features |
+| Demo | Effekt | µCSS™-/µAU-Features |
 | :--- | :--- | :--- |
 | [glittery/](glittery/) | Mausbewegung → Funkeln mit Zufallsoffset | `sequenceStrip`, Sprite-Atlas, **GlitterySprite**-Hook |
 | [flyex/](flyex/) | Fliegenschwarm, Klick = Klatsch, **Leertaste** = 19 weitere | **FlyEx**-/ **FlyExUtils**-Makros, DSD-Strips, **µAU-Sound-Atlas** |
@@ -86,7 +86,7 @@ Interaktive Demos für Videos und GitHub Pages — **Oxyd-**Glittery-Effekt und 
 
 ### FlyEx — Atari-Hintergrund
 
-**FlyEx** ist ein moderner Nachbau eines klassischen **Atari-ST-Fliegen-Gimmicks** — kleine Desktop-Spielereien, die früher über PD-Disketten der Magazine (TSR-Utilities, ACC-Dateien, Scherzprogramme) verbreitet wurden. Die Demo nutzt **original handgepixelte Sprites** aus dieser Tradition, heute über µPS-Strips und µCSS-Makros statt über GEM.
+**FlyEx** ist ein moderner Nachbau eines klassischen **Atari-ST-Fliegen-Gimmicks** — kleine Desktop-Spielereien, die früher über PD-Disketten der Magazine (TSR-Utilities, ACC-Dateien, Scherzprogramme) verbreitet wurden. Die Demo nutzt **original handgepixelte Sprites** aus dieser Tradition, heute über µPS-Strips und µCSS™-Makros statt über GEM.
 
 Archiv-Tipps zum Original-Kontext (Hefte, Listings, Disk-Inhalte):
 

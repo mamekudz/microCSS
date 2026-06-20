@@ -1,18 +1,18 @@
-# µCSS V2.5.6 (microCSS)
+# µCSS™ V2.5.7 (microCSS)
 
 <p align="center">
-  <img src="docs/manual/imgs/logo.png" alt="µCSS logo" width="180">
+  <img src="docs/manual/imgs/logo.png" alt="µCSS™ logo" width="180">
 </p>
 
 *English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
-Node module for compiling **µCSS**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript and PSD-based image generation, driven by a skin manifest. µCSS 2 is the Adobe-independent Node reimplementation of µCSS, originally introduced in 2013 as a Photoshop script.
+Node module for compiling **µCSS™**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript and PSD-based image generation, driven by a skin manifest. µCSS™ 2 is the Adobe-independent Node reimplementation of µCSS™, originally introduced in 2013 as a Photoshop script.
 
-The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS** is the display name. Bump the **H1** version when releasing (must match `package.json`).
+The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS™** is the display name. Bump the **H1** version when releasing (must match `package.json`).
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
-**No Adobe subscription for the build** — unlike µCSS 1, compilation and PSD rendering run in Node. Layered drafts are edited in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing). Save as PSD for µPS.
+**No Adobe subscription for the build** — unlike µCSS™ 1, compilation and PSD rendering run in Node. Layered drafts are edited in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing). Save as PSD for µPS.
 
 ## Project links
 
@@ -34,7 +34,7 @@ npm install gulp-mu-css
 
 Image generation (sprite atlas, PSD rendering) uses the sibling package [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps), which is installed automatically as a dependency.
 
-## What µCSS does
+## What µCSS™ does
 
 - **JavaScript in CSS values** — `µ(expression)` (ASCII alias `mu(...)`) is evaluated and replaced by its result, e.g. `color: µ($.linkColor);` or `µ($.zIndex + 10)`.
 - **Directives with AST access** — `-µ: Directive(...)` (ASCII alias `-mu:`) runs JavaScript with access to the surrounding rule and the document, and is removed from the output.
@@ -44,7 +44,7 @@ Image generation (sprite atlas, PSD rendering) uses the sibling package [`gulp-m
 - **PSD image generation** — button/icon series, app icons and animation strips from layered drafts (via `gulp-mu-ps`), wired directly into the CSS build.
 - **Skin manifest & incremental build** — one manifest per skin, mtime-based cache (atlas and PSD steps are only regenerated on change).
 
-Source stylesheets stay **syntactically valid CSS** — editors, linters and diffs work unchanged. Internally µCSS is a PostCSS pipeline, so the PostCSS ecosystem (cssnano, Stylelint, …) remains attachable.
+Source stylesheets stay **syntactically valid CSS** — editors, linters and diffs work unchanged. Internally µCSS™ is a PostCSS pipeline, so the PostCSS ecosystem (cssnano, Stylelint, …) remains attachable.
 
 ## Source stylesheets (`*.µ.css`)
 
@@ -223,7 +223,7 @@ Build errors always name the culprit together with its source location:
 
 ## Manual
 
-The complete user manual ships as **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); Markdown sources: `docs/manual/microCSS-Manual-en.md` and `docs/manual/microCSS-Handbuch.md`. It covers the core ideas, all directives and manifest options, image/sound/font generation (chapters *microPS*, *microAU*, *microFT*), the incremental build and the migration from µCSS 1.
+The complete user manual ships as **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); Markdown sources: `docs/manual/microCSS-Manual-en.md` and `docs/manual/microCSS-Handbuch.md`. It covers the core ideas, all directives and manifest options, image/sound/font generation (chapters *microPS*, *microAU*, *microFT*), the incremental build and the migration from µCSS™ 1.
 
 ## License
 
@@ -233,17 +233,17 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS V2.5.6 (microCSS)
+# µCSS™ V2.5.7 (microCSS)
 
 *[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
-Node-Modul zur Kompilierung von **µCSS**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript und PSD-basierte Bilderzeugung, gesteuert über ein Skin-Manifest. µCSS 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS.
+Node-Modul zur Kompilierung von **µCSS™**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript und PSD-basierte Bilderzeugung, gesteuert über ein Skin-Manifest. µCSS™ 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS™.
 
-Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen).
+Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS™** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen).
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 
-**Kein Adobe-Abo für den Build** — anders als µCSS 1 laufen Kompilierung und PSD-Rendering in Node. Entwürfe bearbeitet man in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal). Als PSD speichern für µPS.
+**Kein Adobe-Abo für den Build** — anders als µCSS™ 1 laufen Kompilierung und PSD-Rendering in Node. Entwürfe bearbeitet man in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal). Als PSD speichern für µPS.
 
 ## Projekt-Links
 
@@ -265,7 +265,7 @@ npm install gulp-mu-css
 
 Die Bilderzeugung (Sprite-Atlas, PSD-Rendering) nutzt das Schwesterpaket [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps), das als Abhängigkeit automatisch mitinstalliert wird.
 
-## Was µCSS macht
+## Was µCSS™ macht
 
 - **JavaScript im CSS-Wert** — `µ(ausdruck)` (ASCII-Alias `mu(...)`) wird ausgewertet und durch das Ergebnis ersetzt, z. B. `color: µ($.linkColor);` oder `µ($.zIndex + 10)`.
 - **Direktiven mit AST-Zugriff** — `-µ: Direktive(...)` (ASCII-Alias `-mu:`) führt JavaScript mit Zugriff auf die umgebende Regel und das Dokument aus und wird aus der Ausgabe entfernt.
@@ -275,7 +275,7 @@ Die Bilderzeugung (Sprite-Atlas, PSD-Rendering) nutzt das Schwesterpaket [`gulp-
 - **PSD-Bilderzeugung** — Button-/Icon-Serien, App-Icons und Animations-Strips aus geschichteten Entwürfen (über `gulp-mu-ps`), direkt an den CSS-Build gekoppelt.
 - **Skin-Manifest & inkrementeller Build** — ein Manifest pro Skin, mtime-basierter Cache (Atlas und PSD-Schritte werden nur bei Änderungen neu erzeugt).
 
-Die Quell-Stylesheets bleiben dabei **syntaktisch valides CSS** — Editoren, Linter und Diffs funktionieren unverändert. Intern ist µCSS eine PostCSS-Pipeline, das PostCSS-Ökosystem (cssnano, Stylelint, …) bleibt andockbar.
+Die Quell-Stylesheets bleiben dabei **syntaktisch valides CSS** — Editoren, Linter und Diffs funktionieren unverändert. Intern ist µCSS™ eine PostCSS-Pipeline, das PostCSS-Ökosystem (cssnano, Stylelint, …) bleibt andockbar.
 
 ## Quell-Stylesheets (`*.µ.css`)
 
@@ -454,7 +454,7 @@ Build-Fehler nennen immer den Verursacher samt Quellbezug:
 
 ## Handbuch
 
-Das vollständige Benutzerhandbuch liegt als **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch) bei (Markdown-Quellen: `docs/manual/microCSS-Handbuch.md` und `docs/manual/microCSS-Manual-en.md`). Es behandelt Grundideen, alle Direktiven und Manifest-Optionen, Bild-/Sound-/Font-Erzeugung (Kapitel *microPS*, *microAU*, *microFT*), den inkrementellen Build sowie die Migration von µCSS 1.
+Das vollständige Benutzerhandbuch liegt als **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch) bei (Markdown-Quellen: `docs/manual/microCSS-Handbuch.md` und `docs/manual/microCSS-Manual-en.md`). Es behandelt Grundideen, alle Direktiven und Manifest-Optionen, Bild-/Sound-/Font-Erzeugung (Kapitel *microPS*, *microAU*, *microFT*), den inkrementellen Build sowie die Migration von µCSS™ 1.
 
 ## Lizenz
 

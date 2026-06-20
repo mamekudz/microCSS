@@ -6,15 +6,15 @@ The technical package name is `gulp-mu-au` (the µ character causes trouble in n
 
 **Version:** **0.1.4** · [![npm version](https://img.shields.io/npm/v/gulp-mu-au.svg)](https://www.npmjs.com/package/gulp-mu-au)
 
-Node module that builds a **sound atlas** for the µCSS family: many short audio files → one combined WAV/MP3 blob plus a JSON timing map for the browser runtime. Audio counterpart of sprite atlases.
+Node module that builds a **sound atlas** for the µCSS™ family: many short audio files → one combined WAV/MP3 blob plus a JSON timing map for the browser runtime. Audio counterpart of sprite atlases.
 
-> **Documentation policy:** Loop points, conversion options, incremental cache, JSON format and µCSS manifest integration are documented **centrally in the µCSS manual** (chapter *microAU*). This README is a quick npm overview only.
+> **Documentation policy:** Loop points, conversion options, incremental cache, JSON format and µCSS™ manifest integration are documented **centrally in the µCSS™ manual** (chapter *microAU*). This README is a quick npm overview only.
 
 ## Documentation (canonical)
 
 | | |
 | :--- | :--- |
-| **µCSS manual (chapter *microAU*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
+| **µCSS™ manual (chapter *microAU*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Manual sources** | [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) · [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) |
 | **Sound/CSS concept (draft)** | [docs/CONCEPT.md](docs/CONCEPT.md) — CSS bindings, `soundTriggers` manifest module |
 
@@ -22,13 +22,13 @@ Node module that builds a **sound atlas** for the µCSS family: many short audio
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (this package)** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
 
 ## Status
 
-**Build layer only** — referencing sounds from CSS (µCSS sound directive) and browser runtime/speech are later steps.
+**Build layer only** — referencing sounds from CSS (µCSS™ sound directive) and browser runtime/speech are later steps.
 
 ## Overview
 
@@ -52,7 +52,7 @@ await SoundAtlasMaker.Create({
 });
 ```
 
-µCSS integration: optional `sounds` block in the skin manifest — see the µCSS manual.
+µCSS™ integration: optional `sounds` block in the skin manifest — see the µCSS™ manual.
 
 Built on [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.1.2** (configurable `log`: default quiet engine, one-line summary; `log: true` for per-file progress; `log: false` silent). Requires Node ≥ 18.
 
@@ -77,15 +77,15 @@ Der technische Paketname ist `gulp-mu-au`; **µAU** ist der Anzeigename.
 
 **Version:** **0.1.4** · [![npm version](https://img.shields.io/npm/v/gulp-mu-au.svg)](https://www.npmjs.com/package/gulp-mu-au)
 
-Node-Modul für einen **Sound-Atlas** in der µCSS-Familie: viele kurze Audiodateien → kombinierter WAV/MP3-Blob plus JSON-Timing-Map für die Browser-Runtime. Audio-Gegenstück zu Sprite-Atlanten.
+Node-Modul für einen **Sound-Atlas** in der µCSS™-Familie: viele kurze Audiodateien → kombinierter WAV/MP3-Blob plus JSON-Timing-Map für die Browser-Runtime. Audio-Gegenstück zu Sprite-Atlanten.
 
-> **Doku-Richtlinie:** Loop-Punkte, Konvertierungsoptionen, Cache, JSON-Format und µCSS-Manifest-Anbindung stehen **zentral im µCSS-Handbuch** (Kapitel *microAU*). Diese README ist nur ein npm-Kurzüberblick.
+> **Doku-Richtlinie:** Loop-Punkte, Konvertierungsoptionen, Cache, JSON-Format und µCSS™-Manifest-Anbindung stehen **zentral im µCSS™-Handbuch** (Kapitel *microAU*). Diese README ist nur ein npm-Kurzüberblick.
 
 ## Dokumentation (kanonisch)
 
 | | |
 | :--- | :--- |
-| **µCSS-Handbuch (Kapitel *microAU*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
+| **µCSS™-Handbuch (Kapitel *microAU*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **Handbuch-Quellen** | [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) · [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) |
 | **Sound/CSS-Konzept (Entwurf)** | [docs/CONCEPT.md](docs/CONCEPT.md) — CSS-Bindings, Manifest-Modul `soundTriggers` |
 
@@ -93,13 +93,13 @@ Node-Modul für einen **Sound-Atlas** in der µCSS-Familie: viele kurze Audiodat
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (dieses Paket)** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
 
 ## Status
 
-**Nur Build-Layer** — Sound-Direktive in µCSS und Browser-Runtime/Sprachausgabe folgen später.
+**Nur Build-Layer** — Sound-Direktive in µCSS™ und Browser-Runtime/Sprachausgabe folgen später.
 
 ## Überblick
 
@@ -123,7 +123,7 @@ await SoundAtlasMaker.Create({
 });
 ```
 
-µCSS-Anbindung: optionaler `sounds`-Block im Skin-Manifest — siehe µCSS-Handbuch.
+µCSS™-Anbindung: optionaler `sounds`-Block im Skin-Manifest — siehe µCSS™-Handbuch.
 
 Aufgesetzt auf [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.1.2** (konfigurierbares `log`: Standard = stille Engine, einzeilige Zusammenfassung; `log: true` für Datei-für-Datei-Fortschritt; `log: false` = stumm). Node ≥ 18.
 

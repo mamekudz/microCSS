@@ -8,20 +8,20 @@ The technical package name is `gulp-mu-ft` (the µ character causes trouble in n
 
 Node module that builds an **icon font** from a directory of SVG glyphs — automated like IcoMoon, without Adobe or IcoMoon. Output: font files, CSS classes, IcoMoon-compatible JSON, HTML overview.
 
-> **Documentation policy:** Glyph naming, all `FontGenerator` options, incremental cache and µCSS integration are documented **centrally in the µCSS manual** (chapter *microFT*). This README is a quick npm overview only.
+> **Documentation policy:** Glyph naming, all `FontGenerator` options, incremental cache and µCSS™ integration are documented **centrally in the µCSS™ manual** (chapter *microFT*). This README is a quick npm overview only.
 
 ## Documentation (canonical)
 
 | | |
 | :--- | :--- |
-| **µCSS manual (chapter *microFT*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
+| **µCSS™ manual (chapter *microFT*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Manual sources** | [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) · [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) |
 
 ## Project links
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (this package)** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 
@@ -47,7 +47,7 @@ await FontGenerator.Create({
 });
 ```
 
-Into µCSS skins typically via `copyFolder` in the manifest — see the µCSS manual.
+Into µCSS™ skins typically via `copyFolder` in the manifest — see the µCSS™ manual.
 
 Requires Node ≥ 20.11. Built on `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`.
 
@@ -74,20 +74,20 @@ Der technische Paketname ist `gulp-mu-ft`; **µFT** ist der Anzeigename.
 
 Node-Modul für **Icon-Fonts** aus SVG-Glyphen — automatisiert wie IcoMoon, ohne Adobe/IcoMoon. Ausgabe: Font-Dateien, CSS-Klassen, IcoMoon-JSON, HTML-Übersicht.
 
-> **Doku-Richtlinie:** Glyphen-Benennung, alle `FontGenerator`-Optionen, Cache und µCSS-Anbindung stehen **zentral im µCSS-Handbuch** (Kapitel *microFT*). Diese README ist nur ein npm-Kurzüberblick.
+> **Doku-Richtlinie:** Glyphen-Benennung, alle `FontGenerator`-Optionen, Cache und µCSS™-Anbindung stehen **zentral im µCSS™-Handbuch** (Kapitel *microFT*). Diese README ist nur ein npm-Kurzüberblick.
 
 ## Dokumentation (kanonisch)
 
 | | |
 | :--- | :--- |
-| **µCSS-Handbuch (Kapitel *microFT*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
+| **µCSS™-Handbuch (Kapitel *microFT*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **Handbuch-Quellen** | [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) · [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) |
 
 ## Projekt-Links
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (dieses Paket)** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 
@@ -113,7 +113,7 @@ await FontGenerator.Create({
 });
 ```
 
-In µCSS-Skins typischerweise per `copyFolder` im Manifest — siehe µCSS-Handbuch.
+In µCSS™-Skins typischerweise per `copyFolder` im Manifest — siehe µCSS™-Handbuch.
 
 Node ≥ 20.11. Aufgesetzt auf `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`.
 

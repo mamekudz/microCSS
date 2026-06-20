@@ -62,9 +62,9 @@ CSS-Anbindung ist reine Zusatzschicht, kein Ersatz für den JS-Weg.
 ## 3. W3C-Wiederbelebung: aurale CSS-Properties
 
 Die (nie real implementierte) **CSS Aural/Speech**-Idee kannte passende Properties.
-µCSS macht sie „echt" — das ist die eleganteste, standardnahe Schreibweise:
+µCSS™ macht sie „echt" — das ist die eleganteste, standardnahe Schreibweise:
 
-| W3C-Property | Wiederbelebte Bedeutung in µCSS | Typ |
+| W3C-Property | Wiederbelebte Bedeutung in µCSS™ | Typ |
 | :--- | :--- | :--- |
 | `cue-before` | Ton, wenn der Regelzustand **aktiv** wird (Element erscheint / `:hover` betreten / Klasse gesetzt) | One-Shot |
 | `cue-after` | Ton, wenn der Regelzustand **inaktiv** wird (verlässt/verschwindet) | One-Shot |

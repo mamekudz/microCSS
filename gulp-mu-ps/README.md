@@ -6,15 +6,15 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 
 **Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node module that replaces the image-processing functions of the old Adobe-based µCSS workflow — **without an Adobe dependency for the build**. PSD sources via `ag-psd`, rendering via `sharp`. **Authoring** layered drafts: your choice — Affinity, Adobe Photoshop (via OS association or explicit `.exe`), Photopea (browser), or any app via `OpenDrafts({ app: "<exe>" })`. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
+Node module that replaces the image-processing functions of the old Adobe-based µCSS™ workflow — **without an Adobe dependency for the build**. PSD sources via `ag-psd`, rendering via `sharp`. **Authoring** layered drafts: your choice — Affinity, Adobe Photoshop (via OS association or explicit `.exe`), Photopea (browser), or any app via `OpenDrafts({ app: "<exe>" })`. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
 
-> **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS manual** (chapter *microPS*). This README is a quick npm overview only.
+> **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS™ manual** (chapter *microPS*). This README is a quick npm overview only.
 
 ## Documentation (canonical)
 
 | | |
 | :--- | :--- |
-| **µCSS manual (chapter *microPS*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
+| **µCSS™ manual (chapter *microPS*)** | [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) · [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) |
 | **Manual sources** | [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) · [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) |
 | **Compositor reference (developers)** | [examples/reference/README.md](examples/reference/README.md) |
 
@@ -22,7 +22,7 @@ Node module that replaces the image-processing functions of the old Adobe-based 
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (this package)** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 
@@ -32,7 +32,7 @@ Node module that replaces the image-processing functions of the old Adobe-based 
 | :--- | :--- |
 | `ButtonAndIconCreator` | Button/icon series from PSD drafts (layouts × glyphs or top-layer sets) |
 | `AppIconMaker` | App icons / favicons (`web`, `ios`, `play` profiles) |
-| `SpriteAtlas` | Sprite atlas (basis for `µ.Sprite` / `µ.Cursor` in µCSS) |
+| `SpriteAtlas` | Sprite atlas (basis for `µ.Sprite` / `µ.Cursor` in µCSS™) |
 | `TileSheet` | Uniform tiles, dedupe, square textures |
 | `SequenceStrip` | Horizontal strips from image sequences or DSD images |
 | `CreateDsdFromImages`, `CreatePsdWithSequence` | DSD authoring and PSD sequence groups |
@@ -54,7 +54,7 @@ await ButtonAndIconCreator.Create("drafts/buttons.psd", {
 });
 ```
 
-Integrated into µCSS via `media` steps in the skin manifest — see the µCSS manual.
+Integrated into µCSS™ via `media` steps in the skin manifest — see the µCSS™ manual.
 
 **Photopea (optional):** `await OpenPhotopeaDrafts(["draft.psd"], { saveBack: true })` — only if you prefer the browser.  
 **Affinity / Photoshop:** `OpenDrafts(["draft.psd"], { app: "affinity" })` or `{ app: "default" }` / path to `Photoshop.exe`.
@@ -84,15 +84,15 @@ Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
 
 **Version:** **1.3.1** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflows — **Build ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe: frei wählbar — Affinity, Photoshop, Photopea oder `OpenDrafts({ app: "<exe>" })`. **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | Pfad zur `.exe`.
+Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS™-Workflows — **Build ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe: frei wählbar — Affinity, Photoshop, Photopea oder `OpenDrafts({ app: "<exe>" })`. **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | Pfad zur `.exe`.
 
-> **Doku-Richtlinie:** Generatoren, DSD, Anpassungen, Transformationen, PSD-Compositor, Referenz-Regression und Draft-Workflow stehen **zentral im µCSS-Handbuch** (Kapitel *microPS*). Diese README ist nur ein npm-Kurzüberblick.
+> **Doku-Richtlinie:** Generatoren, DSD, Anpassungen, Transformationen, PSD-Compositor, Referenz-Regression und Draft-Workflow stehen **zentral im µCSS™-Handbuch** (Kapitel *microPS*). Diese README ist nur ein npm-Kurzüberblick.
 
 ## Dokumentation (kanonisch)
 
 | | |
 | :--- | :--- |
-| **µCSS-Handbuch (Kapitel *microPS*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
+| **µCSS™-Handbuch (Kapitel *microPS*)** | [microCSS-de.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-de.pdf) · [microCSS-en.pdf](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/microCSS-en.pdf) |
 | **Handbuch-Quellen** | [microCSS-Handbuch.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Handbuch.md) · [microCSS-Manual-en.md](https://github.com/mamekudz/microCSS/blob/master/gulp-mu-css/docs/manual/microCSS-Manual-en.md) |
 | **Compositor-Referenz (Entwickler)** | [examples/reference/README.md](examples/reference/README.md) |
 
@@ -100,7 +100,7 @@ Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS-Workflow
 
 | | |
 | :--- | :--- |
-| **µCSS (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
+| **µCSS™ (npm)** | [gulp-mu-css](https://www.npmjs.com/package/gulp-mu-css) |
 | **Monorepo** | [github.com/mamekudz/microCSS](https://github.com/mamekudz/microCSS) |
 | **npm (dieses Paket)** | [gulp-mu-ps](https://www.npmjs.com/package/gulp-mu-ps) |
 
@@ -132,7 +132,7 @@ await ButtonAndIconCreator.Create("drafts/buttons.psd", {
 });
 ```
 
-Anbindung an µCSS über `media`-Steps im Skin-Manifest — siehe µCSS-Handbuch.
+Anbindung an µCSS™ über `media`-Steps im Skin-Manifest — siehe µCSS™-Handbuch.
 
 ## Voraussetzungen
 

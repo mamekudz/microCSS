@@ -1,12 +1,12 @@
-# µCSS 2 (gulp-mu-css) — Konzept
+# µCSS™ 2 (gulp-mu-css) — Konzept
 
 Stand: Juni 2026 · Status: Entwurf zur Diskussion
 
-µCSS 2 ersetzt den Adobe-basierten Workflow von µCSS 1 (2013, Photoshop-Script):
+µCSS™ 2 ersetzt den Adobe-basierten Workflow von µCSS™ 1 (2013, Photoshop-Script):
 Aus erweiterten Quell-Stylesheets (`skins/src`) und den Medienquellen (`dev/media`)
 entstehen per Gulp die fertigen Skin-Dateien (`skins/std`) — Standard-CSS plus alle
 benötigten Bilder, Sprites, Cursor, Fonts und Sounds. Die Bilderzeugung übernimmt
-µPS. Anzeigenamen sind µCSS und µPS; die technischen Namen (npm-Pakete,
+µPS. Anzeigenamen sind µCSS™ und µPS; die technischen Namen (npm-Pakete,
 Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gulp-mu-ps`.
 
 **Adobe-Unabhängigkeit & Kosten:** Build und Bild-Rendering laufen in Node (µCSS/µPS) — kein Creative Cloud. PSD-Entwürfe pflegt man in [Affinity](https://affinity.studio/download) (kostenlose Desktop-App) oder [Photopea](https://www.photopea.com/) (kostenlos im Browser, volle PSD, lokal auf dem Gerät). Photoshop ist nur noch für optionale Referenz-Exports in der µPS-Entwicklung nötig, nicht für den Produktions-Build.
@@ -15,7 +15,7 @@ Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gul
 
 ## 1. Analyse des Bestands (Legacy-Referenz, intern)
 
-Quelle: `oldsrcs/LegacySkinExtract` — ein interner µCSS-1-Referenz-Skin (nicht im öffentlichen Repository).
+Quelle: `oldsrcs/LegacySkinExtract` — ein interner µCSS™-1-Referenz-Skin (nicht im öffentlichen Repository).
 
 **Struktur:**
 
@@ -66,7 +66,7 @@ geschenkt: Es parst CSS in einen wohldefinierten, traversier- und manipulierbare
 AST (Root → Rule → Declaration), inklusive Source-Maps und Fehlerpositionen.
 
 Entscheidend: Die neue µ-Syntax (siehe D2) ist **syntaktisch valides CSS** —
-PostCSS parst `.µ.css`-Dateien ohne Custom-Syntax. µCSS wird damit im Kern
+PostCSS parst `.µ.css`-Dateien ohne Custom-Syntax. µCSS™ wird damit im Kern
 eine PostCSS-Pipeline mit eigener Evaluations-Schicht. Zusätzlich öffnet das
 das PostCSS-Ökosystem: cssnano ersetzt die alten Output-Optionen (`comments`,
 `tabulators`, `lineFeeds`, …); Autoprefixer ließe sich bei Bedarf einhängen,
@@ -149,7 +149,7 @@ JavaScript (ES6+), importierbar, testbar — und genau die gewünschte
   entsprechend benannte Manifest-Datei `<skinname>.µcss.mjs`, z. B.
   `skins/src/std.µcss.mjs`. Das Doppelsuffix `.µcss.mjs` (ASCII-Alternative
   `.mucss.mjs`) macht auf einen Blick klar, dass es sich um ein
-  µCSS-Skin-Manifest handelt und nicht um ein gewöhnliches Modul oder
+  µCSS™-Skin-Manifest handelt und nicht um ein gewöhnliches Modul oder
   Gulpfile. Der Skin-Name ergibt sich aus dem Dateinamen vor dem Suffix
   (`std.µcss.mjs` → Skin `std`) — kein `name`-Feld nötig.
 - **`.µ.css`-Quellen sind frei benennbar** (z. B. `src.µ.css`); das Manifest
@@ -250,19 +250,19 @@ Referenz-Makros liegen als Test-Fixture unter `test/fixtures/reference-macros.mj
 
 ### D4 — LESS: nicht einbauen, aber nicht blockieren
 
-Empfehlung: **kein LESS-Support in µCSS.** Begründung:
+Empfehlung: **kein LESS-Support in µCSS™.** Begründung:
 
 - Die historischen LESS-Argumente (Variablen, Nesting, Mixins) sind heute
   abgedeckt: **natives CSS-Nesting** (Browser-Support seit 2023, kann unverändert
   durchgereicht werden), **Custom Properties** zur Laufzeit, `µ()`/`vars` zur
   Build-Zeit, `helpers` als Mixin-Ersatz mit echtem JavaScript.
-- LESS erlaubt kein eingebettetes JavaScript (erklärtes Kernfeature von µCSS)
+- LESS erlaubt kein eingebettetes JavaScript (erklärtes Kernfeature von µCSS™)
   und würde µ-Direktiven beim eigenen Parsen gefährden (`//`-Kommentar-Kollision,
   Escaping).
 - Zwei Erweiterungssprachen im selben File wären konzeptionell unsauber.
 
 Wer LESS will, schaltet es **vor**: `*.less → lessc → *.µ.css-Input` als eigener
-Gulp-Step — µCSS verarbeitet das Ergebnis, solange die µ-Konstrukte
+Gulp-Step — µCSS™ verarbeitet das Ergebnis, solange die µ-Konstrukte
 escaped durchgereicht werden. Das wird dokumentiert, aber nicht aktiv gepflegt.
 
 ### D5 — Kompatibilität der Ausgabe
@@ -357,10 +357,10 @@ paranoid braucht, kann später einen optionalen Hash-Modus ergänzen.
 **Motiv (Co-Location für Vue & Co.):** Komponenten-Frameworks wollen den Stil
 einer Komponente *neben* deren Markup halten. Vue erzwingt dafür normalerweise
 `<style scoped>`, was pro Komponente eigene `data-v-…`-Attribute und am Ende
-megabyte­große, in den DevTools kaum noch testbare CSS erzeugt. µCSS dreht das
+megabyte­große, in den DevTools kaum noch testbare CSS erzeugt. µCSS™ dreht das
 um: Die Komponenten-Styles liegen als eigene Datei neben der `.vue`-Datei
 (beliebige Endung, z. B. `MyButton.π.css`, damit Vite/Vue sie nicht anfasst) und
-werden vom µCSS-Compiler zu **einer** schlanken, statischen CSS gebündelt.
+werden vom µCSS™-Compiler zu **einer** schlanken, statischen CSS gebündelt.
 
 **Syntax — bewusst das Standard-`@import`:** Statt einer neuen Direktive wird
 das vorhandene CSS-`@import` *zur Build-Zeit aufgelöst* (D2: gültiges CSS, Editor
@@ -466,7 +466,7 @@ nie zusammengeführt — ihre Kaskade ist gewollt.
 
 Aus einem Quellbaum sollen verschiedene Builds entstehen können (z. B.
 `Production` vs. `Test`, Mandanten, Versionen, Plattformen, Varianten), ohne
-externen Präprozessor. Dafür unterstützt µCSS das Paket **`gulp-mu-build-filter`**:
+externen Präprozessor. Dafür unterstützt µCSS™ das Paket **`gulp-mu-build-filter`**:
 Es aktiviert oder entfernt Quelltext-Blöcke anhand von **Kommando-Kommentaren**.
 Da die Marker in normalen `/* … */`-Kommentaren stehen, bleibt die Quelle
 gültiges CSS:
@@ -501,11 +501,11 @@ synchron via `createRequire` geladen — nur wenn tatsächlich gefiltert wird.
 
 ### D10 — LESS-Konverter (Migrationshilfe, kein Laufzeit-LESS)
 
-D4 bleibt gültig: µCSS **interpretiert kein LESS zur Laufzeit**. Für die bessere
+D4 bleibt gültig: µCSS™ **interpretiert kein LESS zur Laufzeit**. Für die bessere
 Akzeptanz bei bestehenden Projekten gibt es aber eine **einmalige
 Migrationshilfe** `tools/convert-less.mjs`, die LESS-Quellen mechanisch nach
 `.µ.css` übersetzt. Sie ist bewusst **kein vollständiger LESS-Compiler**, sondern
-bildet die Konstrukte mit sauberem µCSS-Pendant ab und **markiert alles andere als
+bildet die Konstrukte mit sauberem µCSS™-Pendant ab und **markiert alles andere als
 `TODO`-Kommentar + Report-Eintrag** — das Ergebnis ist immer reviewbar statt still
 falsch.
 
@@ -515,14 +515,14 @@ falsch.
   Nutzung `@var` → `µ($.var)` (Bindestrich-Namen: `µ($["my-var"])`).
 - Verschachtelung inkl. `&` / `&-suffix` → flache Regeln (via `postcss-nested`).
 - Farbfunktionen `lighten`/`darken`/`fade`/`mix` (50/50) → `µ(Lighten/Alpha/MixColors(...))`.
-  Da LESS- und µCSS-Farbmodelle differieren, ist das eine **Näherung** (Report-Note).
+  Da LESS- und µCSS™-Farbmodelle differieren, ist das eine **Näherung** (Report-Note).
 - `@import "x.less";` → `@import "x.µ.css";` (greift dann das D8-Bundling);
   LESS-Importoptionen wie `(reference)` werden verworfen + gewarnt.
 - `//`-Zeilenkommentare → `/* … */`.
 
 **Bewusst manuell (TODO + Warnung):** Mixins (Definition `.foo(@a){}` und Aufruf
-`.foo();`) → in einen µCSS-`helper` portieren; **Unit-Arithmetik** (`@base * 2px`)
-→ von Hand in `µ(...)` fassen; Farbfunktionen ohne µCSS-Pendant (`saturate`,
+`.foo();`) → in einen µCSS™-`helper` portieren; **Unit-Arithmetik** (`@base * 2px`)
+→ von Hand in `µ(...)` fassen; Farbfunktionen ohne µCSS™-Pendant (`saturate`,
 `spin`, `fadein`/`fadeout`, gewichtetes `mix`, …).
 
 **Schnittstelle:** Programmierbar (unit-getestet) `ConvertLess(source, { from })`
@@ -645,11 +645,11 @@ const { url, close } = await OpenPhotopeaDrafts(["dev/media/final/general/gui/bu
 
 ### D13 — Plugin-System (Media-Steps & µPS-Erweiterungen)
 
-µCSS 1 kannte fest eingebaute Photoshop-Plugins (`µ.plugins.ButtonAndIconCreator`, …).
+µCSS™ 1 kannte fest eingebaute Photoshop-Plugins (`µ.plugins.ButtonAndIconCreator`, …).
 Version 2 mappt das auf **manifest-`media`-Steps** (built-in) plus eine **Registry für
 Custom Steps**.
 
-**Heute (Phase 1 — implementiert in µCSS):**
+**Heute (Phase 1 — implementiert in µCSS™):**
 
 ```js
 import { RegisterMediaStep, BuildSkin } from "gulp-mu-css";
@@ -681,7 +681,7 @@ await BuildSkin("mySkin.µcss.mjs");
 
 **Neue „ButtonAndIconCreator“-Klassen:** als **npm-Paket** oder Projektmodul, das
 `RegisterMediaStep` + µPS-Primitives (`PsDocument`, `Compositor`, `StyleTransfer`) nutzt —
-nicht als Photoshop-Plugin. Schwere Logik in µPS/Plugin-Paket, dünne Manifest-Zeile in µCSS.
+nicht als Photoshop-Plugin. Schwere Logik in µPS/Plugin-Paket, dünne Manifest-Zeile in µCSS™.
 
 **Bewusst nicht:** Beliebige JS-Strings im Manifest ausführen; Photoshop-JSX zur Laufzeit.
 
@@ -726,7 +726,7 @@ aus der JSON-Map. Gleiches γ pro Serie+Kanal wie im Legacy-Skript.
 2. **App-Gulpfile (Oxyd)** — `oldsrcs/Oxyd/tools/PostProduction.mjs` (Referenz-Port):
    Tile-Konstanten, Rechteck-Auswahl aus JSON, ruft `ApplyGamma` auf. Gehört **nicht**
    ins npm-Paket µPS; im echten Oxyd-Projekt ins jeweilige `gulpfile.mjs`.
-3. **Manifest-Step** — optional im Oxyd-/App-Manifest, nicht in µCSS-Core.
+3. **Manifest-Step** — optional im Oxyd-/App-Manifest, nicht in µCSS™-Core.
 4. **Tests** — `gulp test:oxyd` gegen Legacy-Fixtures (`oldsrcs/Oxyd/`).
 5. **Compositor** — Einstellungsebenen aus PSD (`ag-psd`) schrittweise anbinden.
 
@@ -741,7 +741,7 @@ Pivot via `pivotPercent` 0…100 oder `pivot` in Pixeln; Default top-left); **`C
 `FlipRaster`, `RotateRaster`, **`RotateRasterAround`**, `PasteRaster`). Tests: `CreateDsd.test.mjs`,
 `WritePsd.test.mjs`, `Transforms.test.mjs`; visuell: `verify:image-ops`.
 
-**Dokumentation µPS / µAU / µFT:** Kanonisch im **µCSS-Handbuch** — je Modul ein Kapitel (*microPS*, *microAU*, *microFT* in
+**Dokumentation µPS / µAU / µFT:** Kanonisch im **µCSS™-Handbuch** — je Modul ein Kapitel (*microPS*, *microAU*, *microFT* in
 `docs/manual/microCSS-Handbuch.md` / `microCSS-Manual-en.md`, PDF via `npx gulp docs:manual`).
 Die npm-READMEs (`gulp-mu-ps`, `gulp-mu-au`, `gulp-mu-ft`) enthalten nur Kurzüberblick, Install-Hinweis und API-Verweis;
 Feature-Änderungen immer Handbuch + `CONCEPT.md` + `CLAUDE.md` mitziehen.
@@ -791,21 +791,21 @@ die Referenz-PSD deckt die **Compositor-Oberfläche** ab.
 Die Low-Level-API bleibt kanonisch; `MuPsDoc` ist reine Zucker-Schicht. Handbuch: Kapitel *microPS*,
 Abschnitt ExtendScript-Einstieg.
 
-### D16 — Sprite-Quellen trimmen (`sprites.pruneSources`, µCSS)
+### D16 — Sprite-Quellen trimmen (`sprites.pruneSources`, µCSS™)
 
-**Hintergrund:** Das alte `gulp-mu-spritereducer` löschte nach dem µCSS-1-Atlas die Einzel-PNGs aus dem Cache-Feld `spriteimages` — fragwürdig gegenüber echtem Incremental-Cache, aber für **Deploy-Builds** sinnvoll (nur Atlas + CSS ausliefern).
+**Hintergrund:** Das alte `gulp-mu-spritereducer` löschte nach dem µCSS™-1-Atlas die Einzel-PNGs aus dem Cache-Feld `spriteimages` — fragwürdig gegenüber echtem Incremental-Cache, aber für **Deploy-Builds** sinnvoll (nur Atlas + CSS ausliefern).
 
-**µCSS 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas), sowie die **Sidecar-JSON** (`<strip>.json` neben der 1x-Quelle), die nur für Compile-Zeit-`afterWork`-Hooks (Sequence Strips) gebraucht wird. Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
+**µCSS™ 2 (lokal):** Manifest-Option `sprites.pruneSources: true` — nach erfolgreichem `SpriteManager.Resolve()` werden die **1x- und `@2x`-Quellbilder** aller registrierten Sprites gelöscht (nicht der Atlas), sowie die **Sidecar-JSON** (`<strip>.json` neben der 1x-Quelle), die nur für Compile-Zeit-`afterWork`-Hooks (Sequence Strips) gebraucht wird. Opt-in; der `BuildSkin`-Report enthält `prunedSources[]`. Läuft auch bei Atlas-Cache-Hit (Quellen sind dann ohnehin obsolet).
 
 **Ausnahmen:** `sprites.pruneKeep: string[]` — skin-relative Dateien oder Verzeichnisse, die vom Trim ausgenommen bleiben (Match über die 1x-URL; `1x` + `@2x` + Sidecar-JSON bleiben). Report: `keptSources[]`.
 
 **Abgrenzung:** Kein Ersatz für fehlende Quellen beim nächsten Vollbuild — für Entwicklung `pruneSources` weglassen oder Quellen aus dem Generator neu erzeugen lassen.
 
-### D19 — CSS-Minifizierung (`minify`, µCSS)
+### D19 — CSS-Minifizierung (`minify`, µCSS™)
 
-**Hintergrund:** Deploy-Skins sollen schlanke CSS liefern; im Legacy-Stack übernahm oft `gulp-uglifycss` nach dem µCSS-Lauf.
+**Hintergrund:** Deploy-Skins sollen schlanke CSS liefern; im Legacy-Stack übernahm oft `gulp-uglifycss` nach dem µCSS™-Lauf.
 
-**µCSS 2.5:** Top-Level-Manifest `minify`:
+**µCSS™ 2.5:** Top-Level-Manifest `minify`:
 
 | Wert | Wirkung |
 | :--- | :--- |
@@ -816,7 +816,7 @@ Abschnitt ExtendScript-Einstieg.
 
 Gilt für alle `files[].target`-Ausgaben. Report: `minified: boolean`. Laufzeit-Dependency `uglifycss`.
 
-### D17 — Sound-Bindings, Auto-Wiring & Handler-Overrides (µAU / µCSS, geplant)
+### D17 — Sound-Bindings, Auto-Wiring & Handler-Overrides (µAU / µCSS™, geplant)
 
 **Stand Build-Layer:** Manifest-`sounds` baut Atlas + Timing-JSON (Loop-Punkte pro Name, µAU umgesetzt).
 
@@ -835,7 +835,7 @@ Loop-Verhalten **nur** aus `sounds[name]`; Bindings nur Events + `mode` (`onesho
 
 **Offen:** Implementierung in `SkinBuilder` + µLib.
 
-### D18 — Icon-Font-Manifest (`font`, µFT / µCSS, geplant)
+### D18 — Icon-Font-Manifest (`font`, µFT / µCSS™, geplant)
 
 **Stand:** µFT `FontGenerator` ist umgesetzt; **Manifest-Bridge** in `BuildSkin` folgt.
 
@@ -863,7 +863,7 @@ und nutzen **Farbpaletten (CLUT)** für GPU-Texturen — unabhängig vom Composi
 | `QuantizeToPalette` / CLUT | RGBA-Raster → indexed + Palette (N Farben) |
 | `ReduceBitDepth` / `noofbits` | Kanal-Quantisierung (z. B. 8/4/2 Bit) für Export |
 
-**Abgrenzung:** Kein Ersatz für `imageFormat: "webp"` in µCSS; Zielgruppe sind **Atlas-/Tile-Exports**
+**Abgrenzung:** Kein Ersatz für `imageFormat: "webp"` in µCSS™; Zielgruppe sind **Atlas-/Tile-Exports**
 und App-Gulpfiles. Referenz-Fixtures erst klären (Oxyd `oldsrcs/` wenn wieder verfügbar).
 
 **Abhängigkeit:** Raster-Modell + `SaveRasterAsImage`; Tests gegen Legacy-PNG/JSON-Maps.
@@ -914,7 +914,7 @@ gulp-mu-css/
 Cache-Prüfung über mtime-Fingerprints, D7), dann alle `files`-Einträge
 kompilieren, dann Report.
 
-**Abhängigkeit:** µCSS hängt von µPS ab (Atlas, Bildererzeugung) — nicht
+**Abhängigkeit:** µCSS™ hängt von µPS ab (Atlas, Bildererzeugung) — nicht
 umgekehrt. Beide bleiben separat veröffentlichbar.
 
 ---
@@ -971,7 +971,7 @@ Round-Trip „PSD speichern → Watch → µPS rendert“.
 
 ---
 
-## 6. Migration eines Legacy-µCSS-1-Bestands
+## 6. Migration eines Legacy-µCSS™-1-Bestands
 
 Ein Konverter-Werkzeug `tools/convert-mucss.mjs` übersetzt die alte Syntax
 mechanisch (das Gros ist regelbasiert ersetzbar):
@@ -1016,7 +1016,7 @@ manuelle Nacharbeit ist hier eingeplant (5 Funktionen im Bestand).
    `tools/compare-legacy-skin.mjs` baut den Skin (`skins/std-new`) und vergleicht
    strukturell gegen die alte Ausgabe: **2 951 Regeln, 0 unerwartete
    Differenzen**, 53 dokumentierte Legacy-Drift-Fälle (fehlende Quellbilder im
-   Extract, nach dem letzten µCSS-Lauf editierte Quellen, Alpha-Quantisierung
+   Extract, nach dem letzten µCSS™-Lauf editierte Quellen, Alpha-Quantisierung
    ±1/255). Gulp-Tasks im Projektstamm: `legacy:convert`, `legacy:compare`,
    `test:legacy-migration`.
 6. **M6 — Dokumentation** ✅ *(umgesetzt)*: Deutsches Handbuch nach dem Vorbild des

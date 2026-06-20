@@ -1,14 +1,14 @@
 # Introduction
 
 <p align="center">
-  <img src="imgs/logo.png" alt="µCSS logo" width="200">
+  <img src="imgs/logo.png" alt="µCSS™ logo" width="200">
 </p>
 
-µCSS is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
+µCSS™ is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS™ 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
 
-Because the µ character keeps causing problems in package and repository names (npm, git), the technical names are `gulp-mu-css` and `gulp-mu-ps` — µCSS and µPS are the display names.
+Because the µ character keeps causing problems in package and repository names (npm, git), the technical names are `gulp-mu-css` and `gulp-mu-ps` — µCSS™ and µPS are the display names.
 
-The key features of µCSS 2:
+The key features of µCSS™ 2:
 
 - Source stylesheets stay **syntactically valid CSS** — editors, linters and diff tools work unchanged.
 - **Named CSS properties** via skin variables (`$.name`).
@@ -21,13 +21,13 @@ The key features of µCSS 2:
 - **Incremental build with cache** — only what changed is regenerated.
 - **Meaningful error messages** with file, line and source excerpt.
 
-Unlike µCSS 1, version 2 runs entirely in Node.js (version 18 and up) and needs neither Photoshop nor any other Adobe product. The build is driven via Gulp or directly through the Node API.
+Unlike µCSS™ 1, version 2 runs entirely in Node.js (version 18 and up) and needs neither Photoshop nor any other Adobe product. The build is driven via Gulp or directly through the Node API.
 
 ## Tooling and cost
 
 Version 2 needs **no Adobe subscription** for the build: sprites, cursors and PSD rendering run headless via Node and µPS.
 
-If you edit layered PSD sources yourself, pick any editor — the build is identical. **Affinity** and **Photopea** are common no-/low-cost options; **Adobe Photoshop** works too if `.psd` is associated with it or you pass the executable path. Save as PSD; µPS reads the same layer structure. With µCSS 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
+If you edit layered PSD sources yourself, pick any editor — the build is identical. **Affinity** and **Photopea** are common no-/low-cost options; **Adobe Photoshop** works too if `.psd` is associated with it or you pass the executable path. Save as PSD; µPS reads the same layer structure. With µCSS™ 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
 
 ## Draft workflow (authoring + watch)
 
@@ -68,9 +68,9 @@ await OpenPhotopeaDrafts(["dev/media/final/general/gui/buttons.psd"], {
 
 CLI: `node gulp-mu-ps/tools/open-drafts.mjs --app photopea path/to/draft.psd` (keeps running for save-back until Ctrl+C). Env: `MU_PHOTOPEA_SCRIPT` (optional script after load).
 
-## Context: Why µCSS?
+## Context: Why µCSS™?
 
-For almost every individual aspect of µCSS an established single-purpose tool exists — but no system that bundles everything:
+For almost every individual aspect of µCSS™ an established single-purpose tool exists — but no system that bundles everything:
 
 | Feature | Closest existing equivalent | What is missing there |
 | :--- | :--- | :--- |
@@ -81,17 +81,17 @@ For almost every individual aspect of µCSS an established single-purpose tool e
 | Image generation from PSD drafts | only building blocks (`ag-psd`, asset export from Figma/Sketch) | no series rendering with layer-style transfer, not coupled to the CSS build |
 | Cursors, preload, skin manifest, media cache | hand-written build scripts | bundled nowhere |
 
-Part of the original 2013 µCSS motivation is solved today by native CSS (custom properties, `color-mix()`, nesting) — which is why µCSS 2 deliberately drops LESS support and vendor prefixes. The remaining core is without competition: arbitrary JavaScript expressions in CSS plus directives with AST access, combined with a sprite atlas including retina, a PSD render pipeline and an incremental cache, driven by one manifest per skin. And since µCSS is internally a PostCSS pipeline, the entire PostCSS ecosystem (cssnano, Stylelint, …) stays attachable instead of competing with it.
+Part of the original 2013 µCSS™ motivation is solved today by native CSS (custom properties, `color-mix()`, nesting) — which is why µCSS™ 2 deliberately drops LESS support and vendor prefixes. The remaining core is without competition: arbitrary JavaScript expressions in CSS plus directives with AST access, combined with a sprite atlas including retina, a PSD render pipeline and an incremental cache, driven by one manifest per skin. And since µCSS™ is internally a PostCSS pipeline, the entire PostCSS ecosystem (cssnano, Stylelint, …) stays attachable instead of competing with it.
 
 # Installation and getting started
 
-µCSS and µPS are available as the npm modules `gulp-mu-css` and `gulp-mu-ps`. Install them in your own project:
+µCSS™ and µPS are available as the npm modules `gulp-mu-css` and `gulp-mu-ps`. Install them in your own project:
 
 ```
 npm install gulp-mu-css gulp-mu-ps
 ```
 
-µCSS depends on µPS (atlas and image generation) — not the other way around. Both modules can be used separately.
+µCSS™ depends on µPS (atlas and image generation) — not the other way around. Both modules can be used separately.
 
 The typical entry point is a Gulp task that builds a skin manifest:
 
@@ -112,7 +112,7 @@ Running `npx gulp SkinStd` compiles the skin "std" into the directory `skins/std
 
 # Use cases
 
-The following sections show the typical usage scenarios — analogous to the use cases of the old µCSS manual, but in the new syntax.
+The following sections show the typical usage scenarios — analogous to the use cases of the old µCSS™ manual, but in the new syntax.
 
 ## Named properties (variables)
 
@@ -157,7 +157,7 @@ div.mydiv {
 }
 ```
 
-Unlike the old µCSS, no placeholder properties and no `Set*` directives are needed any more: the value sits exactly where it belongs.
+Unlike the old µCSS™, no placeholder properties and no `Set*` directives are needed any more: the value sits exactly where it belongs.
 
 ## Calculations and expressions
 
@@ -213,7 +213,7 @@ Each manifest produces its own output directory (`skins/layout_a/`, `skins/layou
 
 ## Automatic sprite generation
 
-One of the highlights of µCSS (in version 1 as in version 2) is the automatic generation of sprite atlases. The directive `Sprite(url)` registers a rule's image for the atlas:
+One of the highlights of µCSS™ (in version 1 as in version 2) is the automatic generation of sprite atlases. The directive `Sprite(url)` registers a rule's image for the atlas:
 
 ```css
 div.loginbutton {
@@ -244,13 +244,13 @@ div.loginbutton {
 }
 ```
 
-`width`, `height`, `background-position` and `background-repeat` are set automatically; existing declarations of these properties in the rule are replaced. Unlike the old µCSS, the vendor-prefixed variants (`-webkit-image-set` etc.) are gone — all relevant browsers have supported `image-set()` unprefixed for years.
+`width`, `height`, `background-position` and `background-repeat` are set automatically; existing declarations of these properties in the rule are replaced. Unlike the old µCSS™, the vendor-prefixed variants (`-webkit-image-set` etc.) are gone — all relevant browsers have supported `image-set()` unprefixed for years.
 
 Identical source images automatically share one atlas position (deduplication). The atlas is only repacked when the set of images or a source image has changed.
 
 ## Preloading images (preload)
 
-Important images (e.g. hover states and cursors) can be loaded ahead of time when the page loads. µCSS collects the image URLs and generates a preload rule when the manifest option `sprites.preloadRule` is set:
+Important images (e.g. hover states and cursors) can be loaded ahead of time when the page loads. µCSS™ collects the image URLs and generates a preload rule when the manifest option `sprites.preloadRule` is set:
 
 ```css
 div.csspreload {
@@ -300,7 +300,7 @@ The directive produces the `url()` form with hotspot and fallback and — when a
 
 ## Automatic image generation (media steps)
 
-What the µCSS plugins used to do (ButtonCreator, AppIconMaker, FileCopy) is now handled by the `media` entries in the manifest. They run before CSS compilation and generate or copy all media into the skin directory:
+What the µCSS™ plugins used to do (ButtonCreator, AppIconMaker, FileCopy) is now handled by the `media` entries in the manifest. They run before CSS compilation and generate or copy all media into the skin directory:
 
 ```js
 media: [
@@ -315,7 +315,7 @@ media: [
 
 ### Custom media steps (plugins)
 
-Built-in steps cover the legacy µCSS plugins. For project-specific generators (similar to a custom ButtonAndIconCreator), register a handler **before** `BuildSkin`:
+Built-in steps cover the legacy µCSS™ plugins. For project-specific generators (similar to a custom ButtonAndIconCreator), register a handler **before** `BuildSkin`:
 
 ```js
 import { RegisterMediaStep, BuildSkin } from "gulp-mu-css";
@@ -356,7 +356,7 @@ Full reference for all image generators, DSD format, draft workflow and raster A
 
 # microPS (µPS) — image generators
 
-The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
+The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS™ integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
 
 µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD). The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
 
@@ -826,7 +826,7 @@ Authoring in **Affinity** or **Photopea** — neither replaces µPS rendering. T
 
 1. Edit and save PSD (desktop or browser).
 2. `WatchDrafts` or `gulp.watch` detects the change (debounce ~1.5 s).
-3. µPS renders headless; µCSS build runs when needed.
+3. µPS renders headless; µCSS™ build runs when needed.
 
 ```js
 import { WatchDrafts, OpenDrafts } from "gulp-mu-ps";
@@ -853,13 +853,13 @@ media: [
 ]
 ```
 
-The incremental build applies to these steps too: generation only happens when the result is missing or the configuration or sources (mtime/size) have changed. Alternatively, the raw → final step can of course still run as its own Gulp task before the µCSS build — `outputBase: "project"` is the way to go when everything should live in a single manifest file.
+The incremental build applies to these steps too: generation only happens when the result is missing or the configuration or sources (mtime/size) have changed. Alternatively, the raw → final step can of course still run as its own Gulp task before the µCSS™ build — `outputBase: "project"` is the way to go when everything should live in a single manifest file.
 
 # microAU (µAU) — sound atlas
 
 The sibling module **µAU** (`gulp-mu-au`) builds a **sound atlas** from many short audio files — the audio counterpart of sprite atlases: one combined WAV/MP3 blob plus a JSON timing map for the browser runtime (e.g. µLib `Sounds`).
 
-**Scope:** **build layer only.** Referencing sounds *from CSS* (µCSS sound directive) and browser runtime/speech follow later.
+**Scope:** **build layer only.** Referencing sounds *from CSS* (µCSS™ sound directive) and browser runtime/speech follow later.
 
 Engine: `gulp-mu-sound-atlas` (decode → resample → optional MP3). µAU is the µPS-style wrapper with async `Create` and incremental cache.
 
@@ -911,9 +911,9 @@ const result = await SoundAtlasMaker.Create({
 
 For **MP3 source files**, the engine may need a `patch-package` patch in the consuming project (see `gulp-mu-sound-atlas` README). WAV inputs and MP3 *output* are unaffected.
 
-## µCSS integration (manifest `sounds`)
+## µCSS™ integration (manifest `sounds`)
 
-µCSS invokes µAU via an optional **`sounds`** block in the skin manifest (parallel to `media`):
+µCSS™ invokes µAU via an optional **`sounds`** block in the skin manifest (parallel to `media`):
 
 ```js
 export default DefineSkin({
@@ -1014,7 +1014,7 @@ Produces e.g. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 | `BuildFontFormats`, `BuildFontCss`, `BuildIcoMoonJson`, `BuildOverviewHtml` | individual build steps |
 | `ListSvgFiles`, `ReadGlyphSvg` | low-level helpers |
 
-## µCSS integration
+## µCSS™ integration
 
 **Manifest (planned):** optional `font` block in chapter *Manifest reference* — `src` (SVG directory), `include` (single SVGs), `outputDir`, metadata; builds via µFT before CSS compilation.
 
@@ -1032,7 +1032,7 @@ Also planned: CSS directive `-µ: Glyph("icons/edit.svg")` for single SVGs in ru
 
 Component frameworks like Vue usually keep styles in `<style scoped>` inside the `.vue` file. That works, but every component gets its own `data-v-…` attribute, the compiled CSS grows quickly and live editing in the browser DevTools becomes awkward across dozens of scoped blocks.
 
-µCSS uses a different approach: **co-location without Vue processing the styles**. Each component keeps a style file **next to** its `.vue` file, but with a private extension such as `*.π.css` (Greek pi — Vite and Vue ignore it). One main stylesheet pulls them all in at build time; µCSS bundles everything into a single, static CSS file.
+µCSS™ uses a different approach: **co-location without Vue processing the styles**. Each component keeps a style file **next to** its `.vue` file, but with a private extension such as `*.π.css` (Greek pi — Vite and Vue ignore it). One main stylesheet pulls them all in at build time; µCSS™ bundles everything into a single, static CSS file.
 
 ## Workflow
 
@@ -1078,7 +1078,7 @@ npx gulp convert:vue
 
 Example sources live under `gulp-mu-css/examples/vue/`. The tool also writes `main.µ.css` with `@import "**/*.π.css";` and a manifest skeleton including `merge.onConflict: "error"`. Review warnings before use — `lang="scss"`, CSS modules and `v-bind()` in CSS require manual follow-up; `lang="less"` is piped through the LESS converter first.
 
-# Core ideas of µCSS
+# Core ideas of µCSS™
 
 ## The .µ.css format
 
@@ -1089,7 +1089,7 @@ Source stylesheets are named `*.µ.css`. The double suffix makes editors recogni
 
 Anyone without the µ character on their keyboard uses the ASCII aliases `mu(...)` and `-mu:` — both forms are equivalent.
 
-Unlike the old µCSS, there are **no control rules** (`::-µcss-init` etc.) in the stylesheet any more: everything that controls compilation (variables, cursor definitions, media generation, file mapping) lives in the skin manifest — a regular JavaScript file (see below).
+Unlike the old µCSS™, there are **no control rules** (`::-µcss-init` etc.) in the stylesheet any more: everything that controls compilation (variables, cursor definitions, media generation, file mapping) lives in the skin manifest — a regular JavaScript file (see below).
 
 ## Value interpolation µ(expression)
 
@@ -1104,7 +1104,7 @@ From a CSS point of view, `µ(...)` is an unknown but valid function. During com
 
 Multiple interpolations per value are allowed (`padding: µ($.padY)px µ($.padX)px;`), as are interpolations in at-rule parameters (e.g. `@media (max-width: µ($.breakpoint)px)`). If an expression returns `null` or `undefined`, compilation aborts with an error message — so typos in variable names show up immediately.
 
-This single extension replaces the entire `Set*` family of the old µCSS (`SetColor`, `SetBackgroundColor`, `SetZIndex`, `SetWidth`, `AddProperty` for simple values, etc.): the property is back in its place, and a placeholder value is no longer needed.
+This single extension replaces the entire `Set*` family of the old µCSS™ (`SetColor`, `SetBackgroundColor`, `SetZIndex`, `SetWidth`, `AddProperty` for simple values, etc.): the property is back in its place, and a placeholder value is no longer needed.
 
 ## Directives -µ: expression
 
@@ -1123,11 +1123,11 @@ div.content.glittery {
 }
 ```
 
-The `µ.` prefix of the old µCSS is gone — the context is implicit. Directives are evaluated in document order.
+The `µ.` prefix of the old µCSS™ is gone — the context is implicit. Directives are evaluated in document order.
 
 ## The skin manifest
 
-Per skin (CSS theme) there is a manifest file `<skinname>.µcss.mjs` in the source directory — regular JavaScript (ES6+), importable and testable. The double suffix `.µcss.mjs` (ASCII alternative `.mucss.mjs`) clearly marks the file as a µCSS skin manifest so it is not confused with an ordinary module or gulpfile; the skin name is the part before it (`std.µcss.mjs` → skin `std`). It fully replaces the old control file `µ.std.css`:
+Per skin (CSS theme) there is a manifest file `<skinname>.µcss.mjs` in the source directory — regular JavaScript (ES6+), importable and testable. The double suffix `.µcss.mjs` (ASCII alternative `.mucss.mjs`) clearly marks the file as a µCSS™ skin manifest so it is not confused with an ordinary module or gulpfile; the skin name is the part before it (`std.µcss.mjs` → skin `std`). It fully replaces the old control file `µ.std.css`:
 
 ```js
 // skins/src/std.µcss.mjs — skin "std", target: skins/std/
@@ -1161,14 +1161,14 @@ The skin name is derived from the manifest file name, the output directory from 
 
 ## JavaScript without substitute characters
 
-In µCSS 1, the characters `{`, `}` and `;` had to be replaced by `«`, `»` and `¡` in JavaScript statements to avoid CSS syntax conflicts. This pattern is gone in version 2:
+In µCSS™ 1, the characters `{`, `}` and `;` had to be replaced by `«`, `»` and `¡` in JavaScript statements to avoid CSS syntax conflicts. This pattern is gone in version 2:
 
 - `µ(...)` and `-µ: ...` contain **single expressions** — the parser counts parentheses and accounts for strings, so object literals (`{ afterWork: ... }`) and nested calls work without trouble.
 - **Multi-line logic** (loops, function definitions) does not belong in the stylesheet but in the manifest's helper modules — real `.mjs` files with syntax highlighting, linting and a debugger.
 
 # Build process and Gulp integration
 
-The old µCSS was operated through a modal dialog window in Photoshop. `BuildSkin` and Gulp take its place: the build is a regular, scriptable Node process — suitable for watch mode, CI and automation.
+The old µCSS™ was operated through a modal dialog window in Photoshop. `BuildSkin` and Gulp take its place: the build is a regular, scriptable Node process — suitable for watch mode, CI and automation.
 
 ## Directory conventions
 
@@ -1202,7 +1202,7 @@ Each run only regenerates what actually changed. The primary mechanism is file m
 - **The sprite atlas** is only repacked when the set of images or a source image (incl. `@2x`) has changed — otherwise the stored positions are reused and only the CSS rules are rewritten with them.
 - **CSS compilation** itself is cheap and always runs when in doubt.
 
-The cache lives per skin in `<outputDir>/.cache/build.json` and carries the version numbers of µCSS and the cache schema; on a mismatch it is discarded (full build). `BuildSkin(manifest, { force: true })` or deleting `.cache/` forces a full build explicitly.
+The cache lives per skin in `<outputDir>/.cache/build.json` and carries the version numbers of µCSS™ and the cache schema; on a mismatch it is discarded (full build). `BuildSkin(manifest, { force: true })` or deleting `.cache/` forces a full build explicitly.
 
 ## Gulp tasks and watch
 
@@ -1309,7 +1309,7 @@ Optional top-level field for deploy/release builds: when set, every emitted `fil
 | Value | Effect |
 | :--- | :--- |
 | `false` / omitted | No minification; line breaks and indentation are preserved. |
-| `true` | [`uglifycss`](https://www.npmjs.com/package/uglifycss) with defaults `{ maxLineLen: 1000, uglyComments: true }` (shipped with µCSS). |
+| `true` | [`uglifycss`](https://www.npmjs.com/package/uglifycss) with defaults `{ maxLineLen: 1000, uglyComments: true }` (shipped with µCSS™). |
 | object | `uglifycss` with these options merged over the defaults. |
 | function `(css) => css` | Custom minifier (any engine), no extra dependency. |
 
@@ -1424,7 +1424,7 @@ div.box { z-index: µ($.PanelZIndex + 1); }
 
 | Function | Description |
 | :--- | :--- |
-| `Lighten(color, step, model = "hsl")` | Lightens a color relatively (positive `step`) or darkens it (negative `step`): `L' = clamp(L + L · step)`. The model `"hsl"` is bit-identical to the old µCSS; `"oklch"` scales perceptually uniformly. Alpha is preserved. |
+| `Lighten(color, step, model = "hsl")` | Lightens a color relatively (positive `step`) or darkens it (negative `step`): `L' = clamp(L + L · step)`. The model `"hsl"` is bit-identical to the old µCSS™; `"oklch"` scales perceptually uniformly. Alpha is preserved. |
 | `Alpha(color, alpha)` | Replaces a color's alpha channel. `alpha` follows the rules from "Working with colors". |
 | `MixColors(color1, color2)` | Per-channel average of two colors (including alpha). |
 | `AlphaValue(alpha)` | Converts an alpha specification to a byte (0–255). |
@@ -1487,7 +1487,7 @@ export function Borders(_baseColor, _pixelWidth, _topLighten, _rightLighten, _bo
 
 Through `this` all scope bindings are reachable: `this.AddProperty(...)`, `this.InsertRule(...)`, `this.rule`, `this.document` and `this.$`. The binding is also kept when a helper is passed as an `afterWork` value to `Sprite()`. Arrow functions have no `this` of their own and are therefore only suitable for helpers without rule access.
 
-Ported reference macros (`Borders`, `TableBackgrounds`, `GlitterySprite`, `FlyEx`, `FlyExUtils`) live in the µCSS repository under `test/fixtures/reference-macros.mjs` (demo/test fixture, not part of the npm API).
+Ported reference macros (`Borders`, `TableBackgrounds`, `GlitterySprite`, `FlyEx`, `FlyExUtils`) live in the µCSS™ repository under `test/fixtures/reference-macros.mjs` (demo/test fixture, not part of the npm API).
 
 ## afterWork hooks
 
@@ -1532,7 +1532,7 @@ Alpha specifications (e.g. for `Alpha(color, a)`) are possible in several forms:
 
 ## Color computations
 
-The functions `Lighten`, `Alpha` and `MixColors` (chapter "µ evaluation context") cover the typical computations. Opaque results are emitted as `#rrggbb`, transparent ones as `rgba(r,g,b,a)` with three alpha decimals — identical to the old µCSS.
+The functions `Lighten`, `Alpha` and `MixColors` (chapter "µ evaluation context") cover the typical computations. Opaque results are emitted as `#rrggbb`, transparent ones as `rgba(r,g,b,a)` with three alpha decimals — identical to the old µCSS™.
 
 ```css
 div.menu {
@@ -1546,7 +1546,7 @@ For new skins, the `"oklch"` model of `Lighten` is recommended: it changes the p
 
 # Node API
 
-Besides the manifest workflow, every layer of µCSS is also usable directly as a Node API — for example for your own Gulp transforms or tests.
+Besides the manifest workflow, every layer of µCSS™ is also usable directly as a Node API — for example for your own Gulp transforms or tests.
 
 | Export | Description |
 | :--- | :--- |
@@ -1599,11 +1599,11 @@ SpriteManager: 2 sprite image(s) not found:
 - **media steps**: errors name the step number and type, e.g. `BuildSkin: media step 3 of 7 (buttonsAndIcons: "dev/media/buttons.psd") failed: ...`. Missing sources are checked before execution: `copy`/`copyFolder` and generator steps report the resolved path instead of a raw file system error — for `copyFolder` with the hint that the generating step (e.g. sequence-image generation into `dev/media/final/...`) probably did not run.
 - **files entries**: missing source files are reported with the entry and the resolved path before compilation.
 
-# Migrating from µCSS
+# Migrating from µCSS™
 
-For existing projects there is a converter tool (`tools/convert-mucss.mjs` in the µCSS repository) that mechanically translates the old syntax:
+For existing projects there is a converter tool (`tools/convert-mucss.mjs` in the µCSS™ repository) that mechanically translates the old syntax:
 
-| Old (µCSS 1) | New (µCSS 2) |
+| Old (µCSS™ 1) | New (µCSS™ 2) |
 | :--- | :--- |
 | `-µcss: µ.Cursor("wait");` plus `cursor: wait;` | `cursor: µ(Cursor("wait"));` |
 | `-µcss: µ.SetBackgroundColor(µ.$.x);` plus placeholder | `background-color: µ($.x);` |
@@ -1618,11 +1618,11 @@ For existing projects there is a converter tool (`tools/convert-mucss.mjs` in th
 
 The `«»¡` function bodies are translated back to regular JavaScript and land as a starting point in `helpers.mjs`; manual rework is expected here.
 
-**raw → final automatically:** the old µCSS only copied the already finished `final` folders into the skin (e.g. `flyex`, `glittery`); the strips themselves were created elsewhere (SpriteTools). The converter recognizes such `CopyFolder2Skin` calls on `dev/media/final/<…>/<name>` and — if a matching source `dev/media/raw/<name>/imgs` exists — automatically prepends the appropriate `sequenceStrip` step with `outputBase: "project"`: a **numbered PNG frame sequence** (e.g. `glittery`) becomes a folder strip, **individually named images** (e.g. the DSD images `flyex.png`/`flyexutils.png`) each become a DSD strip. This way the new pipeline rebuilds `final` reproducibly from `raw` and the following `copyFolder` takes the result into the skin.
+**raw → final automatically:** the old µCSS™ only copied the already finished `final` folders into the skin (e.g. `flyex`, `glittery`); the strips themselves were created elsewhere (SpriteTools). The converter recognizes such `CopyFolder2Skin` calls on `dev/media/final/<…>/<name>` and — if a matching source `dev/media/raw/<name>/imgs` exists — automatically prepends the appropriate `sequenceStrip` step with `outputBase: "project"`: a **numbered PNG frame sequence** (e.g. `glittery`) becomes a folder strip, **individually named images** (e.g. the DSD images `flyex.png`/`flyexutils.png`) each become a DSD strip. This way the new pipeline rebuilds `final` reproducibly from `raw` and the following `copyFolder` takes the result into the skin.
 
-The converter was validated against a complete legacy µCSS 1 code base: a comparison tool (`tools/compare-legacy-skin.mjs`, repository only) builds the converted skin and compares it rule by rule and property by property against the old compiled output — result: 2,951 rules, 0 unexpected differences (53 documented drift cases, e.g. sources edited after the last µCSS run).
+The converter was validated against a complete legacy µCSS™ 1 code base: a comparison tool (`tools/compare-legacy-skin.mjs`, repository only) builds the converted skin and compares it rule by rule and property by property against the old compiled output — result: 2,951 rules, 0 unexpected differences (53 documented drift cases, e.g. sources edited after the last µCSS™ run).
 
-Deliberately **not** carried over from the old µCSS:
+Deliberately **not** carried over from the old µCSS™:
 
 - **Vendor prefixes** (`-webkit-`/`-moz-`/`-ms-` duplicates): all used features have been available unprefixed for years. Vendor-specific selectors without a standard counterpart (e.g. `::-webkit-scrollbar`) are of course passed through unchanged.
 - **The Photoshop dialog window** in the build: interactive parameters belong in the manifest or in environment variables.
@@ -1633,7 +1633,7 @@ Deliberately **not** carried over from the old µCSS:
 
 | Date | Version | Notes |
 | :--- | :--- | :--- |
-| 2013 | 1.0 | Original µCSS as an Adobe Photoshop script: `-µcss:` directives, sprite atlas, PSD plugins, control via `µ.std.css`. |
+| 2013 | 1.0 | Original µCSS™ as an Adobe Photoshop script: `-µcss:` directives, sprite atlas, PSD plugins, control via `µ.std.css`. |
 | 2026-06 | 2.0.0 | Complete Node.js reimplementation (npm package `gulp-mu-css`, without Adobe dependency): core pipeline (M1), sprites & cursors (M2), manifest & build with incremental cache (M3), hooks & macros (M4), legacy skin migration with converter and acceptance test (M5), manual (M6). |
 | 2026-06 | 2.1.0 | Atlas format independent of the global `imageFormat` via `sprites.format`; format-independent resolution of the `Sprite()` source images (`png`/`webp`); warning when a `copyFolder` `filter` excludes the active image format. |
 | 2026-06 | 2.2.0 | Normalization of legacy gradient directions at compile time: `linear-gradient(top\|bottom\|left\|right, …)` (invalid without a prefix) is raised to the standard `to …` form. |
@@ -1668,4 +1668,4 @@ Photoshop is a registered trademark of Adobe Inc.; Affinity Photo is a trademark
 
 ## Third-party libraries
 
-µCSS and µPS use third-party open-source libraries, in particular PostCSS (CSS parser, MIT license), sharp (image processing, Apache 2.0 license), ag-psd (PSD reader, MIT license) and uglifycss (CSS minification, MIT license). The sprite atlas bin packer is based on node-bin-packing (©2011 Jake Gordon and contributors, MIT license).
+µCSS™ and µPS use third-party open-source libraries, in particular PostCSS (CSS parser, MIT license), sharp (image processing, Apache 2.0 license), ag-psd (PSD reader, MIT license) and uglifycss (CSS minification, MIT license). The sprite atlas bin packer is based on node-bin-packing (©2011 Jake Gordon and contributors, MIT license).
