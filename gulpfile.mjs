@@ -9,7 +9,7 @@
 // Versioning (gulp-mu-css): gulp-mu-css/RELEASES.json is the version source.
 //===============================================================
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import gulp from "gulp";
@@ -19,9 +19,10 @@ import {
 	InstallStringExtensions,
 	IsMicroGulp,
 	LogBuildDebugReport,
+	RequestForm,
 } from "gulp-mu-gulp-api";
 import {
-	GetVersionHistoryText,
+	GetVersionHistoryString,
 	GetCurrentFullVersionString,
 } from "./gulp-mu-css/src/api/Releases.mjs";
 
@@ -40,12 +41,13 @@ function _AssetDebugEnabled(_inDashboard) {
 	return flag === "1" || flag === "true" || flag === "yes" || flag === "on";
 }
 
-function _RunCommand(_command, _args, _cwd) {
+function _RunCommand(_command, _args, _cwd, _env) {
 	return new Promise((_resolve, _reject) => {
 		const child = spawn(_command, _args, {
 			cwd: _cwd,
 			stdio: "inherit",
-			shell: true
+			shell: true,
+			env: _env ?? process.env,
 		});
 		child.on("close", (_code) => {
 			if (_code === 0) _resolve();
@@ -58,8 +60,57 @@ function _RunNpm(_args, _cwd) {
 	return _RunCommand("npm", _args, _cwd);
 }
 
-function _RunNode(_args, _cwd) {
-	return _RunCommand("node", _args, _cwd);
+function _RunNode(_args, _cwd, _env) {
+	return _RunCommand("node", _args, _cwd, _env);
+}
+
+/** @returns {string|null} npm username when logged in */
+function _NpmWhoami() {
+	const result = spawnSync("npm", ["whoami"], {
+		stdio: ["ignore", "pipe", "ignore"],
+		shell: true,
+		encoding: "utf8",
+	});
+	return result.status === 0 && result.stdout.trim() ? result.stdout.trim() : null;
+}
+
+/**
+ * Prepares env for tools/publish.mjs — reuses an existing npm session, never
+ * forces browser login from the µGulp worker (no TTY). Optional 2FA via form.
+ * @returns {Promise<NodeJS.ProcessEnv>}
+ */
+async function _PublishEnv() {
+	const publishEnv = { ...process.env };
+	const npmUser = _NpmWhoami();
+
+	if (npmUser) {
+		publishEnv.MU_LOGIN = "0";
+		Log("npm: logged in as <user/><context=\"task log\"/>", { user: npmUser });
+	} else if (IsMicroGulp()) {
+		throw new Error(
+			"Not logged in to npm. Run once in a terminal: npm login --auth-type=web — then retry Publish from the dashboard."
+		);
+	}
+
+	if (IsMicroGulp() && !publishEnv.MU_OTP) {
+		const values = await RequestForm({
+			title: "npm publish",
+			fields: [{
+				name: "otp",
+				label: "2FA one-time code (optional — leave empty if not required)",
+				type: "password",
+			}],
+		});
+		const otp = values?.otp?.trim() ?? "";
+		if (otp) {
+			if (!/^\d{6,8}$/.test(otp)) {
+				throw new Error("Invalid npm OTP — expected 6–8 digits.");
+			}
+			publishEnv.MU_OTP = otp;
+		}
+	}
+
+	return publishEnv;
 }
 
 /**
@@ -301,14 +352,15 @@ _Tag(BUILD_PUBLISH, {
 
 export async function PUBLISH() {
 	Log("Publishing to npm\u2026<context=\"task log\"/>");
-	await _RunNode(["tools/publish.mjs"], rootDir);
+	const publishEnv = await _PublishEnv();
+	await _RunNode(["tools/publish.mjs"], rootDir, publishEnv);
 	Log("Publish finished.<context=\"task log\"/>");
 }
 _Tag(PUBLISH, {
 	gulpName: "publish",
 	µDisplayName: "Publish to npm<context=\"µDisplayName\"/>",
-	µDescription: "Publishes build/ bundles to npm (MU_OTP, MU_LOGIN, MU_DRY_RUN).<context=\"µDescription\"/>",
-	µTooltip: "Run BUILD_PUBLISH first (or MU_BUILD=1). Requires npm login.<context=\"µTooltip\"/>",
+	µDescription: "Publishes build/ bundles to npm. Reuses your npm session; 2FA code via dashboard form when needed.<context=\"µDescription\"/>",
+	µTooltip: "Run Prepare Publish first (or MU_BUILD=1). One-time browser login in a terminal: npm login --auth-type=web<context=\"µTooltip\"/>",
 	µIcon: "\u2191",
 	µGroup: "Publish<context=\"µGroup\"/>",
 	µOrder: 20,
@@ -371,7 +423,7 @@ _Tag(CONVERT_VUE, { gulpName: "convert:vue" });
 // ---------------------------------------------------------------
 
 export async function SHOW_VERSION_HISTORY() {
-	Log(GetVersionHistoryText());
+	Log(GetVersionHistoryString());
 	Log("Current package version: <version/><context=\"build log\"/>", {
 		version: GetCurrentFullVersionString(),
 	});

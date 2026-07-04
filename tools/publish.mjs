@@ -10,9 +10,12 @@
 //   --build          | MU_BUILD=1    run tools/prepare-publish.mjs first
 //   --dry-run        | MU_DRY_RUN=1  show what would happen, publish nothing
 //
-// Browser login runs by default (also for `node tools/publish.mjs`). Disable with
-// MU_LOGIN=0 or --no-login. Do not set MU_OTP to placeholder text — invalid codes
-// cause npm 400 errors instead of opening the browser.
+// Browser login runs only when you are not already logged in and stdin is a TTY
+// (interactive terminal). From the µGulp dashboard there is no TTY — log in once
+// in a terminal with `npm login --auth-type=web`, then publish from the dashboard
+// (optionally enter a 2FA code in the task form). Disable login with MU_LOGIN=0
+// or --no-login when using an automation token in ~/.npmrc. Do not set MU_OTP to
+// placeholder text — invalid codes cause npm 400 errors.
 
 import { existsSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -103,7 +106,16 @@ function _NpmLoginWeb() {
 
 function _EnsureNpmAuth() {
 	if (options.dryRun) return;
+	if (_IsLoggedIn()) return;
+
 	if (options.login) {
+		if (!process.stdin.isTTY) {
+			console.error("Not logged in to npm and no interactive terminal for browser login.");
+			console.error("Run once in a terminal:  npm login --auth-type=web");
+			console.error("From µGulp: use the Publish task after that one-time login.");
+			console.error("Unattended/CI: automation token in ~/.npmrc and MU_LOGIN=0");
+			process.exit(1);
+		}
 		_NpmLoginWeb();
 		if (!_IsLoggedIn()) {
 			console.error("npm login did not complete. Finish the browser flow, then retry.");
@@ -111,11 +123,11 @@ function _EnsureNpmAuth() {
 		}
 		return;
 	}
-	if (!_IsLoggedIn()) {
-		console.error("Not logged in to npm. Run: node tools/publish.mjs  (browser login is default)");
-		console.error("Or: MU_LOGIN=0 after configuring an automation token in .npmrc");
-		process.exit(1);
-	}
+	console.error("Not logged in to npm.");
+	console.error("Terminal:  node tools/publish.mjs   (opens browser login when needed)");
+	console.error("Or:  npm login --auth-type=web   then  MU_LOGIN=0 node tools/publish.mjs");
+	console.error("CI: automation token in ~/.npmrc (MU_LOGIN=0)");
+	process.exit(1);
 }
 
 function _Publish(_bundleDir) {
@@ -176,9 +188,13 @@ for (const name of PUBLISH_ORDER) {
 		if (options.otp) {
 			console.error("  OTP rejected — generate a fresh code: MU_OTP=<6 digits> node tools/publish.mjs");
 		} else {
-			console.error("  Try browser login again: node tools/publish.mjs");
-			console.error("  Or one-time code: MU_OTP=<6 digits> node tools/publish.mjs");
-			console.error("  Unattended: automation token in .npmrc (MU_LOGIN=0)");
+			console.error("  npm requires a one-time password (EOTP) or a granular access token with Bypass 2FA.");
+			console.error("  Your ~/.npmrc may still hold a web-login session token (from npm login --auth-type=web);");
+			console.error("  those always prompt for 2FA on publish when your account uses auth-and-writes.");
+			console.error("  Fix: npmjs.com → Access Tokens → new Granular token (write + Bypass 2FA), then:");
+			console.error("       npm config set //registry.npmjs.org/:_authToken <token>   (or edit ~/.npmrc)");
+			console.error("  One-off: MU_OTP=<6 digits> node tools/publish.mjs");
+			console.error("  List tokens: npm token list --json   (check bypass_2fa: true)");
 		}
 		summary.failed.push(`${name}@${version}`);
 		break; // stop so a dependent package is never published before its dependency

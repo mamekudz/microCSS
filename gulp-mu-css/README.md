@@ -36,7 +36,7 @@ The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf
 
 This package is **µGulp ready** — the first npm module certified for the [µGulp™](https://github.com/mamekudz/microGulp) task dashboard (VS Code, Cursor AI, PhpStorm test build). The monorepo root `gulpfile.mjs` exposes build, test, documentation and publish tasks with full µGulp metadata (`µDisplayName`, `µGroup`, progress reporting, `LogBuildDebugReport` on demo builds, …) and runs unchanged from the classic Gulp CLI when µGulp is not installed.
 
-Open the µGulp dashboard on this repository to run tests, rebuild demos, regenerate manual PDFs or publish to npm from the Carbon/Neon UI. On **npm**, use a package-relative HTML `<img src="docs/manual/imgs/microgulp-ready.png">` inside a link to `https://github.com/mamekudz/microGulp` (Markdown image syntax is not rewritten reliably for monorepos).
+Open the µGulp dashboard on this repository to run tests, rebuild demos, regenerate manual PDFs or publish to npm from the Carbon/Neon UI. On **npm**, embed the badge with an absolute raw URL from the µGulp repo (npm rewrites relative paths to the GitHub monorepo root, where the PNG may be missing): `<a href="https://github.com/mamekudz/microGulp"><img src="https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png" alt="µGulp ready" width="150"></a>`.
 
 ## Installation
 
@@ -278,7 +278,7 @@ Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.p
 
 Dieses Paket ist **µGulp ready** — das erste für das [µGulp™](https://github.com/mamekudz/microGulp)-Task-Dashboard (VS Code, Cursor AI, PhpStorm-Testbuild) zertifizierte npm-Modul. Das Root-`gulpfile.mjs` des Monorepos stellt Build-, Test-, Doku- und Publish-Tasks mit vollständigen µGulp-Metadaten bereit (`µDisplayName`, `µGroup`, Fortschrittsmeldungen, `LogBuildDebugReport` bei Demo-Builds, …) und läuft ohne µGulp unverändert über die klassische Gulp-CLI.
 
-µGulp-Dashboard auf dieses Repository öffnen, um Tests, Demo-Rebuilds, Handbuch-PDFs oder npm-Publish aus der Carbon/Neon-Oberfläche zu starten. Das Zertifizierungslogo (`docs/manual/imgs/microgulp-ready.png`) darf auf der npm-README und den Projektseiten zertifizierter Module verwendet werden.
+µGulp-Dashboard auf dieses Repository öffnen, um Tests, Demo-Rebuilds, Handbuch-PDFs oder npm-Publish aus der Carbon/Neon-Oberfläche zu starten. Auf **npm** das Zertifizierungslogo per absoluter raw-URL aus dem µGulp-Repo einbinden (siehe HTML-Beispiel oben); eine Kopie liegt zusätzlich unter `docs/manual/imgs/microgulp-ready.png` im Paket-Tarball.
 
 ## Installation
 

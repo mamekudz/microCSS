@@ -1,8 +1,10 @@
-# µCSS™ V2.5.8 (microCSS)
+# µCSS™ V2.5.14 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
+
+[![µGulp ready — certified module](https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png)](https://github.com/mamekudz/microGulp)
 
 Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
 
@@ -38,7 +40,7 @@ Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamek
 
 | Display name | npm package | Version in repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.8** |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
@@ -76,7 +78,7 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Display name | npm package | Version in repo | Role |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.8** | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Builds sound atlases (combined WAV/MP3 + JSON timing map) for the µCSS™ family |
@@ -136,11 +138,13 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
 
 <a id="µcss-microcss-1"></a>
 
-# µCSS™ V2.5.8 (microCSS)
+# µCSS™ V2.5.14 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
+
+[![µGulp ready — zertifiziertes Modul](https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png)](https://github.com/mamekudz/microGulp)
 
 Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
@@ -174,7 +178,7 @@ Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mameku
 
 | Anzeigename | npm-Paket | Version im Repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.8** |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
@@ -212,7 +216,7 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Anzeigename | npm-Paket | Version im Repo | Aufgabe |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.8** | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3 + JSON-Timing-Map) für die µCSS™-Familie |
