@@ -1,7 +1,13 @@
-# µCSS™ V2.5.8 (microCSS)
+# µCSS™ V2.5.14 (microCSS)
 
 <p align="center">
   <img src="docs/manual/imgs/logo.png" alt="µCSS™ logo" width="180">
+</p>
+
+<p align="center">
+  <a href="https://github.com/mamekudz/microGulp">
+    <img src="https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png" alt="µGulp ready" width="150">
+  </a>
 </p>
 
 *English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
@@ -25,6 +31,12 @@ The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
 | **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
 | **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD |
+
+## µGulp ready
+
+This package is **µGulp ready** — the first npm module certified for the [µGulp™](https://github.com/mamekudz/microGulp) task dashboard (VS Code, Cursor AI, PhpStorm test build). The monorepo root `gulpfile.mjs` exposes build, test, documentation and publish tasks with full µGulp metadata (`µDisplayName`, `µGroup`, progress reporting, `LogBuildDebugReport` on demo builds, …) and runs unchanged from the classic Gulp CLI when µGulp is not installed.
+
+Open the µGulp dashboard on this repository to run tests, rebuild demos, regenerate manual PDFs or publish to npm from the Carbon/Neon UI. On **npm**, use a package-relative HTML `<img src="docs/manual/imgs/microgulp-ready.png">` inside a link to `https://github.com/mamekudz/microGulp` (Markdown image syntax is not rewritten reliably for monorepos).
 
 ## Installation
 
@@ -238,7 +250,7 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS™ V2.5.8 (microCSS)
+# µCSS™ V2.5.14 (microCSS)
 
 *[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
@@ -261,6 +273,12 @@ Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.p
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
 | **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
 | **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD |
+
+## µGulp ready
+
+Dieses Paket ist **µGulp ready** — das erste für das [µGulp™](https://github.com/mamekudz/microGulp)-Task-Dashboard (VS Code, Cursor AI, PhpStorm-Testbuild) zertifizierte npm-Modul. Das Root-`gulpfile.mjs` des Monorepos stellt Build-, Test-, Doku- und Publish-Tasks mit vollständigen µGulp-Metadaten bereit (`µDisplayName`, `µGroup`, Fortschrittsmeldungen, `LogBuildDebugReport` bei Demo-Builds, …) und läuft ohne µGulp unverändert über die klassische Gulp-CLI.
+
+µGulp-Dashboard auf dieses Repository öffnen, um Tests, Demo-Rebuilds, Handbuch-PDFs oder npm-Publish aus der Carbon/Neon-Oberfläche zu starten. Das Zertifizierungslogo (`docs/manual/imgs/microgulp-ready.png`) darf auf der npm-README und den Projektseiten zertifizierter Module verwendet werden.
 
 ## Installation
 
