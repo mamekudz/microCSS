@@ -1,0 +1,5 @@
+{
+  "gulpfile": "gulpfile.mjs",
+  "preload": true,
+  "watchGulpfiles": true
+}

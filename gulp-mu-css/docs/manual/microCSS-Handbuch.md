@@ -17,6 +17,7 @@ Die wichtigsten Eigenschaften von µCSS™ 2:
 - **Automatische Sprite-Atlas-Generierung** inklusive Retina-Varianten (`@2x`) und `image-set()`.
 - **Cursor-Verwaltung** mit Hotspot, Fallback und Retina-Unterstützung.
 - **Vorladen von CSS-Bildern** über eine generierte Preload-Regel.
+- **Data-URI-Inlining** über `DataUri()` — kleine Assets direkt in der CSS eingebettet (nicht im Sprite-Atlas).
 - **Automatische Bilderzeugung** aus PSD-Entwürfen (Buttons, Icons, App-Icons, Animations-Strips) via µPS.
 - **Inkrementeller Build mit Cache** — nur Geändertes wird neu generiert.
 - **Aussagekräftige Fehlermeldungen** mit Datei, Zeile und Quelltext-Ausschnitt.
@@ -247,6 +248,47 @@ div.loginbutton {
 `width`, `height`, `background-position` und `background-repeat` werden automatisch gesetzt; vorhandene Deklarationen dieser Properties in der Regel werden ersetzt. Anders als beim alten µCSS™ entfallen die Vendor-Prefix-Varianten (`-webkit-image-set` usw.) — alle relevanten Browser unterstützen `image-set()` seit Jahren unprefixt.
 
 Identische Quellbilder teilen sich automatisch eine Atlas-Position (Duplikat-Reduktion). Der Atlas wird nur neu gepackt, wenn sich die Bildmenge oder ein Quellbild geändert hat.
+
+## Data-URI-Inlining (DataUri)
+
+Für **kleine, in sich geschlossene Bilder** (Mini-Icons, 1×1-Platzhalter, UI-Chrome) können die Datei-Bytes direkt in der kompilierten CSS als `data:`-URI eingebettet werden — statt als separate Datei oder über den Sprite-Atlas. **`DataUri()` registriert das Bild nicht für den Atlas** — das wäre widersinnig.
+
+Typische Fälle: Carbon-/Platzhalter-Texturen, Mail-Template-Icons, Assets die in **einer** CSS-Datei ohne zusätzliche HTTP-Requests mitgeliefert werden sollen. Für größere Mengen ähnlicher Kacheln (Buttons, Icons) bleibt **`Sprite()`** die bessere Wahl.
+
+**Direktive** (setzt `background-image`, ersetzt vorhandene `background-image`-Deklarationen der Regel):
+
+```css
+div.carbon {
+	-µ: DataUri("imgs/general/gui/carbon.png");
+}
+```
+
+**Wertform** (für beliebige Properties):
+
+```css
+div.badge {
+	background-image: µ(DataUri("imgs/general/gui/carbon.png"));
+}
+```
+
+**Retina** (erfordert `@2x`-Quelle neben der 1x-Datei, wie bei Sprites/Cursor):
+
+```css
+-µ: DataUri("imgs/icon.png", { retina: true });
+/* → background-image: image-set(url(data:…)1x, url(data:…)2x); */
+```
+
+| Option | Default | Beschreibung |
+| :--- | :--- | :--- |
+| `url` | — (Pflicht) | Bildpfad relativ zum Skin-Verzeichnis (gleiche Auflösung wie `Sprite()`-Quellen: Literalpfad, dann `.png`/`.webp`/…). |
+| `retina` | `false` | Bei `true`: 1x und `@2x` als unprefixtes `image-set(...)`. |
+| `wrap` | `true` | Bei `true`: `url(data:…)`; bei `false`: nur der String `data:…;base64,…` (z. B. für eigene `url()`-Konstruktionen). |
+| `mime` | (aus Endung) | MIME-Typ überschreiben (`image/png`, `image/svg+xml`, …). |
+| `property` | `"background-image"` | Nur Direktive: zu schreibende CSS-Property (Default ersetzt `background-image`). |
+
+Unterstützte Formate: PNG, WebP, JPEG, GIF, SVG. Bei `BuildSkin` werden Pfade gegen das Skin-Ausgabeverzeichnis (`skins/<skin>/`) aufgelöst — **media-Steps zuerst**, damit erzeugte Bilder vor der Kompilierung existieren.
+
+**Migration von Legacy-Base64-Manifest-Variablen:** statt `url(data:image/png;base64,"+$.CarbonImageURI+")` in einer Direktive die PNG im Skin ablegen und `-µ: DataUri("imgs/general/gui/carbon.png");` verwenden.
 
 ## Bilder vorladen (Preload)
 
@@ -1122,6 +1164,9 @@ div.panel.modal div.companylogo {
 div.content.glittery {
 	-µ: Sprite("imgs/general/gui/glittery/glittery.png", { afterWork: GlitterySprite });
 }
+div.carbon {
+	-µ: DataUri("imgs/general/gui/carbon.png");
+}
 ```
 
 Das `µ.`-Präfix des alten µCSS™ entfällt — der Kontext ist implizit. Direktiven werden in Dokumentreihenfolge ausgewertet.
@@ -1189,7 +1234,7 @@ Für ein Manifest `skins/src/std.µcss.mjs` gilt (alle Pfade überschreibbar):
 Ein `BuildSkin`-Lauf führt fünf Schritte aus:
 
 1. **media-Steps**: Alle Bilder werden erzeugt bzw. kopiert (microPS) — sie müssen existieren, bevor Atlas und Cursor-Prüfungen laufen.
-2. **Kompilierung**: Jede `files`-Quelle wird geparst (PostCSS); Direktiven und Interpolationen werden in Dokumentreihenfolge ausgewertet. `Sprite()`-/`Cursor()`-Aufrufe registrieren zunächst nur ihre Bildreferenzen.
+2. **Kompilierung**: Jede `files`-Quelle wird geparst (PostCSS); Direktiven und Interpolationen werden in Dokumentreihenfolge ausgewertet. `Sprite()`-/`Cursor()`-Aufrufe registrieren zunächst nur ihre Bildreferenzen; **`DataUri()` bettet die Datei sofort ein** (benötigt `baseDir` = Skin-Ausgabeverzeichnis).
 3. **Sprite-Atlas**: Alle registrierten Bilder werden gepackt (inkl. `@2x`); danach werden die betroffenen Regeln umgeschrieben.
 4. **Hooks**: `afterWork`-Callbacks laufen mit Atlas-Ergebnis und AST-Zugriff.
 5. **Ausgabe**: Die kompilierten CSS-Dateien werden in das Skin-Verzeichnis geschrieben (optional minifiziert über `minify`), der Cache wird gespeichert.
@@ -1470,6 +1515,10 @@ Beim Atlas-Auflösen werden `background-image` (`url(...)` plus `image-set(...)`
 
 Wendet eine Cursor-Definition aus dem Manifest an — als Direktive (`-µ: Cursor("zoom");`, schreibt die `cursor`-Deklarationen der Regel um) oder als Wertform (`cursor: µ(Cursor("zoom"));`, liefert nur den `url(...) x y, fallback`-String). Unbekannte Namen werden unverändert durchgereicht — Standard-Cursor wie `pointer` funktionieren so ohne Definition.
 
+## DataUri()
+
+Bettet eine skin-relative Bilddatei als `data:`-URI in die kompilierte CSS ein — **nicht** im Sprite-Atlas. Als Direktive (`-µ: DataUri("imgs/icon.png");`, schreibt standardmäßig `background-image`) oder als Wert (`background-image: µ(DataUri("imgs/icon.png"));`). Beispiele, Optionen (`retina`, `wrap`, `mime`, `property`) und Abgrenzung zu `Sprite()`: Kapitel **Data-URI-Inlining (DataUri)** oben.
+
 ## Helper-Funktionen und this-Bindung
 
 Helper aus dem Manifest, die mit `function` deklariert sind, werden mit `this` = Auswertungs-Scope aufgerufen. Damit lassen sich Makros im Stil der alten `µ.$.Funktionen` schreiben — nur als normales, testbares JavaScript:
@@ -1559,6 +1608,7 @@ Neben dem Manifest-Workflow ist jede Schicht von µCSS™ auch direkt als Node-A
 | `DefineSkin(config)` / `BuildSkin(manifest, options)` | Manifest-Deklaration und Skin-Build (siehe Kapitel „Build-Ablauf"). |
 | `MuContext` | Auswertungskontext für eigene Pipelines: `new MuContext({ vars, helpers })`, `Evaluate(quelltext, extraScope)`. |
 | `Lighten`, `Alpha`, `AlphaValue`, `MixColors`, `ParseColor`, `FormatColor`, `PxUnit` | Die Farb- und Wert-Funktionen als direkte Importe. |
+| `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`, `StripI18xMarkup` | Versionshistorie-API auf Basis von `RELEASES.json` (siehe unten). |
 
 Beispiel einer JSON-basierten Gulp-Manipulation:
 
@@ -1570,6 +1620,31 @@ doc.FindRules(/^div\.panel/).forEach((_rule) => _rule.AddProperty("outline", "no
 doc.FindRule("@keyframes glittery", "from").ChangeProperty("background-position-x", "-128px");
 const json = doc.ToJson();
 await doc.ToFile("out/std.css");
+```
+
+## Versionshistorie-API (RELEASES.json)
+
+Im Paketstamm liegt eine maschinenlesbare Versionshistorie `RELEASES.json` — ein Array von Release-Einträgen, neueste zuerst, jeweils mit `main`, `minor`, `revision`, `date`, `beta` und einem `info`-String-Array (eine Konvention, die aus den Oxyd-Projekten stammt). Die Info-Strings tragen i18x-Kontext-Markup (`<context="release info"/>`), sodass nutzende Anwendungen sie zur automatischen Übersetzung registrieren können (z. B. über eine `String.prototype.i18xRegister`-i18x-Laufzeit); für reine Konsolenausgabe wird das Markup entfernt.
+
+| Export | Beschreibung |
+| :--- | :--- |
+| `GetReleases()` | Geparste `RELEASES.json`, neueste zuerst (gecacht). |
+| `GetCurrentVersionString()` | `"V2.5.8"` (mit `β`-Suffix bei Beta-Releases). |
+| `GetCurrentFullVersionString()` | `"V2.5.8 · 2026-07-02 15:00"`. |
+| `GetVersionHistoryString(options?)` | Formatierte Historie als String für die Konsole. Optionen: `limit` (Anzahl Releases, Default alle), `stripMarkup` (Default `true`), `indent` (Default zwei Leerzeichen). |
+| `StripI18xMarkup(text)` | Entfernt i18x-Tags aus einem einzelnen Info-String. |
+
+```js
+import { GetCurrentFullVersionString, GetVersionHistoryString } from "gulp-mu-css";
+
+console.log(GetCurrentFullVersionString());
+console.log(GetVersionHistoryString({ limit: 3 }));
+// V2.5.8 · 2026-07-02 15:00
+//   - DataUri(): embed skin-relative images as data: URIs in compiled CSS ...
+//   - RELEASES.json version history ... with console API ...
+// V2.5.7 · 2026-06-21 15:50
+//   - Brand name µCSS carries the trademark sign in all documentation ...
+// ...
 ```
 
 # Fehlerdiagnostik
@@ -1648,6 +1723,7 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS™:
 | 2026-06 | 2.5.0 | Manifest `minify` (CSS-Minifizierung via `uglifycss`, optional eigene Funktion); `sprites.pruneKeep` schützt Quellbilder vor `pruneSources`; Build-Report `keptSources[]`/`minified`. Neue Laufzeit-Abhängigkeit `uglifycss`. |
 | 2026-06 | 2.5.1 | Handbuch/PDFs (DE/EN): Kapitel `minify`, `sprites.pruneKeep`, Build-Report; Versionshistorie; keine funktionalen Änderungen gegenüber 2.5.0. |
 | 2026-06 | 2.5.3 | `pruneSources` löscht zusätzlich Sequence-Strip-Sidecar-JSON (`<strip>.json` neben gepackter 1x-Quelle); geschützte Quellen behalten Sidecar über `pruneKeep`. |
+| 2026-07 | 2.5.8 | **`DataUri()`** — skin-relative Bilder als `url(data:…;base64,…)` in kompilierter CSS einbetten (Direktive + Wertform, optional `{ retina: true }`); kein Packen in den Sprite-Atlas. API: `CreateDataUriCSSValue`, `ApplyDataUri`. **`RELEASES.json`**-Versionshistorie (i18x-fähige Info-Strings) mit Konsolen-API `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`. |
 
 # Rechtliches
 

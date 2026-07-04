@@ -5,6 +5,7 @@
 
 import { CssDocument, CssRule } from "../css/CssDocument.mjs";
 import { MuContext } from "../eval/MuContext.mjs";
+import { ApplyDataUri, CreateDataUriCSSValue } from "../api/DataUri.mjs";
 import { ResolveImports } from "./Imports.mjs";
 import { ConvertOverrideAtRules, MergeRules } from "./MergeRules.mjs";
 import { ApplyNamespaces } from "./Namespace.mjs";
@@ -162,6 +163,10 @@ function _DirectiveScope(_decl, _document, _options, _insertAnchors) {
 		Cursor: (_name) => {
 			if (!_options.cursors) throw new Error("Cursor(): no cursor manager configured (options.cursors).");
 			_options.cursors.Apply(rule, _name);
+		},
+		DataUri: (_url, _dataUriOptions) => {
+			if (!_options.baseDir) throw new Error("DataUri(): no baseDir configured (pass options.baseDir when compiling).");
+			ApplyDataUri(rule, _options.baseDir, _url, _dataUriOptions);
 		}
 	};
 	return scope;
@@ -169,8 +174,14 @@ function _DirectiveScope(_decl, _document, _options, _insertAnchors) {
 
 // Extra scope for value interpolations: Cursor(...) as value function.
 function _ValueScope(_options) {
-	if (!_options.cursors) return {};
-	return { Cursor: (_name) => _options.cursors.Value(_name) };
+	const scope = {};
+	if (_options.cursors) {
+		scope.Cursor = (_name) => _options.cursors.Value(_name);
+	}
+	if (_options.baseDir) {
+		scope.DataUri = (_url, _dataUriOptions) => CreateDataUriCSSValue(_options.baseDir, _url, _dataUriOptions);
+	}
+	return scope;
 }
 
 // Compiles µCSS source text (*.µ.css) into a CssDocument:
@@ -179,9 +190,10 @@ function _ValueScope(_options) {
 //   2. µ(expr)/mu(expr) interpolations in declaration values and at-rule
 //      params are replaced by their evaluated result.
 //
-// _options: { vars, helpers, from, context, sprites, cursors, resolveImports,
-// imports, merge, buildFilter, onWarning } - pass an existing MuContext via
-// context, or vars/helpers to create one. buildFilter ({ release, client,
+// _options: { vars, helpers, from, context, sprites, cursors, baseDir,
+// resolveImports, imports, merge, buildFilter, onWarning } - pass an existing
+// MuContext via context, or vars/helpers to create one. baseDir enables
+// DataUri(); buildFilter ({ release, client,
 // version, platform, variants, mode }) runs gulp-mu-build-filter on the raw
 // source (and every imported file) before parsing. sprites (SpriteManager) and
 // cursors

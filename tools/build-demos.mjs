@@ -1,9 +1,9 @@
-// Builds the µCSS marketing demos (glittery + flyex) into each demo's dist/ folder.
+// Builds the µCSS marketing demos (glittery + flyex + buttons) into each demo's dist/ folder.
 //
 // Usage: node tools/build-demos.mjs
-//        npx gulp demos:build
+//        npx gulp BUILD_DEMOS   (µGulp dashboard or CLI)
 
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, readdirSync } from "node:fs";
 import { BuildSkin } from "../gulp-mu-css/src/index.mjs";
@@ -21,56 +21,70 @@ function _FindManifest(_demoDir, _stem) {
 	return join(_demoDir, match);
 }
 
-const DEMOS = [
+export const DEMOS = [
 	{ id: "glittery", manifest: _FindManifest(join(repoRoot, "demos", "glittery"), "glittery") },
 	{ id: "flyex", manifest: _FindManifest(join(repoRoot, "demos", "flyex"), "flyex") },
 	{ id: "buttons", manifest: _FindManifest(join(repoRoot, "demos", "buttons"), "buttons") }
 ];
 
-function _CheckAssets() {
+export function CheckDemoAssets() {
 	const glitterDir = join(repoRoot, "demos", "glittery", "dev", "media", "raw", "glittery", "imgs");
 	const buttonsPsd = join(repoRoot, "demos", "buttons", "dev", "media", "drafts", "buttons.psd");
 	if (!existsSync(glitterDir)) {
-		console.error("Demo assets missing. Run demos:build after placing raw frames under demos/*/dev/media/ (see demos/README.md).");
-		process.exit(1);
+		throw new Error(
+			"Demo assets missing. Place raw frames under demos/*/dev/media/ (see demos/README.md)."
+		);
 	}
 	if (!existsSync(buttonsPsd)) {
-		console.error(`buttons.psd missing: ${buttonsPsd}`);
-		console.error("Copy from gulp-mu-ps/examples/drafts/buttons.psd (same file as the µCSS 1 sample).");
-		process.exit(1);
+		throw new Error(
+			`buttons.psd missing: ${buttonsPsd}\n`
+			+ "Copy from gulp-mu-ps/examples/drafts/buttons.psd (same file as the µCSS 1 sample)."
+		);
 	}
 	if (!existsSync(legacyRoot)) {
 		console.warn("oldsrcs/LegacySkinExtract not found — assuming demo assets were copied manually.");
 	}
 }
 
-async function _BuildDemo(_demo) {
-	const demoRoot = dirname(_demo.manifest);
-	const outputDir = join(demoRoot, "dist");
-	console.log(`\n=== ${_demo.id} ===`);
-	const report = await BuildSkin(_demo.manifest, { rootDir: demoRoot, outputDir, force: false });
-	console.log(`  css: ${join(outputDir, "demo.css")}`);
-	if (report.sounds?.length) {
-		console.log(`  sounds: ${report.sounds[0].sounds.join(", ")} (${report.sounds[0].skipped ? "cached" : "built"})`);
-	}
-	if (report.atlas) {
-		console.log(`  atlas: ${report.atlas.skipped ? "cached" : "built"} (${Object.keys(report.atlas.atlas?.sprites ?? {}).length} sprites)`);
-	}
-}
-
-async function _Main() {
-	_CheckAssets();
-	for (const demo of DEMOS) {
+/**
+ * @param {object} [_options]
+ * @param {boolean | object} [_options.debug] forwarded to BuildSkin()
+ * @param {(value: number, label?: string) => void} [_options.onProgress]
+ * @param {(demoId: string, report: object) => void} [_options.onDemoBuilt]
+ * @param {(message: string) => void} [_options.log]
+ */
+export async function BuildDemos(_options = {}) {
+	CheckDemoAssets();
+	const log = _options.log ?? ((line) => console.log(line));
+	for (let index = 0; index < DEMOS.length; index++) {
+		const demo = DEMOS[index];
 		if (!existsSync(demo.manifest)) {
-			console.error(`manifest not found: ${demo.manifest}`);
-			process.exit(1);
+			throw new Error(`manifest not found: ${demo.manifest}`);
 		}
-		await _BuildDemo(demo);
+		const demoRoot = dirname(demo.manifest);
+		const outputDir = join(demoRoot, "dist");
+		_options.onProgress?.(index / DEMOS.length, demo.id);
+		log(`\n=== ${demo.id} ===`);
+		const buildOptions = { rootDir: demoRoot, outputDir, force: false };
+		if (_options.debug) buildOptions.debug = _options.debug;
+		const report = await BuildSkin(demo.manifest, buildOptions);
+		log(`  css: ${join(outputDir, "demo.css")}`);
+		if (report.sounds?.length) {
+			log(`  sounds: ${report.sounds[0].sounds.join(", ")} (${report.sounds[0].skipped ? "cached" : "built"})`);
+		}
+		if (report.atlas) {
+			const count = Object.keys(report.atlas.atlas?.sprites ?? {}).length;
+			log(`  atlas: ${report.atlas.skipped ? "cached" : "built"} (${count} sprites)`);
+		}
+		_options.onDemoBuilt?.(demo.id, report);
 	}
-	console.log("\nDone. Open demos/glittery/, demos/flyex/, or demos/buttons/ (via a local static server).");
+	_options.onProgress?.(1, "done");
+	log("\nDone. Open demos/glittery/, demos/flyex/, or demos/buttons/ (via a local static server).");
 }
 
-_Main().catch((_error) => {
-	console.error(_error);
-	process.exit(1);
-});
+if (process.argv[1] && resolve(fileURLToPath(import.meta.url)) === resolve(process.argv[1])) {
+	BuildDemos().catch((_error) => {
+		console.error(_error);
+		process.exit(1);
+	});
+}

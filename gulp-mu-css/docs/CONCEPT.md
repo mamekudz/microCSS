@@ -685,6 +685,35 @@ nicht als Photoshop-Plugin. Schwere Logik in µPS/Plugin-Paket, dünne Manifest-
 
 **Bewusst nicht:** Beliebige JS-Strings im Manifest ausführen; Photoshop-JSX zur Laufzeit.
 
+### D14 — Data-URI-Inlining (`DataUri`)
+
+Kleine Bilder (Icons, 1×1-Platzhalter, UI-Texturen) können **direkt in der kompilierten CSS** als `data:`-URI landen — ohne separate Datei und **ohne** Eintrag im Sprite-Atlas (bewusst getrennt von `Sprite()`).
+
+```css
+div.carbon {
+	-µ: DataUri("imgs/general/gui/carbon.png");
+}
+/* oder */
+div.badge { background-image: µ(DataUri("imgs/icon.png")); }
+```
+
+- **Direktive** `-µ: DataUri(url, optionen?)` — schreibt standardmäßig `background-image` (Option `property`).
+- **Wertform** `µ(DataUri(url, optionen?))` — liefert `url(data:…)` oder bei `{ wrap: false }` nur den `data:`-String.
+- **`{ retina: true }`** — `image-set` aus 1x und `@2x`-Quelle (wie Sprites/Cursor).
+- Auflösung skin-relativ gegen `baseDir` (Skin-Ausgabe); Formate wie bei `Sprite()` (`png`/`webp`/…). Unterstützt PNG, WebP, JPEG, GIF, SVG.
+- **`BuildSkin`** setzt `baseDir` automatisch; media-Steps müssen vor der Kompilierung gelaufen sein.
+- npm-API: `CreateDataUriCSSValue`, `ApplyDataUri` (exportiert aus `gulp-mu-css`).
+
+Ersatz für Legacy-Muster mit Base64 in Manifest-`vars` (`url(data:image/png;base64,"+$.CarbonImageURI+")`).
+
+### D20 — Versionshistorie (`RELEASES.json`, µCSS™)
+
+Maschinenlesbare Release-Historie im Paketstamm (`gulp-mu-css/RELEASES.json`): Array von Einträgen `{ main, minor, revision, date, beta, info: [] }`, neueste zuerst — eine Konvention, die aus der **Oxyd**-Linie stammt. Die `info`-Strings tragen i18x-Kontext-Markup (`<context="release info"/>`), sodass nutzende Anwendungen sie per `String.prototype.i18xRegister` (i18x-Laufzeit) zur automatischen Übersetzung registrieren können — µCSS™ selbst hat **keine** i18x-Abhängigkeit, das Markup ist rein deklarativ.
+
+- **API** (`src/api/Releases.mjs`, exportiert aus `gulp-mu-css`): `GetReleases()` (geparst, gecacht), `GetCurrentVersionString()` (`"V2.5.8"`, `β` bei Beta), `GetCurrentFullVersionString()` (mit Datum), `GetVersionHistoryString({ limit, stripMarkup, indent })` (formatierter String für Konsolenausgabe), `StripI18xMarkup()`.
+- **Konsistenz:** Der neueste Eintrag muss der `package.json`-Version entsprechen — durch Unit-Test abgesichert (`test/Releases.test.mjs`).
+- `RELEASES.json` ist in `package.json` `files` enthalten und wird mit dem npm-Paket ausgeliefert.
+
 ### D12 — Oxyd-Tile-Pipeline und Bildanpassungen (µPS, geplant)
 
 Referenz: Legacy-Photoshop-Skripte und Test-Fixtures unter `oldsrcs/Oxyd/` (Kopien aus
@@ -902,7 +931,8 @@ gulp-mu-css/
 1. **Parse**: PostCSS liest die Datei → AST (`CssDocument`).
 2. **Evaluate**: Direktiven (`-µ:`/`-mu:`) und Interpolationen (`µ(...)`) werden in
    Dokumentreihenfolge ausgewertet. Sprite-/Cursor-Aufrufe registrieren zunächst nur
-   ihre Bildreferenzen.
+   ihre Bildreferenzen; **`DataUri()` bettet die Datei sofort ein** (skin-relativ
+   gegen `baseDir`, siehe D14).
 3. **Atlas**: Alle registrierten Bilder gehen an `gulp-mu-ps.SpriteAtlas` (inkl. @2x);
    danach schreibt die Sprite-/Cursor-Schicht die betroffenen Regeln um
    (`background-image`/`image-set`/`background-position`/`width`/`height` bzw.

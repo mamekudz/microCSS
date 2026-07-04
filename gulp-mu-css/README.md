@@ -1,4 +1,4 @@
-# µCSS™ V2.5.7 (microCSS)
+# µCSS™ V2.5.8 (microCSS)
 
 <p align="center">
   <img src="docs/manual/imgs/logo.png" alt="µCSS™ logo" width="180">
@@ -41,8 +41,10 @@ Image generation (sprite atlas, PSD rendering) uses the sibling package [`gulp-m
 - **Sprite atlas** — `-µ: Sprite("imgs/logo.png")` registers images, packs them into one atlas (incl. `@2x`) and rewrites the rule to `background-image`/`image-set`/`background-position`/`width`/`height`.
 - **Cursors & preload** — `-µ: Cursor("zoom")` emits `cursor: url(...) x y, fallback` (with `image-set` when an `@2x` source exists); cursor images can be collected automatically into a preload rule.
 - **Color API** — `Lighten`, `Alpha`, `MixColors`, `ParseColor`, `FormatColor` (models `hsl` and `oklch`).
+- **Data URI inlining** — `-µ: DataUri("imgs/icon.png")` or `background-image: µ(DataUri("imgs/icon.png"));` embeds the file as `url(data:…;base64,…)` in the compiled CSS (optional `{ retina: true }` for `image-set`). **Not** packed into the sprite atlas.
 - **PSD image generation** — button/icon series, app icons and animation strips from layered drafts (via `gulp-mu-ps`), wired directly into the CSS build.
 - **Skin manifest & incremental build** — one manifest per skin, mtime-based cache (atlas and PSD steps are only regenerated on change).
+- **Version history API** — `RELEASES.json` in the package (i18x-ready info strings) plus `GetReleases`, `GetCurrentVersionString`, `GetVersionHistoryString` for formatted console output.
 
 Source stylesheets stay **syntactically valid CSS** — editors, linters and diffs work unchanged. Internally µCSS™ is a PostCSS pipeline, so the PostCSS ecosystem (cssnano, Stylelint, …) remains attachable.
 
@@ -57,6 +59,9 @@ a:link {
 }
 div.companylogo {
 	-µ: Sprite("imgs/logos/company_logo.png");
+}
+div.carbon {
+	-µ: DataUri("imgs/general/gui/carbon.png");
 }
 *.cursor_zoom {
 	-µ: Cursor("zoom");
@@ -233,7 +238,7 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS™ V2.5.7 (microCSS)
+# µCSS™ V2.5.8 (microCSS)
 
 *[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
@@ -272,8 +277,10 @@ Die Bilderzeugung (Sprite-Atlas, PSD-Rendering) nutzt das Schwesterpaket [`gulp-
 - **Sprite-Atlas** — `-µ: Sprite("imgs/logo.png")` registriert Bilder, packt sie in einen Atlas (inkl. `@2x`) und schreibt die Regel auf `background-image`/`image-set`/`background-position`/`width`/`height` um.
 - **Cursor & Preload** — `-µ: Cursor("zoom")` erzeugt `cursor: url(...) x y, fallback` (mit `image-set` bei vorhandener `@2x`-Quelle); Cursor-Bilder können automatisch in eine Preload-Regel gesammelt werden.
 - **Farb-API** — `Lighten`, `Alpha`, `MixColors`, `ParseColor`, `FormatColor` (Modelle `hsl` und `oklch`).
+- **Data-URI-Inlining** — `-µ: DataUri("imgs/icon.png")` oder `background-image: µ(DataUri("imgs/icon.png"));` bettet die Datei als `url(data:…;base64,…)` in die kompilierte CSS ein (optional `{ retina: true }` für `image-set`). **Nicht** im Sprite-Atlas.
 - **PSD-Bilderzeugung** — Button-/Icon-Serien, App-Icons und Animations-Strips aus geschichteten Entwürfen (über `gulp-mu-ps`), direkt an den CSS-Build gekoppelt.
 - **Skin-Manifest & inkrementeller Build** — ein Manifest pro Skin, mtime-basierter Cache (Atlas und PSD-Schritte werden nur bei Änderungen neu erzeugt).
+- **Versionshistorie-API** — `RELEASES.json` im Paket (i18x-fähige Info-Strings) plus `GetReleases`, `GetCurrentVersionString`, `GetVersionHistoryString` für formatierte Konsolenausgabe.
 
 Die Quell-Stylesheets bleiben dabei **syntaktisch valides CSS** — Editoren, Linter und Diffs funktionieren unverändert. Intern ist µCSS™ eine PostCSS-Pipeline, das PostCSS-Ökosystem (cssnano, Stylelint, …) bleibt andockbar.
 
@@ -288,6 +295,9 @@ a:link {
 }
 div.companylogo {
 	-µ: Sprite("imgs/logos/company_logo.png");
+}
+div.carbon {
+	-µ: DataUri("imgs/general/gui/carbon.png");
 }
 *.cursor_zoom {
 	-µ: Cursor("zoom");

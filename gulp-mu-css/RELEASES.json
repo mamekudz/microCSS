@@ -1,0 +1,104 @@
+[
+	{
+		"main": 2, "minor": 5, "revision": 9, "date": "2026-07-04 12:00", "beta": false,
+		"info": [
+			"BuildSkin debug option: report.debug with asset paths and optional WebP thumbnail data URIs (BuildDebug.mjs)<context=\"release info\"/>",
+			"Root gulpfile adapted for the µGulp dashboard (task metadata, progress, LogBuildDebugReport on demo builds)<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 8, "date": "2026-07-02 15:00", "beta": false,
+		"info": [
+			"DataUri(): embed skin-relative images as data: URIs in compiled CSS (directive and value form, optional retina image-set); not packed into the sprite atlas<context=\"release info\"/>",
+			"RELEASES.json version history (i18x-ready info strings) with console API: GetReleases, GetCurrentVersionString, GetVersionHistoryString<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 7, "date": "2026-06-21 15:50", "beta": false,
+		"info": [
+			"Brand name µCSS carries the trademark sign in all documentation, READMEs and manual PDFs<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 6, "date": "2026-06-19 21:15", "beta": false,
+		"info": [
+			"npm bundle ships the rebuilt manual PDFs (Photopea authoring, RegisterMediaStep, editor choice, sidecar prune); no code change compared to 2.5.5<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 5, "date": "2026-06-19 18:30", "beta": false,
+		"info": [
+			"sprites.pruneSources also deletes sequence-strip sidecar JSON next to a packed 1x source; pruneKeep-protected sources keep their sidecar<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 4, "date": "2026-06-18 12:00", "beta": false,
+		"info": [
+			"RegisterMediaStep: registry for custom manifest media steps (plugin system phase 1)<context=\"release info\"/>",
+			"Documentation: Photopea/Affinity/Photoshop authoring choice via MU_DRAFT_APP<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 5, "revision": 0, "date": "2026-06-15 12:00", "beta": false,
+		"info": [
+			"Manifest option minify: CSS minification via uglifycss or a custom function<context=\"release info\"/>",
+			"sprites.pruneKeep protects sources from pruneSources; build report keptSources[] and minified<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 4, "revision": 2, "date": "2026-06-12 12:00", "beta": false,
+		"info": [
+			"Manual chapters microAU/microFT: sound pipeline (triggers/handlers), manifest section font; updated PDFs (DE/EN)<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 4, "revision": 0, "date": "2026-06-11 12:00", "beta": false,
+		"info": [
+			"Manual chapter microPS: layer-effect tables including new stroke/satin, blend modes, style transfer vs. layer links<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 3, "revision": 0, "date": "2026-06-10 12:00", "beta": false,
+		"info": [
+			"Build-time @import bundling (glob, recursive, Vue co-location)<context=\"release info\"/>",
+			"Opt-in rule merge (merge, @µ-override, onConflict) and namespace mode (@µ-namespace, :global())<context=\"release info\"/>",
+			"Build-type/variant filter via gulp-mu-build-filter<context=\"release info\"/>",
+			"Repository-only migration aids: convert-vue.mjs, convert-less.mjs<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 2, "revision": 4, "date": "2026-06-09 12:00", "beta": false,
+		"info": [
+			"Sound atlas integration: sounds block in the manifest via µAU<context=\"release info\"/>",
+			"sprites.include adds standalone images or directories to the sprite atlas without a CSS rule<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 2, "revision": 0, "date": "2026-06-08 12:00", "beta": false,
+		"info": [
+			"Normalization of legacy gradient directions at compile time: linear-gradient(top|bottom|left|right, …) is raised to the standard 'to …' form<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 1, "revision": 0, "date": "2026-06-07 12:00", "beta": false,
+		"info": [
+			"Atlas format independent of the global imageFormat via sprites.format<context=\"release info\"/>",
+			"Format-independent resolution of Sprite() source images (png/webp)<context=\"release info\"/>",
+			"Warning when a copyFolder filter excludes the active image format<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 2, "minor": 0, "revision": 0, "date": "2026-06-06 12:00", "beta": false,
+		"info": [
+			"Complete Node.js reimplementation as npm package gulp-mu-css, without Adobe dependency<context=\"release info\"/>",
+			"Core pipeline (M1), sprites and cursors (M2), manifest and build with incremental cache (M3)<context=\"release info\"/>",
+			"Hooks and macros (M4), legacy skin migration with converter and acceptance test (M5), manual (M6)<context=\"release info\"/>"
+		]
+	},
+	{
+		"main": 1, "minor": 0, "revision": 0, "date": "2013-01-01 00:00", "beta": false,
+		"info": [
+			"Original µCSS as an Adobe Photoshop script: -µcss: directives, sprite atlas, PSD plugins, control via µ.std.css<context=\"release info\"/>"
+		]
+	}
+]

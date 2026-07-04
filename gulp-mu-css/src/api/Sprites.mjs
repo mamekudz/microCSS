@@ -8,33 +8,12 @@
 import { existsSync, unlinkSync } from "node:fs";
 import { join, relative } from "node:path";
 import { SpriteAtlas } from "gulp-mu-ps";
+import { ResolveImageFile, RetinaUrl, RASTER_EXTENSIONS } from "./ResolveImageFile.mjs";
 
 // Raster source extensions tried (in order) when the literally referenced
 // sprite file does not exist (P2): the generator output and the CSS Sprite()
 // reference may diverge in extension, e.g. a webp atlas built from png sources.
-const SOURCE_EXTENSIONS = ["png", "webp"];
-
-// "imgs/sprites.png" -> "imgs/sprites@2x.png" (inserts @2x before the
-// extension; works on both CSS URLs and file system paths).
-function _RetinaUrl(_url) {
-	const dot = _url.lastIndexOf(".");
-	return dot < 0 ? `${_url}@2x` : `${_url.slice(0, dot)}@2x${_url.slice(dot)}`;
-}
-
-// Resolves a sprite URL to an existing source file: the literal path first,
-// then the same stem with each supported raster extension. Returns null when
-// no variant exists (so the build does not break on diverging extensions).
-function _ResolveSourceFile(_baseDir, _url) {
-	const literal = join(_baseDir, _url);
-	if (existsSync(literal)) return literal;
-	const dot = _url.lastIndexOf(".");
-	const stem = dot < 0 ? _url : _url.slice(0, dot);
-	for (const ext of SOURCE_EXTENSIONS) {
-		const candidate = join(_baseDir, `${stem}.${ext}`);
-		if (existsSync(candidate)) return candidate;
-	}
-	return null;
-}
+const SOURCE_EXTENSIONS = RASTER_EXTENSIONS;
 
 // Source location of the rule that registered a sprite, for error messages:
 // ' - selector "div.logo" (src.µ.css:12)'.
@@ -140,8 +119,8 @@ export class SpriteManager {
 		for (const [url, file] of _files) {
 			if (!file) {
 				missing.push(`"${url}" (no .${SOURCE_EXTENSIONS.join("/.")} source under ${this.options.baseDir})${origins.get(url)}`);
-			} else if (this.options.retina && !existsSync(_RetinaUrl(file))) {
-				missing.push(`"${_RetinaUrl(url)}" (@2x variant of "${url}") -> ${_RetinaUrl(file)}${origins.get(url)}`);
+			} else if (this.options.retina && !existsSync(RetinaUrl(file))) {
+				missing.push(`"${RetinaUrl(url)}" (@2x variant of "${url}") -> ${RetinaUrl(file)}${origins.get(url)}`);
 			}
 		}
 		if (missing.length) {
@@ -170,10 +149,10 @@ export class SpriteManager {
 		for (const reg of this.registrations) {
 			if (seen.has(reg.url)) continue;
 			seen.add(reg.url);
-			const resolved = _ResolveSourceFile(this.options.baseDir, reg.url)
+			const resolved = ResolveImageFile(this.options.baseDir, reg.url)
 				?? join(this.options.baseDir, reg.url);
 			files.push(resolved);
-			if (this.options.retina) files.push(_RetinaUrl(resolved));
+			if (this.options.retina) files.push(RetinaUrl(resolved));
 		}
 		return files;
 	}
@@ -188,7 +167,7 @@ export class SpriteManager {
 		const keep = this.options.pruneKeep ?? [];
 		const atlasPaths = new Set([
 			join(this.options.baseDir, this.options.atlasFile),
-			join(this.options.baseDir, _RetinaUrl(this.options.atlasFile))
+			join(this.options.baseDir, RetinaUrl(this.options.atlasFile))
 		]);
 		const deleted = [];
 		const kept = [];
@@ -196,10 +175,10 @@ export class SpriteManager {
 		for (const reg of this.registrations) {
 			if (seen.has(reg.url)) continue;
 			seen.add(reg.url);
-			const resolved = _ResolveSourceFile(this.options.baseDir, reg.url)
+			const resolved = ResolveImageFile(this.options.baseDir, reg.url)
 				?? join(this.options.baseDir, reg.url);
 			const candidates = [resolved];
-			if (this.options.retina) candidates.push(_RetinaUrl(resolved));
+			if (this.options.retina) candidates.push(RetinaUrl(resolved));
 			// Keep is decided per sprite source (by its 1x URL): a protected
 			// source retains both its 1x and @2x file.
 			const protectedSource = _MatchesKeep(reg.url.split("\\").join("/"), keep);
@@ -241,7 +220,7 @@ export class SpriteManager {
 			} else {
 				const files = new Map();
 				for (const reg of this.registrations) {
-					if (!files.has(reg.url)) files.set(reg.url, _ResolveSourceFile(this.options.baseDir, reg.url));
+					if (!files.has(reg.url)) files.set(reg.url, ResolveImageFile(this.options.baseDir, reg.url));
 				}
 				this._CheckSourceImages(files);
 				const packed = await SpriteAtlas.Create({
@@ -256,7 +235,7 @@ export class SpriteManager {
 			}
 
 			const atlasUrl = this.options.atlasFile;
-			const retinaUrl = _RetinaUrl(atlasUrl);
+			const retinaUrl = RetinaUrl(atlasUrl);
 			for (const reg of this.registrations) {
 				const sprite = atlas.sprites[reg.url];
 				if (!sprite) throw new Error(`SpriteManager: no atlas position for "${reg.url}".`);

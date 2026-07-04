@@ -193,6 +193,18 @@ describe("BuildSkin (M3)", function () {
 		expect(report.media[report.media.length - 1].skipped).to.equal(false);
 	});
 
+	it("debug option collects asset previews with thumbnails", async () => {
+		const report = await BuildSkin(manifestFile, {
+			force: true,
+			debug: { thumbnails: true, maxThumbnails: 12, log: false }
+		});
+		expect(report.debug).to.be.an("object");
+		expect(report.debug.summary.assets).to.be.greaterThan(0);
+		expect(report.debug.previews.length).to.equal(report.debug.summary.assets);
+		expect(report.debug.previews.some((_preview) => _preview.thumbDataUri)).to.equal(true);
+		expect(report.debug.summary.thumbnails).to.be.greaterThan(0);
+	});
+
 	it("switches only the atlas to webp via sprites.format (P1)", async () => {
 		const webpManifest = join(srcDir, "webp.µcss.mjs");
 		writeFileSync(webpManifest, `import { DefineSkin } from "${indexUrl}";

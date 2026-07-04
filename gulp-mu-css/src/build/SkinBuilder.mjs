@@ -14,6 +14,7 @@ import { CursorManager } from "../api/Cursors.mjs";
 import { PreloadRegistry } from "../api/Preload.mjs";
 import { BuildCache, FingerprintFiles, FingerprintsMatch, CACHE_SCHEMA } from "./BuildCache.mjs";
 import { RunMediaStep } from "./MediaSteps.mjs";
+import { NormalizeDebugOptions, BuildDebugReport } from "./BuildDebug.mjs";
 
 const ownPackage = JSON.parse(
 	readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../../package.json"), "utf8")
@@ -193,8 +194,10 @@ async function _BuildSoundAtlas(_entry, _ctx) {
 // Directory conventions (CONCEPT.md, D3): for skins/src/std.µcss.mjs the skin
 // name is "std", the output directory skins/std/ and the project root (base of
 // media source paths like dev/media/...) two levels above the manifest.
-// All three are overridable via _options { outputDir, rootDir, force }.
+// All three are overridable via _options { outputDir, rootDir, force, debug }.
 // Further options let a gulp task steer the build per invocation:
+//   - debug: true | { thumbnails?, thumbnailSize?, maxThumbnails?, log?, onStepComplete? }
+//     collects asset paths and optional WebP thumbnail data URIs in report.debug,
 //   - buildFilter: merged over the manifest's buildFilter (option wins),
 //   - vars: merged over the manifest's vars (global variable overrides),
 //   - any other fields are forwarded to a factory manifest (function default
@@ -208,6 +211,7 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 	const rootDir = _options.rootDir ? resolve(_options.rootDir) : resolve(srcDir, "..", "..");
 	const outputDir = _options.outputDir ? resolve(_options.outputDir) : resolve(srcDir, "..", skinName);
 	const force = !!_options.force;
+	const debugOpts = NormalizeDebugOptions(_options.debug);
 
 	// Build parameters handed to a factory manifest (and used below to override
 	// manifest defaults): everything from the BuildSkin() call plus the derived
@@ -230,7 +234,9 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 		for (let index = 0; index < (config.media ?? []).length; index++) {
 			const step = config.media[index];
 			try {
-				media.push(await RunMediaStep(step, { rootDir, outputDir, imageFormat, cache, index }));
+				const result = await RunMediaStep(step, { rootDir, outputDir, imageFormat, cache, index });
+				media.push(result);
+				debugOpts?.onStepComplete?.({ index, step, result, skin: skinName });
 			} catch (error) {
 				const label = ["copy", "copyFolder", "buttonsAndIcons", "appIcons", "sequenceStrip"]
 					.filter((_key) => step[_key]).map((_key) => `${_key}: "${step[_key]}"`).join(", ");
@@ -300,6 +306,7 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 			sprites,
 			cursors,
 			from: sourceFile,
+			baseDir: outputDir,
 			// Local @import targets are always inlined; the import diagnostic
 			// modes, the opt-in rule merge and the build filter are manifest-
 			// configurable (per-file entry.* wins over the skin-wide config.*).
@@ -334,7 +341,8 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 	}
 
 	cache.Save();
-	return {
+	const duration = Date.now() - startedAt;
+	const report = {
 		skin: skinName,
 		outputDir,
 		media,
@@ -345,6 +353,21 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 		prunedSources: sprites.lastPruned?.deleted ?? [],
 		keptSources: sprites.lastPruned?.kept ?? [],
 		minified: !!minify,
-		duration: Date.now() - startedAt
+		duration
 	};
+	if (debugOpts) {
+		report.debug = await BuildDebugReport({
+			debugOpts,
+			outputDir,
+			skinName,
+			media,
+			sounds,
+			files,
+			atlas: atlasResult.atlas,
+			atlasSkipped: atlasResult.skipped,
+			atlasFile,
+			duration
+		});
+	}
+	return report;
 }

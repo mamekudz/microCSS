@@ -10,10 +10,11 @@
     "test:legacy-migration": "gulp test:legacy-migration",
     "examples:render": "gulp examples:render",
     "build:publish": "gulp build:publish",
-    "demos:build": "node tools/build-demos.mjs"
+    "demos:build": "gulp demos:build"
   },
   "devDependencies": {
     "gulp": "^5.0.0",
-    "gulp-cli": "^3.1.0"
+    "gulp-cli": "^3.1.0",
+    "gulp-mu-gulp-api": "file:../microGulp/gulp-mu-gulp-api"
   }
 }
