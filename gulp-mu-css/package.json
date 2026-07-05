@@ -46,7 +46,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "gulp-mu-au": "^0.1.6",
+    "gulp-mu-au": "file:../gulp-mu-au",
     "gulp-mu-build-filter": "^2.0.0",
     "gulp-mu-ps": "file:../gulp-mu-ps",
     "postcss": "^8.5.15",
