@@ -28,6 +28,8 @@ import {
 
 InstallStringExtensions();
 
+export const µI18xContext = { project: 'microCSS' };
+
 const rootDir = dirname(fileURLToPath(import.meta.url));
 const CSS_PKG = join(rootDir, "gulp-mu-css");
 const PS_PKG = join(rootDir, "gulp-mu-ps");

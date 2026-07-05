@@ -1,6 +1,6 @@
 {
   "name": "gulp-mu-ps",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "microPS - Node module to render PNG series and sprite atlases from layered image drafts (PSD), replacing the old Adobe-based workflow.",
   "type": "module",
   "main": "src/index.mjs",
@@ -21,8 +21,15 @@
     "atlas",
     "css",
     "png",
-    "layer-effects"
+    "layer-effects",
+    "microgulp",
+    "ugulp"
   ],
+  "microgulp": {
+    "ready": true,
+    "certifiedSince": "1.3.3",
+    "gulpfile": "../gulpfile.mjs"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

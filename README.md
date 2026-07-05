@@ -1,4 +1,4 @@
-# µCSS™ V2.5.14 (microCSS)
+# µCSS™ V2.5.15 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -40,10 +40,10 @@ Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamek
 
 | Display name | npm package | Version in repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.15** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.3** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.6** · [µGulp ready](https://github.com/mamekudz/microGulp) |
 
 The **H1** shows the current **µCSS™** release; bump it with `gulp-mu-css/package.json` when publishing µCSS™. Badges show live npm versions; bump the table for all modules when releasing (must match each `package.json`).
 
@@ -78,10 +78,10 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Display name | npm package | Version in repo | Role |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Builds sound atlases (combined WAV/MP3 + JSON timing map) for the µCSS™ family |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.15** · [µGulp ready](https://github.com/mamekudz/microGulp) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.3** · [µGulp ready](https://github.com/mamekudz/microGulp) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.6** · [µGulp ready](https://github.com/mamekudz/microGulp) | Builds sound atlases (combined WAV/MP3 + JSON timing map) for the µCSS™ family |
 
 Install the compiler in your project:
 
@@ -102,6 +102,7 @@ microCSS/                          Repository root (this monorepo)
 ├── demos/                         Interactive marketing demos (GitHub Pages)
 ├── tools/                         Root build helpers (publish, manual, …)
 ├── gulpfile.mjs                   Gulp tasks for tests, docs and npm publish
+├── i18x/gulp/                     en-US + de-DE task log / metadata dictionaries (µGulp)
 ├── package.json                   Private root workspace (dev dependencies only)
 └── µCSS™ 1.0 (Photoshop)/          Archived µCSS™ 1 (ExtendScript + jsxlibs submodule)
     ├── µCSS/                      Runnable Photoshop script folder
@@ -138,7 +139,7 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
 
 <a id="µcss-microcss-1"></a>
 
-# µCSS™ V2.5.14 (microCSS)
+# µCSS™ V2.5.15 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -178,10 +179,10 @@ Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mameku
 
 | Anzeigename | npm-Paket | Version im Repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.15** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.3** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.6** · [µGulp ready](https://github.com/mamekudz/microGulp) |
 
 Die **H1** zeigt die aktuelle **µCSS™**-Version; beim µCSS™-Release mit `gulp-mu-css/package.json` anheben. Badges = live npm; Tabelle für alle Module beim Release mit je `package.json` abgleichen.
 
@@ -216,10 +217,10 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Anzeigename | npm-Paket | Version im Repo | Aufgabe |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.12** · [µGulp ready](https://github.com/mamekudz/microGulp) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.1** | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.3** | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.4** | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3 + JSON-Timing-Map) für die µCSS™-Familie |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.15** · [µGulp ready](https://github.com/mamekudz/microGulp) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.3** · [µGulp ready](https://github.com/mamekudz/microGulp) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.6** · [µGulp ready](https://github.com/mamekudz/microGulp) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3 + JSON-Timing-Map) für die µCSS™-Familie |
 
 Installation des Compilers im eigenen Projekt:
 
@@ -240,6 +241,7 @@ microCSS/                          Repository-Wurzel (dieses Monorepo)
 ├── demos/                         Interaktive Marketing-Demos (GitHub Pages)
 ├── tools/                         Root-Build-Helfer (Publish, Handbuch, …)
 ├── gulpfile.mjs                   Gulp-Tasks für Tests, Doku und npm-Publish
+├── i18x/gulp/                     en-US + de-DE Task-Log- / Metadaten-Wörterbücher (µGulp)
 ├── package.json                   Privates Root-Workspace (nur Dev-Dependencies)
 └── µCSS™ 1.0 (Photoshop)/          Archiviertes µCSS™ 1 (ExtendScript + jsxlibs-Submodul)
     ├── µCSS/                      Lauffähiger Photoshop-Skriptordner

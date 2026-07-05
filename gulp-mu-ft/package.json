@@ -1,6 +1,6 @@
 {
   "name": "gulp-mu-ft",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "microFT - Node module to generate icon fonts (SVG/TTF/EOT/WOFF/WOFF2) plus ready-to-use CSS classes, an IcoMoon-compatible JSON and an HTML overview from a directory of SVG glyphs.",
   "type": "module",
   "main": "src/index.mjs",
@@ -23,8 +23,15 @@
     "ttf",
     "woff",
     "woff2",
-    "css"
+    "css",
+    "microgulp",
+    "ugulp"
   ],
+  "microgulp": {
+    "ready": true,
+    "certifiedSince": "0.1.5",
+    "gulpfile": "../gulpfile.mjs"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

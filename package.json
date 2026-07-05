@@ -12,6 +12,11 @@
     "build:publish": "gulp build:publish",
     "demos:build": "gulp demos:build"
   },
+  "microgulp": {
+    "ready": true,
+    "certifiedSince": "2.5.15",
+    "gulpfile": "gulpfile.mjs"
+  },
   "devDependencies": {
     "gulp": "^5.0.0",
     "gulp-cli": "^3.1.0",

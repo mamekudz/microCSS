@@ -1,5 +1,12 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 15, "date": "2026-07-05 10:30", "beta": false,
+		"info": [
+			"Restored docs/manual/imgs/microgulp-ready.png in the npm tarball; monorepo i18x/gulp (en-US, de-DE) for task logs and dashboard metadata<context=\"release info\"/>",
+			"µPS, µFT and µAU certified µGulp ready via the shared root gulpfile (README badge, package.json microgulp metadata)<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 14, "date": "2026-07-04 14:15", "beta": false,
 		"info": [
 			"npm README badge uses absolute raw.githubusercontent.com URL from the µGulp repo — npm rewrites relative paths to microCSS/HEAD without the published PNG on GitHub<context=\"release info\"/>"
