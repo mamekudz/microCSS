@@ -182,3 +182,32 @@ describe("Compositor (opacity / fill opacity)", function () {
 		expect(center[2]).to.be.above(160);
 	});
 });
+
+describe("Compositor (empty / dataless pixel layers)", function () {
+	// Regression: a pixel layer whose imageData carries no usable data array
+	// (zero-area / non-raster layers read by ag-psd) must not crash with
+	// "Cannot read properties of undefined (reading '0')".
+	it("treats an imageData without a data buffer as fully transparent", function () {
+		const doc = _Doc([
+			_SolidLayer(0, 0, 64, 64, [10, 20, 30]),
+			{ left: 8, top: 8, imageData: { width: 16, height: 16 }, hidden: false }
+		]);
+		const raster = RenderDocument(doc);
+		const px = _Sample(raster, 16, 16);
+		expect(px[0]).to.be.closeTo(10, 0.01);
+		expect(px[1]).to.be.closeTo(20, 0.01);
+		expect(px[2]).to.be.closeTo(30, 0.01);
+		expect(px[3]).to.be.closeTo(255, 0.01);
+	});
+
+	it("does not crash when a layer with effects has no pixel data", function () {
+		const doc = _Doc([
+			_SolidLayer(0, 0, 64, 64, [10, 20, 30]),
+			{
+				left: 8, top: 8, imageData: { width: 16, height: 16 }, hidden: false,
+				effects: { dropShadow: { enabled: true, size: { value: 3 }, distance: { value: 2 }, color: { r: 0, g: 0, b: 0 }, opacity: 1 } }
+			}
+		]);
+		expect(() => RenderDocument(doc)).to.not.throw();
+	});
+});

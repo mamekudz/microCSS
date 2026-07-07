@@ -168,7 +168,9 @@ function _ApplyInnerGlow(_raster, _effect, _alpha) {
 }
 
 function _SampleContour(_contour, _t) {
-	const curve = _contour?.curve ?? [{ x: 0, y: 0 }, { x: 255, y: 255 }];
+	// A present-but-empty curve array would otherwise crash on curve[0]; fall
+	// back to the linear identity contour just like a missing contour.
+	const curve = (_contour?.curve?.length) ? _contour.curve : [{ x: 0, y: 0 }, { x: 255, y: 255 }];
 	let pos = Math.min(1, Math.max(0, _t)) * 255;
 	if (pos <= curve[0].x) return curve[0].y / 255;
 	for (let i = 0; i < curve.length - 1; i++) {

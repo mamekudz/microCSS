@@ -23,7 +23,10 @@ export function CloneRaster(_raster) {
 // Copies 8-bit RGBA image data of a layer into a document-sized raster at the given offset.
 export function RasterFromImageData(_imageData, _left, _top, _docWidth, _docHeight) {
 	const raster = CreateRaster(_docWidth, _docHeight);
-	if (!_imageData) return raster;
+	// A layer may carry an imageData object with no usable pixel buffer (e.g. a
+	// zero-area or non-raster layer read by ag-psd): treat it as fully empty
+	// instead of dereferencing an undefined data array.
+	if (!_imageData || !_imageData.data) return raster;
 	const src = _imageData.data;
 	for (let y = 0; y < _imageData.height; y++) {
 		const dy = y + _top;
