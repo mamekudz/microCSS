@@ -1,5 +1,12 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 16, "date": "2026-07-22 12:45", "beta": false,
+		"info": [
+			"Sound atlases: manifest sounds.format accepts weba/webm (audio-only WebM/Opus) besides wav/mp3; SkinBuilder passes through to gulp-mu-au 0.1.7 / gulp-mu-sound-atlas 1.2.0<context=\"release info\"/>",
+			"Manuals (EN/DE): document weba as a µAU output format option<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 15, "date": "2026-07-05 10:30", "beta": false,
 		"info": [
 			"Restored docs/manual/imgs/microgulp-ready.png in the npm tarball; monorepo i18x/gulp (en-US, de-DE) for task logs and dashboard metadata<context=\"release info\"/>",
