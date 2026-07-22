@@ -22,11 +22,11 @@ export const CONVERT = {
 	STEREO_MONO: 2
 };
 
-const AUDIO_EXTENSIONS = new Set([".wav", ".mp3"]);
+const AUDIO_EXTENSIONS = new Set([".wav", ".mp3", ".weba", ".webm"]);
 
 /**
- * Recursively lists audio source files (*.wav, *.mp3) below a directory,
- * sorted by path for a deterministic atlas order.
+ * Recursively lists audio source files (*.wav, *.mp3, *.weba, *.webm) below a
+ * directory, sorted by path for a deterministic atlas order.
  *
  * @param {string} _dir source root directory
  * @returns {string[]}
@@ -63,10 +63,10 @@ export class SoundAtlasMaker {
 	 * @param {object} _options
 	 * @param {string[]} [_options.sounds]   explicit list of audio source files
 	 * @param {string} [_options.src]        source directory scanned recursively (wav/mp3); merged with `sounds`
-	 * @param {string} _options.dataFile     output audio blob path (.wav or .mp3) (required)
+	 * @param {string} _options.dataFile     output audio blob path (.wav / .mp3 / .weba) (required)
 	 * @param {string} _options.jsonFile     output JSON timing map path (required)
-	 * @param {string} [_options.format]     "wav" | "mp3"; default derived from dataFile extension
-	 * @param {number} [_options.mp3KBitRate=128]
+	 * @param {string} [_options.format]     "wav" | "mp3" | "weba"; default derived from dataFile extension
+	 * @param {number} [_options.mp3KBitRate=128] bitrate (kbps) for mp3 and weba/Opus
 	 * @param {number} [_options.sampleRate=CONVERT.SAMPLERATE_HIGHEST]
 	 * @param {number} [_options.sampleSize=CONVERT.SAMPLESIZE_HIGHEST]
 	 * @param {number} [_options.channels=CONVERT.NOOFCHANNELS_HIGHEST]
@@ -94,7 +94,12 @@ export class SoundAtlasMaker {
 		const files = [...fileSet].sort();
 		if (files.length === 0) throw new Error("SoundAtlasMaker.Create: no audio sources (provide 'sounds' and/or 'src').");
 
-		const format = _options.format ?? (path.extname(dataFile).toLowerCase() === ".mp3" ? "mp3" : "wav");
+		const ext = path.extname(dataFile).toLowerCase();
+		const format = (_options.format ?? (
+			ext === ".mp3" ? "mp3"
+				: (ext === ".weba" || ext === ".webm") ? "weba"
+					: "wav"
+		)).toLowerCase();
 		const cacheFile = _options.cacheFile === false
 			? false
 			: (_options.cacheFile ?? `${dataFile}.cache.json`);
@@ -110,7 +115,8 @@ export class SoundAtlasMaker {
 			dataPath: dataFile,
 			jsonPath: jsonFile,
 			doMp3: format === "mp3",
-			mp3KBitRate: _options.mp3KBitRate ?? 128,
+			doWebA: format === "weba" || format === "webm",
+			mp3KBitRate: _options.mp3KBitRate ?? (format === "weba" || format === "webm" ? 96 : 128),
 			cnvSampleRate: _options.sampleRate ?? CONVERT.SAMPLERATE_HIGHEST,
 			cnvSampleSize: _options.sampleSize ?? CONVERT.SAMPLESIZE_HIGHEST,
 			cnvNoOfChannels: _options.channels ?? CONVERT.NOOFCHANNELS_HIGHEST,

@@ -1382,7 +1382,7 @@ Optional block for the **µAU** bridge — builds a sound atlas before CSS compi
 | `sounds` | Alternative: explicit file list (may be combined with `src`) |
 | `dataFile` | Output audio blob, relative to skin directory |
 | `jsonFile` | Output JSON timing map, relative to skin directory |
-| `format`, `mp3KBitRate`, `sampleRate`, … | Passed through to `SoundAtlasMaker` (defaults as in µAU) |
+| `format`, `mp3KBitRate` / `bitRate`, `sampleRate`, … | Passed through to `SoundAtlasMaker`. `format`: `"wav"` \| `"mp3"` \| `"weba"` (audio-only WebM/Opus; default from `dataFile` extension) |
 | `triggers` | *(planned)* path to `soundTriggers.mjs` — **build time only:** extend `bindings[]` (Node, not the browser) |
 | `handlers` | *(planned)* path to `soundHandlers.mjs` — **runtime only:** wrap/replace default handlers (browser, JSON unchanged) |
 | `force` | Force rebuild |

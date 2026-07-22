@@ -165,8 +165,10 @@ async function _ResolveSprites(_sprites, _document, _cache, _force) {
 // output dir. Each atlas keeps its own incremental cache under <outputDir>/.cache.
 async function _BuildSoundAtlas(_entry, _ctx) {
 	const { rootDir, outputDir, skinName, index, force } = _ctx;
-	const format = _entry.format ?? "wav";
-	const ext = format === "mp3" ? "mp3" : "wav";
+	const format = String(_entry.format ?? "wav").toLowerCase();
+	const ext = format === "mp3" ? "mp3"
+		: (format === "weba" || format === "webm") ? "weba"
+			: "wav";
 	const dataFile = _entry.dataFile ?? `snds/${skinName}.sounds.${ext}`;
 	const jsonFile = _entry.jsonFile ?? _SwapExtension(dataFile, "json");
 	const includeFiles = (_entry.include ?? []).map((_file) => join(rootDir, _file));
@@ -176,8 +178,8 @@ async function _BuildSoundAtlas(_entry, _ctx) {
 		sounds: includeFiles.length ? includeFiles : undefined,
 		dataFile: join(outputDir, dataFile),
 		jsonFile: join(outputDir, jsonFile),
-		format,
-		mp3KBitRate: _entry.mp3KBitRate,
+		format: ext === "weba" ? "weba" : format,
+		mp3KBitRate: _entry.mp3KBitRate ?? _entry.bitRate,
 		sampleRate: _entry.sampleRate,
 		sampleSize: _entry.sampleSize,
 		channels: _entry.channels,

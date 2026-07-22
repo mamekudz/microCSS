@@ -1,6 +1,6 @@
 {
   "name": "gulp-mu-au",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "microAU - Node module to build sound atlases (one combined audio blob + JSON timing map) for the microCSS family, on top of gulp-mu-sound-atlas.",
   "type": "module",
   "main": "src/index.mjs",
@@ -23,12 +23,15 @@
     "sprite",
     "wav",
     "mp3",
+    "weba",
+    "webm",
+    "opus",
     "microgulp",
     "ugulp"
   ],
   "microgulp": {
     "ready": true,
-    "certifiedSince": "0.1.6",
+    "certifiedSince": "0.1.7",
     "gulpfile": "../gulpfile.mjs"
   },
   "license": "MIT",
@@ -45,7 +48,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "gulp-mu-sound-atlas": "^1.1.2",
+    "gulp-mu-sound-atlas": "^1.2.0",
     "vinyl": "^3.0.1"
   },
   "devDependencies": {

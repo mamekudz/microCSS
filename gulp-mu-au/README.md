@@ -60,7 +60,7 @@ await SoundAtlasMaker.Create({
 
 µCSS™ integration: optional `sounds` block in the skin manifest — see the µCSS™ manual.
 
-Built on [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.1.2** (configurable `log`: default quiet engine, one-line summary; `log: true` for per-file progress; `log: false` silent). Requires Node ≥ 18.
+Built on [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.2.0** (configurable `log`; **WAV / MP3 / WebA** output; MP3 & WebA inputs decoded asynchronously). Requires Node ≥ 18.
 
 <!-- publish:exclude:start -->
 ## Tests
@@ -131,7 +131,7 @@ await SoundAtlasMaker.Create({
 
 µCSS™-Anbindung: optionaler `sounds`-Block im Skin-Manifest — siehe µCSS™-Handbuch.
 
-Aufgesetzt auf [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.1.2** (konfigurierbares `log`: Standard = stille Engine, einzeilige Zusammenfassung; `log: true` für Datei-für-Datei-Fortschritt; `log: false` = stumm). Node ≥ 18.
+Aufgesetzt auf [`gulp-mu-sound-atlas`](https://www.npmjs.com/package/gulp-mu-sound-atlas) **^1.2.0** (konfigurierbares `log`; Ausgabe **WAV / MP3 / WebA**; MP3- & WebA-Quellen werden asynchron dekodiert). Node ≥ 18.
 
 <!-- publish:exclude:start -->
 ## Tests
