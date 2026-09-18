@@ -4,7 +4,11 @@
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
 
-[![µGulp ready — certified module](https://microgulp.dev/assets/media/microgulp-ready.png)](https://microgulp.dev)
+<p align="center">
+  <a href="https://microgulp.dev">
+    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="110">
+  </a>
+</p>
 
 Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
 
@@ -153,7 +157,11 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
 
-[![µGulp ready — zertifiziertes Modul](https://microgulp.dev/assets/media/microgulp-ready.png)](https://microgulp.dev)
+<p align="center">
+  <a href="https://microgulp.dev">
+    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="110">
+  </a>
+</p>
 
 Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
