@@ -1,5 +1,13 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 17, "date": "2026-09-18 13:20", "beta": false,
+		"info": [
+			"Public µGulp links and certification badges now use microgulp.dev instead of the private source repository; updated English and German manuals with rendered HTML image tags<context=\"release info\"/>",
+			"Robust media caching and sequence input filtering; preserve the original media error stack; µPS 1.3.6 hardens frame buffers and sequence rendering<context=\"release info\"/>",
+			"Companion documentation releases: µFT 0.1.6 and µAU 0.1.8<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 16, "date": "2026-07-22 12:45", "beta": false,
 		"info": [
 			"Sound atlases: manifest sounds.format accepts weba/webm (audio-only WebM/Opus) besides wav/mp3; SkinBuilder passes through to gulp-mu-au 0.1.7 / gulp-mu-sound-atlas 1.2.0<context=\"release info\"/>",

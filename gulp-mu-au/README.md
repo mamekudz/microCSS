@@ -7,8 +7,8 @@ The technical package name is `gulp-mu-au` (the µ character causes trouble in n
 **Version:** **0.1.6** · [![npm version](https://img.shields.io/npm/v/gulp-mu-au.svg)](https://www.npmjs.com/package/gulp-mu-au)
 
 <p align="center">
-  <a href="https://github.com/mamekudz/microGulp">
-    <img src="https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png" alt="µGulp ready" width="150">
+  <a href="https://microgulp.dev">
+    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="150">
   </a>
 </p>
 

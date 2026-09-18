@@ -2,15 +2,23 @@
   "name": "gulp-mu-css-ps",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "gulp-mu-au",
+    "gulp-mu-css",
+    "gulp-mu-ft",
+    "gulp-mu-ps"
+  ],
   "description": "Root project for the microCSS and microPS node modules.",
   "type": "module",
   "scripts": {
-    "test": "gulp test",
+    "test": "gulp test && npm run test:backup",
+    "test:backup": "node --test tools/test/nas-backup.test.mjs",
     "test:microps": "gulp test:microps",
     "test:legacy-migration": "gulp test:legacy-migration",
     "examples:render": "gulp examples:render",
     "build:publish": "gulp build:publish",
-    "demos:build": "gulp demos:build"
+    "demos:build": "gulp demos:build",
+    "backup:nas": "gulp backup:nas"
   },
   "microgulp": {
     "ready": true,
@@ -20,6 +28,6 @@
   "devDependencies": {
     "gulp": "^5.0.0",
     "gulp-cli": "^3.1.0",
-    "gulp-mu-gulp-api": "file:../microGulp/gulp-mu-gulp-api"
+    "gulp-mu-gulp-api": "^0.3.12"
   }
 }

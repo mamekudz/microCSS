@@ -203,6 +203,18 @@ async function _ParseMarkdown(_text) {
 			continue;
 		}
 
+		// README-style centered images also appear in the manual sources.
+		if (/^\s*<p\s+align=["']center["']\s*>\s*$|^\s*<\/p>\s*$/i.test(line)) continue;
+		const htmlImage = line.trim().match(/^<img\s+([^>]+)>$/i);
+		if (htmlImage) {
+			const source = htmlImage[1].match(/\bsrc=["']([^"']+)["']/i)?.[1];
+			const alt = htmlImage[1].match(/\balt=["']([^"']*)["']/i)?.[1] ?? "";
+			const width = Number(htmlImage[1].match(/\bwidth=["'](\d+)["']/i)?.[1]) || MAX_IMAGE_WIDTH;
+			if (!source) throw new Error("Manual image is missing its src attribute.");
+			blocks.push(...await _ImageBlocks(source, alt, Math.min(width, MAX_IMAGE_WIDTH)));
+			continue;
+		}
+
 		// Image on its own line: ![caption](relative/path.png)
 		const image = line.trim().match(/^!\[(.*?)\]\((.*?)\)$/);
 		if (image) {
@@ -237,7 +249,7 @@ async function _ParseMarkdown(_text) {
 		// Plain paragraph: merge consecutive text lines.
 		const parts = [line];
 		while (i + 1 < lines.length && lines[i + 1].trim()
-			&& !/^(#{1,3}\s|```|\||[-*]\s|\d+\.\s)/.test(lines[i + 1])) {
+			&& !/^(#{1,3}\s|```|\||[-*]\s|\d+\.\s|\s*<(?:img\b|p\b|\/p>))/.test(lines[i + 1])) {
 			parts.push(lines[++i]);
 		}
 		blocks.push(new Paragraph({

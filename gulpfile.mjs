@@ -2,7 +2,7 @@
 // µCSS / µPS root build gulp script
 // © 2026 Meinolf Amekudzi
 //
-// Classic CLI:  gulp test | gulp docs:manual | gulp build:publish
+// Classic CLI:  gulp test | gulp docs:manual | gulp build:publish | gulp backup:nas
 // µGulp:        open this repo in VS Code/Cursor — tasks appear in the dashboard
 //               with µDisplayName, progress bars and structured log output.
 //
@@ -10,9 +10,11 @@
 //===============================================================
 
 import { spawn, spawnSync } from "node:child_process";
-import { join, dirname } from "node:path";
+import { existsSync } from "node:fs";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import gulp from "gulp";
+import { GetNasBackupExcludedDirs, AssertSeparateBackupPaths } from "./tools/nas-backup.mjs";
 import {
 	Log,
 	ReportProgress,
@@ -49,6 +51,7 @@ function _RunCommand(_command, _args, _cwd, _env) {
 			cwd: _cwd,
 			stdio: "inherit",
 			shell: true,
+			windowsHide: true,
 			env: _env ?? process.env,
 		});
 		child.on("close", (_code) => {
@@ -66,11 +69,42 @@ function _RunNode(_args, _cwd, _env) {
 	return _RunCommand("node", _args, _cwd, _env);
 }
 
+const NAS_BACKUP_DEFAULT = "Z:\\Projects\\microCSS";
+const NAS_BACKUP_EXCLUDE_DIRS = Object.freeze(GetNasBackupExcludedDirs(rootDir));
+const NAS_BACKUP_EXCLUDE_FILES = Object.freeze(["Thumbs.db", ".DS_Store", "desktop.ini"]);
+
+function _NasBackupPath() {
+	const override = String(process.env.MU_NAS_BACKUP ?? process.env.MICROGULP_NAS_BACKUP ?? "").trim();
+	return override || NAS_BACKUP_DEFAULT;
+}
+
+/**
+ * Robocopy uses 0–7 as success (copied / extra / mismatched). 8+ is a failure.
+ * @param {string[]} _args
+ * @returns {Promise<number>}
+ */
+function _RunRobocopy(_args) {
+	return new Promise((_resolve, _reject) => {
+		const child = spawn("robocopy", _args, {
+			stdio: "inherit",
+			cwd: rootDir,
+			windowsHide: true,
+		});
+		child.on("exit", (_code) => {
+			const exitCode = _code ?? 1;
+			if (exitCode < 8) _resolve(exitCode);
+			else _reject(new Error(`robocopy exited with code ${exitCode}`));
+		});
+		child.on("error", _reject);
+	});
+}
+
 /** @returns {string|null} npm username when logged in */
 function _NpmWhoami() {
 	const result = spawnSync("npm", ["whoami"], {
 		stdio: ["ignore", "pipe", "ignore"],
 		shell: true,
+			windowsHide: true,
 		encoding: "utf8",
 	});
 	return result.status === 0 && result.stdout.trim() ? result.stdout.trim() : null;
@@ -214,13 +248,7 @@ _Tag(TEST, {
 
 export async function BUILD_DEMOS() {
 	const { BuildDemos } = await import("./tools/build-demos.mjs");
-	const inDashboard = IsMicroGulp();
-	const debug = _AssetDebugEnabled(inDashboard)
-		? { thumbnails: true, thumbnailSize: 64, maxThumbnails: 32 }
-		: undefined;
-	if (debug && !inDashboard) {
-		Log("BUILD_DEMOS: asset debug enabled via MICROGULP_THEME_DEBUG.<context=\"task log\"/>");
-	}
+	const debug = { thumbnails: true, thumbnailSize: 160, maxThumbnails: 64 };
 	Log("Building marketing demos (glittery, flyex, buttons)\u2026<context=\"task log\"/>");
 	await BuildDemos({
 		debug,
@@ -228,6 +256,8 @@ export async function BUILD_DEMOS() {
 		onDemoBuilt: (_demoId, _report) => {
 			if (_report.debug) {
 				LogBuildDebugReport(_report, {
+					columns: 3,
+					table: false,
 					title: `Demo <id/> assets<context=\"build log\"/>`.i18xTrans({ id: _demoId }),
 				});
 			}
@@ -289,22 +319,22 @@ _Tag(VERIFY_IMAGE_OPS, {
 // documentation
 // ---------------------------------------------------------------
 
-export async function BUILD_MANUAL_DOCX() {
+async function BUILD_MANUAL_DOCX() {
 	await _RunNode(["tools/build-manual.mjs"], CSS_PKG);
 }
 _Tag(BUILD_MANUAL_DOCX, { gulpName: "docs:manual:docx" });
 
-export async function BUILD_MANUAL_PDF() {
+async function BUILD_MANUAL_PDF() {
 	await _RunNode(["tools/export-pdf.mjs", "docs/microCSS-de.docx"], CSS_PKG);
 }
 _Tag(BUILD_MANUAL_PDF, { gulpName: "docs:manual:pdf" });
 
-export async function BUILD_MANUAL_DOCX_EN() {
+async function BUILD_MANUAL_DOCX_EN() {
 	await _RunNode(["tools/build-manual.mjs", "--lang=en"], CSS_PKG);
 }
 _Tag(BUILD_MANUAL_DOCX_EN, { gulpName: "docs:manual:en:docx" });
 
-export async function BUILD_MANUAL_PDF_EN() {
+async function BUILD_MANUAL_PDF_EN() {
 	await _RunNode(["tools/export-pdf.mjs", "docs/microCSS-en.docx"], CSS_PKG);
 }
 _Tag(BUILD_MANUAL_PDF_EN, { gulpName: "docs:manual:en:pdf" });
@@ -383,12 +413,12 @@ _Tag(BUILD_AND_PUBLISH, {
 // migration tools
 // ---------------------------------------------------------------
 
-export async function LEGACY_CONVERT() {
+async function LEGACY_CONVERT() {
 	await _RunNode(["tools/convert-mucss.mjs"], CSS_PKG);
 }
 _Tag(LEGACY_CONVERT, { gulpName: "legacy:convert" });
 
-export async function LEGACY_COMPARE() {
+async function LEGACY_COMPARE() {
 	await _RunNode(["tools/compare-legacy-skin.mjs"], CSS_PKG);
 }
 _Tag(LEGACY_COMPARE, { gulpName: "legacy:compare" });
@@ -402,7 +432,7 @@ _Tag(LEGACY_TEST, {
 	µOrder: 50,
 });
 
-export async function CONVERT_LESS() {
+async function CONVERT_LESS() {
 	const input = process.env.LESS_IN ?? "examples/less";
 	const out = process.env.LESS_OUT;
 	const args = ["tools/convert-less.mjs", input];
@@ -411,7 +441,7 @@ export async function CONVERT_LESS() {
 }
 _Tag(CONVERT_LESS, { gulpName: "convert:less" });
 
-export async function CONVERT_VUE() {
+async function CONVERT_VUE() {
 	const input = process.env.VUE_IN ?? "examples/vue";
 	const out = process.env.VUE_OUT;
 	const args = ["tools/convert-vue.mjs", input];
@@ -419,6 +449,54 @@ export async function CONVERT_VUE() {
 	await _RunNode(args, CSS_PKG);
 }
 _Tag(CONVERT_VUE, { gulpName: "convert:vue" });
+
+// ---------------------------------------------------------------
+// maintenance
+// ---------------------------------------------------------------
+
+export async function BACKUP_TO_NAS() {
+	if (process.platform !== "win32") {
+		throw new Error("BACKUP_TO_NAS requires Windows (robocopy) and the NAS drive letter.");
+	}
+	const destination = _NasBackupPath();
+	if (!existsSync(destination)) {
+		throw new Error(`BACKUP_TO_NAS: destination "${destination}" is missing. Create the folder on the NAS first.`);
+	}
+	const sourceResolved = resolve(rootDir);
+	const destResolved = resolve(destination);
+	AssertSeparateBackupPaths(sourceResolved, destResolved);
+	Log("Mirroring project \u2192 <path/> (changes only)<context=\"build log\"/>", { path: destResolved });
+	Log("Skipping <dirs/><context=\"build log\"/>", { dirs: NAS_BACKUP_EXCLUDE_DIRS.join(", ") });
+	const exitCode = await _RunRobocopy([
+		sourceResolved,
+		destResolved,
+		"/MIR",
+		"/FFT",
+		"/DST",
+		"/R:2",
+		"/W:2",
+		"/MT:8",
+		"/NFL",
+		"/NDL",
+		"/NP",
+		"/XD",
+		...NAS_BACKUP_EXCLUDE_DIRS,
+		"/XF",
+		...NAS_BACKUP_EXCLUDE_FILES,
+	]);
+	Log("NAS backup finished (robocopy <code format=\"int\"/>).<context=\"build log\"/>", { code: exitCode });
+}
+_Tag(BACKUP_TO_NAS, {
+	gulpName: "backup:nas",
+	µDisplayName: "Backup to NAS<context=\"µDisplayName\"/>",
+	µDescription: "Mirrors the project to Z:\\Projects\\microCSS. Includes src/build and recovery; skips dependencies, caches and generated output.<context=\"µDescription\"/>",
+	µTooltip: "Copies and deletes only differences. Override the destination with MU_NAS_BACKUP. Gitignored trees such as oldsrcs and CLAUDE.md are included.<context=\"µTooltip\"/>",
+	µIcon: "\uE902",
+	µGroup: "Build/Maintenance<context=\"µGroup\"/>",
+	µOrder: 80,
+	µExecutionConcurrency: false,
+	µExecutionRestrictions: { deny: ["PUBLISH", "BUILD_AND_PUBLISH", "BUILD_PUBLISH"] },
+});
 
 // ---------------------------------------------------------------
 // version history
@@ -448,19 +526,12 @@ export { BUILD_DEMOS as BuildDemos };
 export { RENDER_EXAMPLES as RenderExamples };
 export { RENDER_REFERENCE as RenderReference };
 export { VERIFY_IMAGE_OPS as VerifyImageOps };
-export { BUILD_MANUAL_DOCX as BuildManualDocx };
-export { BUILD_MANUAL_PDF as BuildManualPdf };
-export { BUILD_MANUAL_DOCX_EN as BuildManualDocxEn };
-export { BUILD_MANUAL_PDF_EN as BuildManualPdfEn };
 export { BUILD_MANUAL_EN as BuildManualEn };
 export { BUILD_MANUAL as BuildManual };
 export { BUILD_PUBLISH as BuildPublish };
 export { PUBLISH as Publish };
 export { BUILD_AND_PUBLISH as BuildAndPublish };
-export { LEGACY_CONVERT as LegacyConvert };
-export { LEGACY_COMPARE as LegacyCompare };
 export { LEGACY_TEST as LegacyTest };
-export { CONVERT_LESS as ConvertLess };
-export { CONVERT_VUE as ConvertVue };
+export { BACKUP_TO_NAS as BackupToNas };
 
 export default TEST;

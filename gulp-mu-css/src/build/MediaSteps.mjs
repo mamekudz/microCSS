@@ -122,6 +122,7 @@ async function _RunGenerator(_step, _ctx, _type, _Runner) {
 	if (cached
 		&& cached.signature === signature
 		&& FingerprintsMatch(cached.sources, fingerprints)
+		&& Array.isArray(cached.outputs)
 		&& cached.outputs.every((_file) => existsSync(_file))) {
 		return { type: _type, skipped: true, outputs: cached.outputs };
 	}
@@ -131,13 +132,19 @@ async function _RunGenerator(_step, _ctx, _type, _Runner) {
 	return { type: _type, skipped: false, outputs };
 }
 
+const SEQUENCE_IMAGE_EXT = /\.(png|webp|gif|jpe?g|bmp|tiff?)$/i;
+
 function _CollectSources(_step, _ctx, _type) {
 	const source = join(_ctx.rootDir, _step[_type]);
 	if (!existsSync(source)) {
 		throw new Error(`${_type}: source not found: ${source}`);
 	}
 	if (_type === "sequenceStrip" && statSync(source).isDirectory()) {
-		return _ListFilesRecursive(source);
+		const files = _ListFilesRecursive(source).filter((_file) => SEQUENCE_IMAGE_EXT.test(_file));
+		if (!files.length) {
+			throw new Error(`${_type}: no image files in "${source}"`);
+		}
+		return files;
 	}
 	return [source];
 }

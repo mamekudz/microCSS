@@ -9,7 +9,6 @@ import { existsSync, readdirSync } from "node:fs";
 import { BuildSkin } from "../gulp-mu-css/src/index.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const legacyRoot = join(repoRoot, "oldsrcs", "LegacySkinExtract");
 
 function _FindManifest(_demoDir, _stem) {
 	const match = readdirSync(_demoDir).find(
@@ -40,9 +39,6 @@ export function CheckDemoAssets() {
 			`buttons.psd missing: ${buttonsPsd}\n`
 			+ "Copy from gulp-mu-ps/examples/drafts/buttons.psd (same file as the µCSS 1 sample)."
 		);
-	}
-	if (!existsSync(legacyRoot)) {
-		console.warn("oldsrcs/LegacySkinExtract not found — assuming demo assets were copied manually.");
 	}
 }
 

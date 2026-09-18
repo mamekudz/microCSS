@@ -70,6 +70,13 @@ const PHRASES_DE = {
 	'Version History<context="µDisplayName"/>': 'Versionshistorie',
 	'Prints the formatted \u00B5CSS release history from gulp-mu-css/RELEASES.json.<context="µDescription"/>': 'Gibt die formatierte \u00B5CSS-Versionshistorie aus gulp-mu-css/RELEASES.json aus.',
 	'About<context="µGroup"/>': 'Info',
+	'Backup to NAS<context="µDisplayName"/>': 'NAS-Sicherung',
+	'Incrementally mirrors the project to Z:\\Projects\\microCSS (robocopy). Skips node_modules, build, .cache, examples-out and .microgulp.<context="µDescription"/>': 'Spiegelt das Projekt inkrementell nach Z:\\Projects\\microCSS (robocopy). Lässt node_modules, build, .cache, examples-out und .microgulp aus.',
+	'Copies and deletes only differences. Override the destination with MU_NAS_BACKUP. Gitignored trees such as oldsrcs and CLAUDE.md are included.<context="µTooltip"/>': 'Kopiert und löscht nur Differenzen. Zielpfad per MU_NAS_BACKUP überschreibbar. Gitignored-Bäume wie oldsrcs und CLAUDE.md werden mitgesichert.',
+	'Mirroring project \u2192 <path/> (changes only)<context="build log"/>': 'Projektspiegel \u2192 <path/> (nur Änderungen)',
+	'Skipping <dirs/><context="build log"/>': 'Übersprungen: <dirs/>',
+	'NAS backup finished (robocopy <code format="int"/>).<context="build log"/>': 'NAS-Sicherung fertig (robocopy <code format="int"/>).',
+	'Build/Maintenance<context="µGroup"/>': 'Build/Wartung',
 };
 
 const sources = Object.keys(PHRASES_DE);

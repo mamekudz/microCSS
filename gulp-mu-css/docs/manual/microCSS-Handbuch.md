@@ -24,6 +24,18 @@ Die wichtigsten Eigenschaften von µCSS™ 2:
 
 Im Gegensatz zu µCSS™ 1 läuft Version 2 vollständig in Node.js (ab Version 18) und benötigt weder Photoshop noch andere Adobe-Produkte. Die Build-Steuerung erfolgt über Gulp oder direkt über die Node-API.
 
+## Paketversionen und µGulp ready
+
+Diese Ausgabe beschreibt µCSS 2.5.17, µPS 1.3.6, µFT 0.1.6 und µAU 0.1.8.
+
+Die vier Pakete sind µGulp ready. Öffentliche Produktinformationen und Installationslinks stehen unter https://microgulp.dev bereit. Das Task-Dashboard ist optional; alle Build-Aufgaben funktionieren auch über die gewöhnliche Gulp-Kommandozeile.
+
+<img src="imgs/microgulp-ready.png" alt="µGulp ready" width="150">
+
+Projektseiten und npm-READMEs verlinken das Logo auf https://microgulp.dev und laden die Grafik von https://microgulp.dev/assets/media/microgulp-ready.png. Dieses öffentliche Bild benötigt keinen Zugriff auf das private Quellcode-Repository. Das Handbuch enthält eine eigene Kopie zum Offline-Lesen.
+
+Diese Version enthält außerdem eine robustere Behandlung des Medien-Caches und der Animationsbilder. Ungültige Cache-Einträge führen zur Neuerzeugung; Sequenzordner ignorieren Dateien ohne Bildformat, und µPS verarbeitet nicht ausgerichtete Pixelpuffer. Fehler beim Medien-Build behalten ihren ursprünglichen Stack zur Diagnose.
+
 ## Werkzeuge und Kosten
 
 Version 2 braucht **kein Adobe-Abo** für den Build: Sprites, Cursor und PSD-Rendering laufen headless über Node und µPS.

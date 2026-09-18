@@ -242,7 +242,10 @@ export async function BuildSkin(_manifestPath, _options = {}) {
 			} catch (error) {
 				const label = ["copy", "copyFolder", "buttonsAndIcons", "appIcons", "sequenceStrip"]
 					.filter((_key) => step[_key]).map((_key) => `${_key}: "${step[_key]}"`).join(", ");
-				throw new Error(`BuildSkin: media step ${index + 1} of ${config.media.length} (${label || JSON.stringify(step)}) failed: ${error.message}`, { cause: error });
+				const wrapped = new Error(`BuildSkin: media step ${index + 1} of ${config.media.length} (${label || JSON.stringify(step)}) failed: ${error.message}`, { cause: error });
+				// gulp / µGulp print the wrapper stack only; keep the origin visible.
+				if (error.stack) wrapped.stack = `${wrapped.message}\n${error.stack}`;
+				throw wrapped;
 			}
 		}
 	}

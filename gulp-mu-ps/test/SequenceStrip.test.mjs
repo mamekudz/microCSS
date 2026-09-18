@@ -80,3 +80,38 @@ describe("SequenceStrip", function () {
 		expect(result.map.sprites[0][0]).to.equal(32);
 	});
 });
+
+describe("SequenceStrip (synthetic frames)", function () {
+	this.timeout(20000);
+
+	const synthDir = join(here, ".tmp-strips-synth");
+
+	before(async function () {
+		rmSync(synthDir, { recursive: true, force: true });
+		const { default: sharp } = await import("sharp");
+		const red = { r: 255, g: 0, b: 0, alpha: 1 };
+		const blue = { r: 0, g: 0, b: 255, alpha: 1 };
+		const { mkdirSync: mkdir, writeFileSync: write } = await import("node:fs");
+		mkdir(synthDir, { recursive: true });
+		await sharp({ create: { width: 8, height: 8, channels: 4, background: red } }).png().toFile(join(synthDir, "frame.0000.png"));
+		await sharp({ create: { width: 8, height: 8, channels: 4, background: blue } }).png().toFile(join(synthDir, "frame.0001.png"));
+		write(join(synthDir, "readme.txt"), "not an image", "utf8");
+	});
+
+	after(function () {
+		rmSync(synthDir, { recursive: true, force: true });
+	});
+
+	it("ignores non-image files next to the frame sequence", async function () {
+		const images = readdirSync(synthDir).map((f) => join(synthDir, f));
+		expect(images.some((f) => f.endsWith(".txt"))).to.equal(true);
+		const result = await SequenceStrip.Create({
+			images,
+			outputFile: join(synthDir, "out.png"),
+			retina: false,
+			writeMapFile: false
+		});
+		expect(result.frameCount).to.equal(2);
+		expect(existsSync(join(synthDir, "out.png"))).to.equal(true);
+	});
+});

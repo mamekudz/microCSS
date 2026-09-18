@@ -18,6 +18,8 @@
 // Ported from SpriteTools.js (_DoDSDFormatScan), reduced to the parts needed
 // for sprite strip generation.
 
+import { Rgba32Pixels } from "./SequenceFrames.mjs";
+
 export const DSD_SIGN_ORIGINAL = 10;
 export const DSD_SIGN_MASK = 11;
 export const DSD_SIGN_SHADOW = 12;
@@ -76,7 +78,8 @@ function _ReadValue(_pixels, _width, _height, _digits, _x, _y, _signColor) {
 // cell type and anchor offsets, all in source pixel coordinates.
 export function ScanDsdImage(_image) {
 	const { width, height } = _image;
-	const pixels = new Uint32Array(_image.data.buffer, _image.data.byteOffset, width * height);
+	const pixels = Rgba32Pixels(_image?.data, width, height);
+	if (!pixels.length) return [];
 	const marked = new Uint8Array(width * height);
 	const baseColor = pixels[0];
 	const frames = [];

@@ -7,6 +7,7 @@ import { mkdirSync, rmSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect } from "chai";
+import { stripVTControlCharacters } from "node:util";
 import sharp from "sharp";
 import { CompileMcss, SpriteManager } from "../src/index.mjs";
 
@@ -47,7 +48,7 @@ describe("Error reporting", function () {
 			expect(error.message).to.include("broken.µ.css");
 			expect(error.line).to.equal(3);
 			// The printable form contains the offending source line.
-			expect(error.toString()).to.include("border: 1px solid");
+			expect(stripVTControlCharacters(error.toString())).to.include("border: 1px solid");
 		});
 
 		it("names the failing expression when a value contains several µ()", () => {

@@ -25,18 +25,27 @@ export function FingerprintFiles(_paths) {
 	return result;
 }
 
+// A fingerprint is [mtimeMs, size], or null when the file is missing.
+function _IsFingerprint(_value) {
+	return Array.isArray(_value) && _value.length >= 2;
+}
+
 // Compares two fingerprint maps (order-insensitive, exact values).
+// Malformed entries (legacy cache, missing outputs) are a mismatch, not a throw:
+// `undefined[0]` used to abort the whole media step with a TypeError.
 export function FingerprintsMatch(_a, _b) {
 	if (!_a || !_b) return false;
 	const keysA = Object.keys(_a);
 	if (keysA.length !== Object.keys(_b).length) return false;
 	for (const key of keysA) {
+		if (!Object.hasOwn(_b, key)) return false;
 		const a = _a[key], b = _b[key];
 		if (a === null || b === null) {
 			if (a !== b) return false;
-		} else if (a[0] !== b[0] || a[1] !== b[1]) {
-			return false;
+			continue;
 		}
+		if (!_IsFingerprint(a) || !_IsFingerprint(b)) return false;
+		if (a[0] !== b[0] || a[1] !== b[1]) return false;
 	}
 	return true;
 }

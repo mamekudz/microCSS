@@ -19,6 +19,8 @@ import { EncodeByExtension } from "../io/SaveImage.mjs";
 import { ScanDsdImage, DSD_SIGN_ORIGINAL, DSD_SIGN_ORIGINALANDMASK } from "./DsdFormat.mjs";
 import { TrimFrameBox } from "./SequenceFrames.mjs";
 
+const SEQUENCE_IMAGE_EXT = /\.(png|webp|gif|jpe?g|bmp|tiff?)$/i;
+
 const SPRITE_DATA_LENGTH = 37;
 
 // Legacy file naming: <prefix>_<layer>_<seriesNo>_<seriesName>.<sequenceNo>.<ext>
@@ -43,10 +45,11 @@ function _TrimBox(_data, _width, _height) {
 
 // Copies a rectangle between raw RGBA buffers.
 function _CopyRect(_src, _srcWidth, _sxs, _sys, _w, _h, _dst, _dstWidth, _dxs, _dys) {
+	if (_w <= 0 || _h <= 0) return;
 	for (let y = 0; y < _h; y++) {
 		const srcStart = ((_sys + y) * _srcWidth + _sxs) * 4;
 		const dstStart = ((_dys + y) * _dstWidth + _dxs) * 4;
-		_src.copy(_dst, dstStart, srcStart, srcStart + _w * 4);
+		_dst.set(_src.subarray(srcStart, srcStart + _w * 4), dstStart);
 	}
 }
 
@@ -121,12 +124,19 @@ export class SequenceStrip {
 	// Sequence of single frame images: trim each frame, place the trimmed
 	// content into uniform cells whose size is the union of all trimmed boxes.
 	static async _CreateFromSequence(_options) {
+		const imageFiles = (_options.images ?? []).filter((_file) => SEQUENCE_IMAGE_EXT.test(_file));
+		if (!imageFiles.length) {
+			throw new Error("SequenceStrip: no image files in the given sequence.");
+		}
 		const frames = [];
 		let seriesName = null;
 		let infoBits = 0;
 		let allNamed = true;
-		for (const file of _options.images) {
+		for (const file of imageFiles) {
 			const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+			if (!data || !info?.width || !info?.height) {
+				throw new Error(`SequenceStrip: could not decode frame "${file}".`);
+			}
 			const match = basename(file).match(SEQUENCE_NAME_PATTERN);
 			if (match) {
 				seriesName = seriesName ?? match[4];
@@ -147,6 +157,8 @@ export class SequenceStrip {
 			infoBits = 0;
 		}
 		frames.sort((_a, _b) => _a.sequenceNo - _b.sequenceNo);
+		const first = frames[0];
+		if (!first) throw new Error("SequenceStrip: no frames decoded from the sequence.");
 
 		// Union of all trimmed boxes defines the cell size (rounded up to even).
 		let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -187,8 +199,8 @@ export class SequenceStrip {
 				maxWidth: cellW,
 				maxHeight: cellH,
 				// Anchor of the source image center within a cell.
-				offX: (frames[0].width >> 1) - 1 - minX,
-				offY: (frames[0].height >> 1) - 1 - minY
+				offX: (first.width >> 1) - 1 - minX,
+				offY: (first.height >> 1) - 1 - minY
 			},
 			series: { [seriesName]: 0 },
 			sprites: rows

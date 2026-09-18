@@ -1,10 +1,10 @@
-# µCSS™ V2.5.16 (microCSS)
+# µCSS™ V2.5.17 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
 
-[![µGulp ready — certified module](https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png)](https://github.com/mamekudz/microGulp)
+[![µGulp ready — certified module](https://microgulp.dev/assets/media/microgulp-ready.png)](https://microgulp.dev)
 
 Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
 
@@ -40,10 +40,10 @@ Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamek
 
 | Display name | npm package | Version in repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.16** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.4** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.7** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.17** · [µGulp ready](https://microgulp.dev) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.6** · [µGulp ready](https://microgulp.dev) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
 
 The **H1** shows the current **µCSS™** release; bump it with `gulp-mu-css/package.json` when publishing µCSS™. Badges show live npm versions; bump the table for all modules when releasing (must match each `package.json`).
 
@@ -78,10 +78,10 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Display name | npm package | Version in repo | Role |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.16** · [µGulp ready](https://github.com/mamekudz/microGulp) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.4** · [µGulp ready](https://github.com/mamekudz/microGulp) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.7** · [µGulp ready](https://github.com/mamekudz/microGulp) | Builds sound atlases (combined WAV/MP3/WebA + JSON timing map) for the µCSS™ family |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.17** · [µGulp ready](https://microgulp.dev) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.6** · [µGulp ready](https://microgulp.dev) | Builds icon fonts from SVG directories (TTF/EOT/WOFF/WOFF2 + CSS classes + HTML overview) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Builds sound atlases (combined WAV/MP3/WebA + JSON timing map) for the µCSS™ family |
 
 Install the compiler in your project:
 
@@ -127,6 +127,14 @@ npx gulp build:publish     # populate build/ with publish-ready bundles
 
 Useful Gulp tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:legacy-migration` (local legacy extract only), `convert:less`, `convert:vue`, `demos:build`, `publish` (npm upload; see `tools/publish.mjs`).
 
+### Local backups (Windows)
+
+`npm run backup:nas` mirrors this project to the existing folder `Z:\Projects\microCSS`; override the destination with `MU_NAS_BACKUP`. This uses robocopy `/MIR`: files removed locally are also removed from the destination. Use a dedicated backup folder outside the project, never its parent folder.
+
+Source directories such as `gulp-mu-css/src/build`, Git history, private sources and a local `recovery/` archive are included. Dependencies (`node_modules`), caches (`.cache`), root `.microgulp/`, root `build/`, `dev/out/`, `gulp-mu-ps/test/out/` and `gulp-mu-ps/examples-out/` are excluded. Local `recovery/` contents are ignored by Git but included in this backup.
+
+`npm run test:backup` checks the backup policy using isolated temporary folders; it does not access the NAS. These checks also run through `npm test`.
+
 ## µCSS™ 1 (legacy)
 
 The 2005–2014 ExtendScript implementation lives under [`µCSS™ 1.0 (Photoshop)/`](µCSS%201.0%20(Photoshop)/). µCSS™ 1 required a licensed desktop imaging app for CSS compilation and bitmap generation; version 2 does not. For new projects, use the npm packages above. Clone with `--recurse-submodules` so `jsxlibs/` is available for the legacy script.
@@ -139,13 +147,13 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
 
 <a id="µcss-microcss-1"></a>
 
-# µCSS™ V2.5.16 (microCSS)
+# µCSS™ V2.5.17 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
 </p>
 
-[![µGulp ready — zertifiziertes Modul](https://raw.githubusercontent.com/mamekudz/microGulp/main/media/microgulp-ready.png)](https://github.com/mamekudz/microGulp)
+[![µGulp ready — zertifiziertes Modul](https://microgulp.dev/assets/media/microgulp-ready.png)](https://microgulp.dev)
 
 Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
@@ -179,10 +187,10 @@ Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mameku
 
 | Anzeigename | npm-Paket | Version im Repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.16** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.4** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.7** · [µGulp ready](https://github.com/mamekudz/microGulp) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.17** · [µGulp ready](https://microgulp.dev) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.6** · [µGulp ready](https://microgulp.dev) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
 
 Die **H1** zeigt die aktuelle **µCSS™**-Version; beim µCSS™-Release mit `gulp-mu-css/package.json` anheben. Badges = live npm; Tabelle für alle Module beim Release mit je `package.json` abgleichen.
 
@@ -217,10 +225,10 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Anzeigename | npm-Paket | Version im Repo | Aufgabe |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.16** · [µGulp ready](https://github.com/mamekudz/microGulp) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
-| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.4** · [µGulp ready](https://github.com/mamekudz/microGulp) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
-| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.5** · [µGulp ready](https://github.com/mamekudz/microGulp) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
-| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.7** · [µGulp ready](https://github.com/mamekudz/microGulp) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3/WebA + JSON-Timing-Map) für die µCSS™-Familie |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.17** · [µGulp ready](https://microgulp.dev) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
+| **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.1.6** · [µGulp ready](https://microgulp.dev) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen (TTF/EOT/WOFF/WOFF2 + CSS-Klassen + HTML-Übersicht) |
+| **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3/WebA + JSON-Timing-Map) für die µCSS™-Familie |
 
 Installation des Compilers im eigenen Projekt:
 
@@ -265,6 +273,14 @@ npx gulp build:publish     # build/ mit veröffentlichungsfertigen Bundles füll
 ```
 
 Nützliche Gulp-Tasks: `test:microcss`, `test:microps`, `test:microft`, `test:microau`, `test:legacy-migration` (nur mit lokalem Legacy-Extract), `convert:less`, `convert:vue`, `demos:build`, `publish` (npm-Upload; siehe `tools/publish.mjs`).
+
+### Lokale Sicherung (Windows)
+
+`npm run backup:nas` spiegelt dieses Projekt in den vorhandenen Ordner `Z:\Projects\microCSS`; mit `MU_NAS_BACKUP` lässt sich das Ziel ändern. Dabei wird robocopy `/MIR` verwendet: Lokal entfernte Dateien werden auch im Ziel entfernt. Deshalb einen eigenen Sicherungsordner außerhalb des Projekts verwenden, niemals dessen übergeordneten Ordner.
+
+Quellordner wie `gulp-mu-css/src/build`, die Git-Historie, private Quellen und ein lokales `recovery/`-Archiv werden mitgesichert. Ausgeschlossen sind Abhängigkeiten (`node_modules`), Caches (`.cache`), `.microgulp/` und `build/` im Projektstamm sowie `dev/out/`, `gulp-mu-ps/test/out/` und `gulp-mu-ps/examples-out/`. Lokale Inhalte unter `recovery/` werden von Git ignoriert, aber von dieser Sicherung mitgenommen.
+
+`npm run test:backup` prüft die Sicherungsregeln in isolierten temporären Ordnern, ohne auf das NAS zuzugreifen. Diese Prüfungen laufen auch über `npm test`.
 
 ## µCSS™ 1 (Legacy)
 
