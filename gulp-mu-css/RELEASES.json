@@ -1,5 +1,12 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 18, "date": "2026-09-24 10:50", "beta": false,
+		"info": [
+			"Manuals (EN/DE): µFT color webfonts — COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix; WOFF/WOFF2 preserve color tables; no silent monochrome fallback<context=\"release info\"/>",
+			"Companion module gulp-mu-ft 0.2.0 packages existing TTF/OTF/WOFF/WOFF2 color and emoji fonts via FontGenerator.Create({ src: fontFile })<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 17, "date": "2026-09-18 13:20", "beta": false,
 		"info": [
 			"Public µGulp links and certification badges now use microgulp.dev instead of the private source repository; updated English and German manuals with rendered HTML image tags<context=\"release info\"/>",

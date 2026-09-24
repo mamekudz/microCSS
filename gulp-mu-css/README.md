@@ -1,18 +1,20 @@
-# µCSS™ V2.5.17 (microCSS)
+# µCSS™ V2.5.18 (microCSS)
+
+## English
 
 <p align="center">
   <img src="docs/manual/imgs/logo.png" alt="µCSS™ logo" width="180">
 </p>
 
 <p align="center">
-  <a href="https://microgulp.dev">
-    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="150">
+  <a href="https://microgulp.dev/en/ready/">
+    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="110">
   </a>
 </p>
 
-*English (below) · [Deutsch](#µcss-npm-paket-gulp-mu-css-1)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+*English (below) · [Deutsch](#deutsch)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
-Node module for compiling **µCSS™**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript and PSD-based image generation, driven by a skin manifest. µCSS™ 2 is the Adobe-independent Node reimplementation of µCSS™, originally introduced in 2013 as a Photoshop script.
+Node module for compiling **µCSS™**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript, PSD-based image generation and (via µFT) icon fonts plus OpenType color/emoji webfonts, driven by a skin manifest. µCSS™ 2 is the Adobe-independent Node reimplementation of µCSS™, originally introduced in 2013 as a Photoshop script.
 
 The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS™** is the display name. Bump the **H1** version when releasing (must match `package.json`).
 
@@ -32,11 +34,13 @@ The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf
 | **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
 | **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD |
 
-## µGulp ready
+## µGulp Ready
 
-This package is **µGulp ready** — the first npm module certified for the [µGulp™](https://microgulp.dev) task dashboard (VS Code, Cursor AI, PhpStorm test build). The monorepo root `gulpfile.mjs` exposes build, test, documentation and publish tasks with full µGulp metadata (`µDisplayName`, `µGroup`, progress reporting, `LogBuildDebugReport` on demo builds, …) and runs unchanged from the classic Gulp CLI when µGulp is not installed.
+The badge covers the monorepo development workflow, not automatic integration in every consuming project. See the [self-certification and usage rules](https://microgulp.dev/en/ready/).
 
-Open the µGulp dashboard on this repository to run tests, rebuild demos, regenerate manual PDFs or publish to npm from the Carbon/Neon UI. On **npm**, embed the badge with an absolute public URL from the µGulp website (npm rewrites relative paths to the GitHub monorepo root, where the PNG may be missing): `<a href="https://microgulp.dev"><img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="150"></a>`.
+This package is **µGulp ready** — with a maintainer-declared integration for the [µGulp™](https://microgulp.dev) task dashboard (VS Code, Cursor and JetBrains IDEs). The monorepo root `gulpfile.mjs` exposes build, test, documentation and publish tasks with full µGulp metadata (`µDisplayName`, `µGroup`, progress reporting, `LogBuildDebugReport` on demo builds, …) and runs unchanged from the classic Gulp CLI when µGulp is not installed.
+
+Open the µGulp dashboard on this repository to run tests, rebuild demos, regenerate manual PDFs or publish to npm from the Carbon/Neon UI. On **npm**, embed the badge with an absolute public URL from the µGulp website (npm rewrites relative paths to the GitHub monorepo root, where the PNG may be missing): `<p align="center"><a href="https://microgulp.dev/en/ready/"><img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp Ready" width="110"></a></p>`.
 
 ## Installation
 
@@ -250,11 +254,13 @@ MIT
 
 <a name="deutsch"></a>
 
-# µCSS™ V2.5.17 (microCSS)
+## Deutsch
 
-*[English](#µcss-npm-package-gulp-mu-css) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+# µCSS™ V2.5.18 (microCSS)
 
-Node-Modul zur Kompilierung von **µCSS™**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript und PSD-basierte Bilderzeugung, gesteuert über ein Skin-Manifest. µCSS™ 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS™.
+*[English](#english) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
+
+Node-Modul zur Kompilierung von **µCSS™**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript, PSD-basierte Bilderzeugung und (über µFT) Icon-Fonts sowie OpenType-Color-/Emoji-Webfonts, gesteuert über ein Skin-Manifest. µCSS™ 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS™.
 
 Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS™** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen).
 
@@ -274,11 +280,13 @@ Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.p
 | **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
 | **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD |
 
-## µGulp ready
+## µGulp Ready
 
-Dieses Paket ist **µGulp ready** — das erste für das [µGulp™](https://microgulp.dev)-Task-Dashboard (VS Code, Cursor AI, PhpStorm-Testbuild) zertifizierte npm-Modul. Das Root-`gulpfile.mjs` des Monorepos stellt Build-, Test-, Doku- und Publish-Tasks mit vollständigen µGulp-Metadaten bereit (`µDisplayName`, `µGroup`, Fortschrittsmeldungen, `LogBuildDebugReport` bei Demo-Builds, …) und läuft ohne µGulp unverändert über die klassische Gulp-CLI.
+Das Badge bezieht sich auf den Entwicklungsablauf im Monorepo, nicht auf automatische Integration in jedem Verbraucherprojekt. Siehe [Selbsterklärung und Nutzungsregeln](https://microgulp.dev/de/ready/).
 
-µGulp-Dashboard auf dieses Repository öffnen, um Tests, Demo-Rebuilds, Handbuch-PDFs oder npm-Publish aus der Carbon/Neon-Oberfläche zu starten. Auf **npm** das Zertifizierungslogo per absoluter öffentlicher URL von der µGulp-Website einbinden (siehe HTML-Beispiel oben); eine Kopie liegt zusätzlich unter `docs/manual/imgs/microgulp-ready.png` im Paket-Tarball.
+Dieses Paket ist **µGulp ready** — mit einer vom Maintainer erklärten Integration in das [µGulp™](https://microgulp.dev)-Task-Dashboard (VS Code, Cursor und JetBrains-IDEs). Das Root-`gulpfile.mjs` des Monorepos stellt Build-, Test-, Doku- und Publish-Tasks mit vollständigen µGulp-Metadaten bereit (`µDisplayName`, `µGroup`, Fortschrittsmeldungen, `LogBuildDebugReport` bei Demo-Builds, …) und läuft ohne µGulp unverändert über die klassische Gulp-CLI.
+
+µGulp-Dashboard auf dieses Repository öffnen, um Tests, Demo-Rebuilds, Handbuch-PDFs oder npm-Publish aus der Carbon/Neon-Oberfläche zu starten. Auf **npm** das Ready-Badge per absoluter öffentlicher URL von der µGulp-Website einbinden (siehe HTML-Beispiel oben); eine Kopie liegt zusätzlich unter `docs/manual/imgs/microgulp-ready.png` im Paket-Tarball.
 
 ## Installation
 

@@ -26,7 +26,7 @@ Unlike µCSS™ 1, version 2 runs entirely in Node.js (version 18 and up) and ne
 
 ## Package versions and µGulp ready
 
-This edition covers µCSS 2.5.17, µPS 1.3.6, µFT 0.1.6 and µAU 0.1.8.
+This edition covers µCSS 2.5.18, µPS 1.3.6, µFT 0.2.0 and µAU 0.1.8.
 
 The four packages are µGulp ready. Public product information and installation links are available at https://microgulp.dev. The task dashboard is optional; all build tasks also work from the ordinary Gulp command line.
 
@@ -1009,9 +1009,9 @@ Details: `gulp-mu-au/docs/CONCEPT.md` (§5–§8, section “Pipeline”). FlyEx
 
 # microFT (µFT) — icon font
 
-**µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without Adobe/IcoMoon. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS classes, IcoMoon-compatible JSON, HTML overview.
+**µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without Adobe/IcoMoon — and packages **existing webfonts**, including modern OpenType color fonts and emoji fonts. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS (`@font-face` and icon classes), IcoMoon-compatible JSON (icons), HTML overview.
 
-Requires **Node ≥ 20.11**. Built on `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`.
+Requires **Node ≥ 20.11**. Built on `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`. The SVG icon path stays **monochrome**. Color information is preserved when `src` is an existing TTF/OTF/WOFF/WOFF2 file.
 
 ## Glyph naming
 
@@ -1047,7 +1047,7 @@ Produces e.g. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 
 | Option | Default | Effect |
 | :--- | :--- | :--- |
-| `fontName`, `src`, `outputDir` | — (required) | Font name, SVG tree, target |
+| `fontName`, `src`, `outputDir` | — (required) | Font name, SVG tree **or** a single TTF/OTF/WOFF/WOFF2 file, target |
 | `formats` | all common | Font extensions to emit |
 | `fontHeight` | `1024` | Em height |
 | `normalize`, `centerHorizontally` | `true` | passed to `svgicons2svgfont` |
@@ -1065,12 +1065,36 @@ Produces e.g. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 | :--- | :--- |
 | `FontGenerator` | scan → build font → write CSS/JSON/HTML |
 | `ScanGlyphs` | scan directory, derive codepoints/groups |
-| `BuildFontFormats`, `BuildFontCss`, `BuildIcoMoonJson`, `BuildOverviewHtml` | individual build steps |
+| `BuildFontFormats`, `ConvertFontFormats`, `BuildFontCss`, `BuildWebfontCss` | individual build steps |
+| `InspectFont`, `DetectColorFont` | color-table detection |
 | `ListSvgFiles`, `ReadGlyphSvg` | low-level helpers |
+
+## Color fonts and emoji fonts
+
+Point `src` at a color font file instead of an SVG directory — same `FontGenerator.Create` call. µFT detects COLR/CPAL (v0 and v1), SVG-in-OpenType, CBDT/CBLC and sbix, wraps TTF/OTF as WOFF/WOFF2 **without dropping those tables**, and emits a standard `@font-face` (no icon classes).
+
+```js
+await FontGenerator.Create({
+	fontName: "ChatEmoji",
+	src: "vendor/NotoColorEmoji-Regular.ttf",
+	outputDir: "dev/media/final/fonts"
+});
+```
+
+```css
+body { font-family: ChatEmoji, system-ui, sans-serif; }
+/* Optional palette: font-palette / @font-palette-values — µFT does not rewrite CPAL. */
+```
+
+```html
+<p>Hello 😀 🎉</p>
+```
+
+Color rendering depends on the font, the browser and the OS. µFT does **not** generate emoji animation. EOT and legacy SVG fonts are skipped for color sources (they cannot carry color tables). Subsetting is not implemented; the full font is packaged so COLR layer glyphs stay intact. Details and the detected/preserved/converted matrix: `gulp-mu-ft` README, section *Color Fonts*. Example: `gulp-mu-ft/examples/color-font/`.
 
 ## µCSS™ integration
 
-**Manifest (planned):** optional `font` block in chapter *Manifest reference* — `src` (SVG directory), `include` (single SVGs), `outputDir`, metadata; builds via µFT before CSS compilation.
+**Manifest (planned):** optional `font` block in chapter *Manifest reference* — `src` (SVG directory or color/emoji font file), `include` (single SVGs), `outputDir`, metadata; builds via µFT before CSS compilation.
 
 **Today:** typically a **separate Gulp step** before the skin build, then **`copyFolder`** in the manifest:
 
@@ -1428,7 +1452,7 @@ Multiple fonts: `font: [ { fontName: "AppSymbol", … }, { fontName: "MedicalSym
 | Field | Meaning |
 | :--- | :--- |
 | `fontName` | Font family name (required) — base for file names (`AppSymbol.woff2`, …) |
-| `src` | Source directory of SVG glyphs (recursive), relative to project root |
+| `src` | Source directory of SVG glyphs (recursive) **or** a TTF/OTF/WOFF/WOFF2 color/emoji font file, relative to project root |
 | `include` | *(planned)* additional single SVG files (project-relative), combinable with `src` |
 | `outputDir` | Target directory in the skin (font files, CSS, JSON, HTML overview) |
 | `formats` | Extensions to emit (default: svg, ttf, eot, woff, woff2) |
@@ -1735,6 +1759,7 @@ Deliberately **not** carried over from the old µCSS™:
 | 2026-06 | 2.5.1 | Manual/PDFs (DE/EN): chapter `minify`, `sprites.pruneKeep`, build report; version history; no functional changes compared to 2.5.0. |
 | 2026-06 | 2.5.3 | `pruneSources` also deletes sequence-strip sidecar JSON (`<strip>.json` next to a packed 1x source); protected sources keep their sidecar via `pruneKeep`. |
 | 2026-07 | 2.5.8 | **`DataUri()`** — embed skin-relative images as `url(data:…;base64,…)` in compiled CSS (directive + value form, optional `{ retina: true }`); not packed into the sprite atlas. API: `CreateDataUriCSSValue`, `ApplyDataUri`. **`RELEASES.json`** version history (i18x-ready info strings) with console API `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`. |
+| 2026-09 | 2.5.18 | Manual *microFT*: OpenType color fonts and emoji fonts (COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix). **µFT** 0.2.0 packages existing TTF/OTF/WOFF/WOFF2 files without dropping color tables. |
 
 # Legal
 

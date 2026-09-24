@@ -866,13 +866,13 @@ Loop-Verhalten **nur** aus `sounds[name]`; Bindings nur Events + `mode` (`onesho
 
 ### D18 — Icon-Font-Manifest (`font`, µFT / µCSS™, geplant)
 
-**Stand:** µFT `FontGenerator` ist umgesetzt; **Manifest-Bridge** in `BuildSkin` folgt.
+**Stand:** µFT `FontGenerator` ist umgesetzt (SVG-Icons **und** vorhandene Color-/Emoji-Fontdateien); **Manifest-Bridge** in `BuildSkin` folgt.
 
 Geplanter Block `font` (Objekt oder Array) — symmetrisch zu `sounds`/`sprites`:
 
 | Feld | Wirkung |
 | :--- | :--- |
-| `src` | Rekursives SVG-Verzeichnis (projekt-relativ) |
+| `src` | Rekursives SVG-Verzeichnis **oder** einzelne TTF/OTF/WOFF/WOFF2-Datei (Color-/Emoji-Fonts; projekt-relativ) |
 | `include` | Zusätzliche Einzel-SVGs *(geplant; µFT scannt heute nur Verzeichnisse)* |
 | `outputDir` | Ziel im Skin (Font-Dateien, CSS, JSON, HTML) |
 | `fontName`, `formats`, `groups`, `glyphs`, … | Durchreichung an `FontGenerator` |

@@ -32,6 +32,24 @@ export function ComputeSourceSignature(_srcDir, _fingerprintOptions = {}) {
 	return { count: files.length, hash: hash.digest("hex") };
 }
 
+/**
+ * Content signature for packaging an existing font file (color or monochrome).
+ *
+ * @param {string} _fontFile
+ * @param {object} _fingerprintOptions
+ * @returns {{ count: number, hash: string }}
+ */
+export function ComputeFileSignature(_fontFile, _fingerprintOptions = {}) {
+	const hash = crypto.createHash("sha1");
+	hash.update(`schema:${CACHE_SCHEMA}\0`);
+	hash.update(`source:font-file\0`);
+	hash.update(`options:${JSON.stringify(_fingerprintOptions)}\0`);
+	hash.update(_fontFile.replace(/\\/g, "/"));
+	hash.update("\0");
+	hash.update(fs.readFileSync(_fontFile));
+	return { count: 1, hash: hash.digest("hex") };
+}
+
 export function ReadCache(_cacheFile) {
 	try {
 		return JSON.parse(fs.readFileSync(_cacheFile, "utf8"));

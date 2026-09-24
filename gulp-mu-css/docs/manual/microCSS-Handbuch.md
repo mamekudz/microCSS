@@ -26,7 +26,7 @@ Im Gegensatz zu µCSS™ 1 läuft Version 2 vollständig in Node.js (ab Version 
 
 ## Paketversionen und µGulp ready
 
-Diese Ausgabe beschreibt µCSS 2.5.17, µPS 1.3.6, µFT 0.1.6 und µAU 0.1.8.
+Diese Ausgabe beschreibt µCSS 2.5.18, µPS 1.3.6, µFT 0.2.0 und µAU 0.1.8.
 
 Die vier Pakete sind µGulp ready. Öffentliche Produktinformationen und Installationslinks stehen unter https://microgulp.dev bereit. Das Task-Dashboard ist optional; alle Build-Aufgaben funktionieren auch über die gewöhnliche Gulp-Kommandozeile.
 
@@ -1010,9 +1010,9 @@ Details: `gulp-mu-au/docs/CONCEPT.md` (§5–§8, Abschnitt „Pipeline“). Fly
 
 # microFT (µFT) — Icon-Font
 
-**µFT** (`gulp-mu-ft`) erzeugt aus SVG-Glyphen einen **Icon-Font** — automatisiert wie IcoMoon, ohne Adobe/IcoMoon-Abhängigkeit. Ausgabe: Font-Dateien (SVG/TTF/EOT/WOFF/WOFF2), CSS-Klassen, IcoMoon-kompatible JSON, HTML-Übersicht.
+**µFT** (`gulp-mu-ft`) erzeugt aus SVG-Glyphen einen **Icon-Font** — automatisiert wie IcoMoon, ohne Adobe/IcoMoon-Abhängigkeit — und verpackt **vorhandene Webfonts**, einschließlich moderner OpenType-Color-Fonts und Emoji-Fonts. Ausgabe: Font-Dateien (SVG/TTF/EOT/WOFF/WOFF2), CSS (`@font-face` und Icon-Klassen), IcoMoon-kompatible JSON (Icons), HTML-Übersicht.
 
-Erfordert **Node ≥ 20.11**. Aufgesetzt auf `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`.
+Erfordert **Node ≥ 20.11**. Aufgesetzt auf `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`. Die SVG-Icon-Pipeline bleibt **monochrom**. Farbinformationen bleiben erhalten, wenn `src` eine vorhandene TTF/OTF/WOFF/WOFF2-Datei ist.
 
 ## Glyphen-Benennung
 
@@ -1048,7 +1048,7 @@ Erzeugt u. a. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 
 | Option | Default | Wirkung |
 | :--- | :--- | :--- |
-| `fontName`, `src`, `outputDir` | — (Pflicht) | Font-Name, SVG-Quellbaum, Ziel |
+| `fontName`, `src`, `outputDir` | — (Pflicht) | Font-Name, SVG-Quellbaum **oder** einzelne TTF/OTF/WOFF/WOFF2-Datei, Ziel |
 | `formats` | alle gängigen | Zu erzeugende Font-Endungen |
 | `fontHeight` | `1024` | Em-Höhe |
 | `normalize`, `centerHorizontally` | `true` | an `svgicons2svgfont` |
@@ -1066,12 +1066,36 @@ Erzeugt u. a. `AppSymbol.css` (`.icon-<name>`), `AppSymbol.json`, `AppSymbol.htm
 | :--- | :--- |
 | `FontGenerator` | Scan → Font bauen → CSS/JSON/HTML schreiben |
 | `ScanGlyphs` | Verzeichnis scannen, Codepoints/Gruppen ableiten |
-| `BuildFontFormats`, `BuildFontCss`, `BuildIcoMoonJson`, `BuildOverviewHtml` | Einzelne Build-Schritte |
+| `BuildFontFormats`, `ConvertFontFormats`, `BuildFontCss`, `BuildWebfontCss` | Einzelne Build-Schritte |
+| `InspectFont`, `DetectColorFont` | Color-Table-Erkennung |
 | `ListSvgFiles`, `ReadGlyphSvg` | Low-Level-Helfer |
+
+## Color Fonts und Emoji-Fonts
+
+`src` auf eine Color-Fontdatei statt auf ein SVG-Verzeichnis zeigen — derselbe Aufruf `FontGenerator.Create`. µFT erkennt COLR/CPAL (v0 und v1), SVG-in-OpenType, CBDT/CBLC und sbix, packt TTF/OTF als WOFF/WOFF2 **ohne diese Tables zu verwerfen** und schreibt ein normales `@font-face` (keine Icon-Klassen).
+
+```js
+await FontGenerator.Create({
+	fontName: "ChatEmoji",
+	src: "vendor/NotoColorEmoji-Regular.ttf",
+	outputDir: "dev/media/final/fonts"
+});
+```
+
+```css
+body { font-family: ChatEmoji, system-ui, sans-serif; }
+/* Optionale Palette: font-palette / @font-palette-values — µFT schreibt CPAL nicht um. */
+```
+
+```html
+<p>Hallo 😀 🎉</p>
+```
+
+Die Farbdarstellung hängt von Font, Browser und Betriebssystem ab. µFT erzeugt **keine** Emoji-Animation. EOT und Legacy-SVG-Fonts werden bei Color-Quellen übersprungen (keine Color-Tables). Subsetting ist nicht implementiert; der ganze Font wird verpackt, damit COLR-Layer-Glyphen erhalten bleiben. Matrix erkannt/erhalten/konvertiert: README von `gulp-mu-ft`, Abschnitt *Color Fonts*. Beispiel: `gulp-mu-ft/examples/color-font/`.
 
 ## Anbindung an µCSS™
 
-**Manifest (geplant):** optionaler Block `font` in Kapitel *Manifest-Referenz* — `src` (SVG-Verzeichnis), `include` (Einzel-SVGs), `outputDir`, Metadaten; baut über µFT vor der CSS-Kompilierung.
+**Manifest (geplant):** optionaler Block `font` in Kapitel *Manifest-Referenz* — `src` (SVG-Verzeichnis oder Color-/Emoji-Fontdatei), `include` (Einzel-SVGs), `outputDir`, Metadaten; baut über µFT vor der CSS-Kompilierung.
 
 **Heute:** typischerweise als **eigener Gulp-Step** vor dem Skin-Build, danach **`copyFolder`** im Manifest:
 
@@ -1429,7 +1453,7 @@ Mehrere Fonts: `font: [ { fontName: "AppSymbol", … }, { fontName: "MedicalSymb
 | Feld | Bedeutung |
 | :--- | :--- |
 | `fontName` | Font-Familienname (Pflicht) — Basis für Dateinamen (`AppSymbol.woff2`, …) |
-| `src` | Quellverzeichnis mit SVG-Glyphen (rekursiv), relativ zum Projektstamm |
+| `src` | Quellverzeichnis mit SVG-Glyphen (rekursiv) **oder** TTF/OTF/WOFF/WOFF2-Color-/Emoji-Fontdatei, relativ zum Projektstamm |
 | `include` | *(geplant)* zusätzliche Einzel-SVG-Dateien (relativ zum Projektstamm), kombinierbar mit `src` |
 | `outputDir` | Zielverzeichnis im Skin (Font-Dateien, CSS, JSON, HTML-Übersicht) |
 | `formats` | Zu erzeugende Endungen (Default: svg, ttf, eot, woff, woff2) |
@@ -1736,6 +1760,7 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS™:
 | 2026-06 | 2.5.1 | Handbuch/PDFs (DE/EN): Kapitel `minify`, `sprites.pruneKeep`, Build-Report; Versionshistorie; keine funktionalen Änderungen gegenüber 2.5.0. |
 | 2026-06 | 2.5.3 | `pruneSources` löscht zusätzlich Sequence-Strip-Sidecar-JSON (`<strip>.json` neben gepackter 1x-Quelle); geschützte Quellen behalten Sidecar über `pruneKeep`. |
 | 2026-07 | 2.5.8 | **`DataUri()`** — skin-relative Bilder als `url(data:…;base64,…)` in kompilierter CSS einbetten (Direktive + Wertform, optional `{ retina: true }`); kein Packen in den Sprite-Atlas. API: `CreateDataUriCSSValue`, `ApplyDataUri`. **`RELEASES.json`**-Versionshistorie (i18x-fähige Info-Strings) mit Konsolen-API `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`. |
+| 2026-09 | 2.5.18 | Handbuch *microFT*: OpenType-Color-Fonts und Emoji-Fonts (COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix). **µFT** 0.2.0 verpackt vorhandene TTF/OTF/WOFF/WOFF2-Dateien ohne Color-Tables zu verwerfen. |
 
 # Rechtliches
 

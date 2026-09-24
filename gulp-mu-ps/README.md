@@ -7,10 +7,12 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 **Version:** **1.3.6** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
 <p align="center">
-  <a href="https://microgulp.dev">
-    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="150">
+  <a href="https://microgulp.dev/en/ready/">
+    <img src="https://microgulp.dev/assets/media/microgulp-ready.png" alt="µGulp ready" width="110">
   </a>
 </p>
+
+The badge refers to this package's development tasks in the µCSS monorepo, not automatic µGulp integration in consumer projects. [Meaning and usage rules](https://microgulp.dev/en/ready/).
 
 Node module that replaces the image-processing functions of the old Adobe-based µCSS™ workflow — **without an Adobe dependency for the build**. PSD sources via `ag-psd`, rendering via `sharp`. **Authoring** layered drafts: your choice — Affinity, Adobe Photoshop (via OS association or explicit `.exe`), Photopea (browser), or any app via `OpenDrafts({ app: "<exe>" })`. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
 
@@ -80,7 +82,7 @@ npx gulp test     # in the project root
 
 ---
 
-<a name="deutsch"></a>
+## Deutsch
 
 # µPS (npm-Paket `gulp-mu-ps`)
 

@@ -54,3 +54,40 @@ export function BuildFontCss(_glyphs, _options = {}) {
 
 	return css;
 }
+
+/**
+ * Builds a standard @font-face block for an existing webfont (including color
+ * and emoji fonts). No per-glyph icon classes — those apply only to the SVG
+ * icon pipeline. Palette selection stays in the page CSS (`font-palette`).
+ *
+ * @param {object} [_options]
+ * @param {string} [_options.fontName="icons"]
+ * @param {string[]} [_options.formats=["woff2","woff","ttf"]]
+ * @param {string} [_options.fontUrlBase=""]
+ * @param {number|string} [_options.cacheBust]
+ * @param {string} [_options.fontDisplay="swap"]
+ * @param {object} [_options.colorFont]
+ * @returns {string}
+ */
+export function BuildWebfontCss(_options = {}) {
+	const fontName = _options.fontName ?? "icons";
+	const formats = _options.formats ?? ["woff2", "woff", "ttf"];
+	const base = _options.fontUrlBase ?? "";
+	const bust = _options.cacheBust != null ? `?${_options.cacheBust}` : "";
+	const display = _options.fontDisplay ?? "swap";
+	const colorFont = _options.colorFont;
+	const url = (_ext) => `url('${base}${fontName}.${_ext}${bust}') format('${FORMAT_HINTS[_ext] ?? _ext}')`;
+
+	let css = "";
+	if (colorFont?.isColorFont) {
+		const kinds = (colorFont.colorFontFormats ?? []).join(", ") || "OpenType color";
+		css += `/* Color font (${kinds}). Rendering depends on the font, browser and OS. `;
+		css += `Palette tweaks use font-palette / @font-palette-values — µFT does not rewrite palettes. `;
+		css += `Color fonts are not animations. */\n`;
+	}
+	css += `@font-face {\n`;
+	css += `\tfont-family: '${fontName}';\n`;
+	css += `\tsrc: ${formats.map(url).join(",\n\t\t")};\n`;
+	css += `\tfont-weight: normal;\n\tfont-style: normal;\n\tfont-display: ${display};\n}\n`;
+	return css;
+}

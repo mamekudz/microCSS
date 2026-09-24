@@ -133,3 +133,52 @@ ${body}</body>
 </html>
 `;
 }
+
+/**
+ * Small demo page for a packaged color / emoji webfont. µFT does not animate
+ * glyphs — it only ships the font and a standard @font-face.
+ *
+ * @param {object} [_options]
+ * @returns {string}
+ */
+export function BuildColorFontHtml(_options = {}) {
+	const fontName = _options.fontName ?? "icons";
+	const base = _options.fontUrlBase ?? "";
+	const bust = _options.cacheBust != null ? `?${_options.cacheBust}` : "";
+	const sample = _options.sample ?? "Color font check: A 😀 🎉 U+1F600";
+	const formats = (_options.colorFont?.colorFontFormats ?? []).join(", ") || "OpenType color";
+	const srcParts = (_options.formats ?? ["woff2", "woff", "ttf"])
+		.map((_ext) => {
+			const hint = _ext === "ttf" ? "truetype" : _ext;
+			return `url('${base}${fontName}.${_ext}${bust}') format('${hint}')`;
+		})
+		.join(",\n\t\t");
+
+	return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${_Escape(fontName)} — color webfont</title>
+<style>
+@font-face {
+	font-family: '${fontName}';
+	src: ${srcParts};
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; margin: 24px; line-height: 1.5; }
+.sample { font-family: '${fontName}', system-ui, sans-serif; font-size: 48px; line-height: 1.2; }
+.note { color: #666; max-width: 40rem; }
+</style>
+</head>
+<body>
+<h1>${_Escape(fontName)}</h1>
+<p class="note">Packaged color webfont (${_Escape(formats)}). Color rendering depends on the font, the browser and the OS. µFT does not generate emoji animation.</p>
+<p class="sample">${_Escape(sample)}</p>
+</body>
+</html>
+`;
+}
