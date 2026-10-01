@@ -1,4 +1,4 @@
-# µCSS™ V2.5.19 (microCSS)
+# µCSS™ V2.5.20 (microCSS)
 
 ## English
 
@@ -25,9 +25,9 @@ If your image-processing workflow requires no human interaction between input an
 | Someone must judge, retouch or decide | Interactive editor or editor scripting |
 | Input → output with no manual steps | µCSS™ |
 
-Desktop editors (Adobe Photoshop, Affinity, Photon Studio, Photopea) remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own. µCSS™ is not a replacement for those editors.
+Desktop editors ([Adobe Photoshop](https://www.adobe.com/products/photoshop.html), [Affinity](https://affinity.studio/download), [Photon Studio](https://tenzen.studio/photon/), [Photopea](https://www.photopea.com/)) remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own. µCSS™ is not a replacement for those editors.
 
-Photon Studio is a recent option for interactive work. This package has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation. µCSS™ remains the other class: fully automatic processing with no manual intermediate steps.
+[Photon Studio](https://tenzen.studio/photon/) is a recent free desktop option for interactive work (macOS, Windows, Linux; PSD open/save). This package has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation. µCSS™ remains the other class: fully automatic processing with no manual intermediate steps.
 
 | Workflow | Interactive editor | Editor scripting | µCSS™ (headless) |
 | :--- | :--- | :--- | :--- |
@@ -45,7 +45,17 @@ The technical package name is `gulp-mu-css` (the µ character causes trouble in 
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
-Layered PSD drafts are authored in **[Affinity](https://affinity.studio/download)**, **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing), Photoshop, or another editor. Save as PSD; µPS reads the same layer structure. Compilation and rendering stay in Node.
+**Authoring** layered PSD drafts stays in whichever editor you use — the build always goes through µPS the same way:
+
+| Editor | Open with µPS | Configuration |
+| :--- | :--- | :--- |
+| **[Affinity](https://affinity.studio/download)** | `OpenDrafts(path, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
+| **Adobe Photoshop** | `OpenDrafts(path, { app: "default" })` if `.psd` is associated, or `{ app: "<path/to/Photoshop.exe>" }` | CC license on your side; **not** required for the build |
+| **[Photon Studio](https://tenzen.studio/photon/)** | `OpenDrafts(path, { app: "<path/to/Photon.exe>" })` or OS default if associated | Interactive authoring only; **no** dedicated `MU_DRAFT_APP` key |
+| **[Photopea](https://www.photopea.com/)** (browser) | `await OpenPhotopeaDrafts(path)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async API) |
+| **OS default** | `OpenDrafts(path)` | `MU_DRAFT_APP=default` (default) |
+
+Save as PSD; µPS reads the same layer structure regardless of editor. Compilation and rendering stay in Node.
 
 ## Project links
 
@@ -57,6 +67,7 @@ Layered PSD drafts are authored in **[Affinity](https://affinity.studio/download
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [source](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
 | **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
+| **Photon Studio (PSD authoring)** | [tenzen.studio/photon](https://tenzen.studio/photon/) — free desktop editor (macOS / Windows / Linux) |
 | **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD |
 
 ## µGulp Ready
@@ -281,7 +292,7 @@ MIT
 
 ## Deutsch
 
-# µCSS™ V2.5.19 (microCSS)
+# µCSS™ V2.5.20 (microCSS)
 
 *[English](#english) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
@@ -296,9 +307,9 @@ Wenn die Bildverarbeitung zwischen Eingabe und Ausgabe keine Benutzerinteraktion
 | Jemand muss beurteilen, ändern oder entscheiden | Interaktiver Editor bzw. Editor-Scripting |
 | Input → Output ohne manuelle Schritte | µCSS™ |
 
-Desktop-Editoren (Adobe Photoshop, Affinity, Photon Studio, Photopea) bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt. µCSS™ ersetzt diese Editoren nicht.
+Desktop-Editoren ([Adobe Photoshop](https://www.adobe.com/products/photoshop.html), [Affinity](https://affinity.studio/download), [Photon Studio](https://tenzen.studio/photon/), [Photopea](https://www.photopea.com/)) bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt. µCSS™ ersetzt diese Editoren nicht.
 
-Photon Studio ist eine neue Option für interaktive Arbeit. Dieses Paket hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung. µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte.
+[Photon Studio](https://tenzen.studio/photon/) ist eine neue kostenlose Desktop-Option für interaktive Arbeit (macOS, Windows, Linux; PSD öffnen/speichern). Dieses Paket hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung. µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte.
 
 | Ablauf | Interaktiver Editor | Editor-Scripting | µCSS™ (headless) |
 | :--- | :--- | :--- | :--- |
@@ -316,7 +327,17 @@ Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 
-Geschichtete PSD-Entwürfe entstehen in **[Affinity](https://affinity.studio/download)**, **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal), Photoshop oder einem anderen Editor. Als PSD speichern; µPS liest dieselbe Ebenenstruktur. Kompilierung und Rendering bleiben in Node.
+**Authoring** geschichteter PSD-Entwürfe bleibt im gewählten Editor — der Build läuft immer gleich über µPS:
+
+| Editor | Öffnen mit µPS | Konfiguration |
+| :--- | :--- | :--- |
+| **[Affinity](https://affinity.studio/download)** | `OpenDrafts(pfad, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
+| **Adobe Photoshop** | `OpenDrafts(pfad, { app: "default" })` wenn `.psd` verknüpft, oder `{ app: "<Pfad/Photoshop.exe>" }` | CC-Lizenz bei Ihnen; für den **Build nicht** nötig |
+| **[Photon Studio](https://tenzen.studio/photon/)** | `OpenDrafts(pfad, { app: "<Pfad/Photon.exe>" })` oder OS-Standard, wenn verknüpft | Nur interaktives Authoring; **kein** eigener `MU_DRAFT_APP`-Schlüssel |
+| **[Photopea](https://www.photopea.com/)** (Browser) | `await OpenPhotopeaDrafts(pfad)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async) |
+| **OS-Standard** | `OpenDrafts(pfad)` | `MU_DRAFT_APP=default` (Default) |
+
+Als PSD speichern; µPS liest dieselbe Ebenenstruktur unabhängig vom Editor. Kompilierung und Rendering bleiben in Node.
 
 ## Projekt-Links
 
@@ -328,6 +349,7 @@ Geschichtete PSD-Entwürfe entstehen in **[Affinity](https://affinity.studio/dow
 | **µFT** | [npm](https://www.npmjs.com/package/gulp-mu-ft) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-ft) |
 | **µAU** | [npm](https://www.npmjs.com/package/gulp-mu-au) · [Quellcode](https://github.com/mamekudz/microCSS/tree/master/gulp-mu-au) |
 | **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
+| **Photon Studio (PSD-Authoring)** | [tenzen.studio/photon](https://tenzen.studio/photon/) — kostenloser Desktop-Editor (macOS / Windows / Linux) |
 | **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD |
 
 ## µGulp Ready

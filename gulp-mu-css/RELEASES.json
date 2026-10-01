@@ -1,5 +1,11 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 20, "date": "2026-10-01 10:15", "beta": false,
+		"info": [
+			"Docs/READMEs: link Photon Studio (tenzen.studio/photon) in authoring tables and project links alongside Affinity and Photopea<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 19, "date": "2026-10-01 10:00", "beta": false,
 		"info": [
 			"Docs/READMEs: position µCSS as the fully automated (no-manual-steps) pipeline versus interactive editors and editor scripting; Photon Studio mentioned without assumed scripting API or integration<context=\"release info\"/>"

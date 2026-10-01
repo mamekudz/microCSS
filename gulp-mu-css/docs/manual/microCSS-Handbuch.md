@@ -26,7 +26,7 @@ Im Gegensatz zu µCSS™ 1 läuft Version 2 vollständig in Node.js (ab Version 
 
 ## Paketversionen und µGulp ready
 
-Diese Ausgabe beschreibt µCSS 2.5.19, µPS 1.3.6, µFT 0.2.0 und µAU 0.1.8.
+Diese Ausgabe beschreibt µCSS 2.5.20, µPS 1.3.6, µFT 0.2.0 und µAU 0.1.8.
 
 Die vier Pakete sind µGulp ready. Öffentliche Produktinformationen und Installationslinks stehen unter https://microgulp.dev bereit. Das Task-Dashboard ist optional; alle Build-Aufgaben funktionieren auch über die gewöhnliche Gulp-Kommandozeile.
 
@@ -51,7 +51,7 @@ Wenn die Bildverarbeitung zwischen Eingabe und Ausgabe keine Benutzerinteraktion
 
 Drei Ebenen:
 
-1. **Interaktive Bearbeitung** — Adobe Photoshop, Affinity, Photon Studio, Photopea: visuelle Arbeit, manuelle Entscheidungen und Zwischenschritte.
+1. **Interaktive Bearbeitung** — Adobe Photoshop, [Affinity](https://affinity.studio/download), [Photon Studio](https://tenzen.studio/photon/), [Photopea](https://www.photopea.com/): visuelle Arbeit, manuelle Entscheidungen und Zwischenschritte.
 2. **Editor-Scripting** — Automatisierung *innerhalb* eines Desktop-Editors (ExtendScript, Aktionen und Vergleichbares). Weiterhin an diese Anwendung, ihr Dokumentmodell und typischerweise GUI und Start gebunden. Photon Studio ist ein neuer interaktiver Editor; eine öffentliche Scripting-API ist in diesem Projekt **nicht** dokumentiert und **nicht** integriert. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung.
 3. **Headless Pipeline (µCSS™ / µPS)** — vollautomatische Verarbeitung in Node/Gulp: keine GUI, keine Desktop-Anwendung, keine manuellen Zwischenschritte. Nativer Einsatz für Batch-Arbeit und CI/CD.
 
@@ -1779,6 +1779,7 @@ Bewusst **nicht** übernommen wurden aus dem alten µCSS™:
 | 2026-07 | 2.5.8 | **`DataUri()`** — skin-relative Bilder als `url(data:…;base64,…)` in kompilierter CSS einbetten (Direktive + Wertform, optional `{ retina: true }`); kein Packen in den Sprite-Atlas. API: `CreateDataUriCSSValue`, `ApplyDataUri`. **`RELEASES.json`**-Versionshistorie (i18x-fähige Info-Strings) mit Konsolen-API `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`. |
 | 2026-09 | 2.5.18 | Handbuch *microFT*: OpenType-Color-Fonts und Emoji-Fonts (COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix). **µFT** 0.2.0 verpackt vorhandene TTF/OTF/WOFF/WOFF2-Dateien ohne Color-Tables zu verwerfen. |
 | 2026-10 | 2.5.19 | Doku/READMEs: µCSS als vollautomatische Pipeline (keine manuellen Schritte) gegenüber interaktiven Editoren und Editor-Scripting; Photon Studio ohne angenommene Scripting-API oder Integration. |
+| 2026-10 | 2.5.20 | Doku/READMEs: Link zu Photon Studio ([tenzen.studio/photon](https://tenzen.studio/photon/)) in Authoring-Tabellen und Projekt-Links. |
 
 # Rechtliches
 
@@ -1796,7 +1797,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Marken
 
-Photoshop ist eine eingetragene Marke von Adobe Inc.; Affinity Photo ist eine Marke von Serif (Europe) Ltd. Photopea ist ein unabhängiger Online-Fotoeditor ([photopea.com](https://www.photopea.com/)). Photon Studio wird als Desktop-Bildeditor nur zur Identifikation genannt. Die Nennung von Namen und Produkten dient ausschließlich der Information und stellt keinen Missbrauch der jeweiligen Handelsnamen oder Marken dar.
+Photoshop ist eine eingetragene Marke von Adobe Inc.; Affinity Photo ist eine Marke von Serif (Europe) Ltd. Photopea ist ein unabhängiger Online-Fotoeditor ([photopea.com](https://www.photopea.com/)). Photon Studio ist ein kostenloser Desktop-Bildeditor von Tenzen Studio ([tenzen.studio/photon](https://tenzen.studio/photon/)). Die Nennung von Namen und Produkten dient ausschließlich der Information und stellt keinen Missbrauch der jeweiligen Handelsnamen oder Marken dar.
 
 ## Verwendete Bibliotheken
 

@@ -1,6 +1,6 @@
 {
   "name": "gulp-mu-css",
-	"version": "2.5.19",
+	"version": "2.5.20",
   "description": "Headless CSS and image processing for automated Node/Gulp pipelines — compile µCSS™-enhanced stylesheets (sprites, cursors, PSD rendering via gulp-mu-ps).",
   "type": "module",
   "main": "src/index.mjs",

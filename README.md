@@ -1,4 +1,4 @@
-# µCSS™ V2.5.19 (microCSS)
+# µCSS™ V2.5.20 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -21,7 +21,7 @@ If your image-processing workflow requires no human interaction between input an
 | Someone must judge, retouch or decide | Interactive editor or editor scripting |
 | Input → output with no manual steps | µCSS™ |
 
-Desktop editors such as Adobe Photoshop, Affinity, Photon Studio and Photopea remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own: it is whether a human has to stay in the loop.
+Desktop editors such as Adobe Photoshop, [Affinity](https://affinity.studio/download), [Photon Studio](https://tenzen.studio/photon/) and [Photopea](https://www.photopea.com/) remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own: it is whether a human has to stay in the loop.
 
 | Workflow | Interactive editor | Editor scripting | µCSS™ (headless) |
 | :--- | :--- | :--- | :--- |
@@ -35,7 +35,7 @@ Desktop editors such as Adobe Photoshop, Affinity, Photon Studio and Photopea re
 
 When the workflow is fully automatic, there is no need to start, initialize and drive a full desktop image editor. That missing application/UI overhead is a performance consequence of the architecture — potentially substantial for large automatic batches. This repo has no comparative editor benchmarks, so no absolute “always faster” claim.
 
-Photon Studio is a recent desktop editor for interactive work. µCSS™ has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation (visual judgement, in-app decisions). µCSS™ remains the other class: fully automatic processing with no manual intermediate steps. The tools can overlap; they address different workflow kinds.
+[Photon Studio](https://tenzen.studio/photon/) is a recent free desktop editor for interactive work (macOS, Windows, Linux; PSD open/save). µCSS™ has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation (visual judgement, in-app decisions). µCSS™ remains the other class: fully automatic processing with no manual intermediate steps. The tools can overlap; they address different workflow kinds.
 
 *English (below) · [Deutsch](#deutsch)*
 
@@ -47,6 +47,7 @@ Monorepo for **µCSS™ 2** and the related **µPS**, **µFT** and **µAU** modu
 | :--- | :--- | :--- |
 | **[Affinity](https://affinity.studio/download)** | `OpenDrafts(path, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
 | **Adobe Photoshop** | `OpenDrafts(path, { app: "default" })` if `.psd` is associated, or `{ app: "<path/to/Photoshop.exe>" }` | CC license on your side; **not** required for the build |
+| **[Photon Studio](https://tenzen.studio/photon/)** | `OpenDrafts(path, { app: "<path/to/Photon.exe>" })` or OS default if associated | Interactive authoring only; **no** dedicated `MU_DRAFT_APP` key |
 | **[Photopea](https://www.photopea.com/)** (browser) | `await OpenPhotopeaDrafts(path)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async API) |
 | **OS default** | `OpenDrafts(path)` | `MU_DRAFT_APP=default` (default) |
 
@@ -69,7 +70,7 @@ Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamek
 
 | Display name | npm package | Version in repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.20** · [µGulp ready](https://microgulp.dev) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
@@ -101,13 +102,14 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 | **µFT on npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU on npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
 | **Affinity (PSD authoring)** | [affinity.studio/download](https://affinity.studio/download) — free desktop app |
+| **Photon Studio (PSD authoring)** | [tenzen.studio/photon](https://tenzen.studio/photon/) — free desktop editor (macOS / Windows / Linux) |
 | **Photopea (PSD authoring)** | [photopea.com](https://www.photopea.com/) — free online editor, full PSD, local processing |
 
 ## npm packages
 
 | Display name | npm package | Version in repo | Role |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.20** · [µGulp ready](https://microgulp.dev) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) | Builds icon fonts from SVG directories and packages webfonts, including modern OpenType color fonts and emoji fonts (TTF/EOT/WOFF/WOFF2 + CSS + HTML overview) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Builds sound atlases (combined WAV/MP3/WebA + JSON timing map) for the µCSS™ family |
@@ -178,7 +180,7 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
 
 ## Deutsch
 
-# µCSS™ V2.5.19 (microCSS)
+# µCSS™ V2.5.20 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -201,7 +203,7 @@ Wenn die Bildverarbeitung zwischen Eingabe und Ausgabe keine Benutzerinteraktion
 | Jemand muss beurteilen, ändern oder entscheiden | Interaktiver Editor bzw. Editor-Scripting |
 | Input → Output ohne manuelle Schritte | µCSS™ |
 
-Desktop-Editoren wie Adobe Photoshop, Affinity, Photon Studio und Photopea bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt, sondern ob ein Mensch im Ablauf bleiben muss.
+Desktop-Editoren wie Adobe Photoshop, [Affinity](https://affinity.studio/download), [Photon Studio](https://tenzen.studio/photon/) und [Photopea](https://www.photopea.com/) bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt, sondern ob ein Mensch im Ablauf bleiben muss.
 
 | Ablauf | Interaktiver Editor | Editor-Scripting | µCSS™ (headless) |
 | :--- | :--- | :--- | :--- |
@@ -215,7 +217,7 @@ Desktop-Editoren wie Adobe Photoshop, Affinity, Photon Studio und Photopea bleib
 
 Wenn der Ablauf vollständig automatisch ist, muss kein vollständiger Desktop-Bildeditor gestartet, initialisiert und gesteuert werden. Der fehlende Anwendungs-/UI-Overhead ist ein Performance-Effekt der Architektur — bei großen automatischen Serien potentiell erheblich. Dieses Repo enthält keine Vergleichsbenchmarks gegen Editoren, daher keine absolute „immer schneller“-Aussage.
 
-Photon Studio ist ein neuer Desktop-Editor für interaktive Arbeit. µCSS™ hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung (visuelle Beurteilung, Entscheidungen in der App). µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte. Die Werkzeuge können sich überschneiden; sie adressieren unterschiedliche Ablaufarten.
+[Photon Studio](https://tenzen.studio/photon/) ist ein neuer kostenloser Desktop-Editor für interaktive Arbeit (macOS, Windows, Linux; PSD öffnen/speichern). µCSS™ hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung (visuelle Beurteilung, Entscheidungen in der App). µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte. Die Werkzeuge können sich überschneiden; sie adressieren unterschiedliche Ablaufarten.
 
 Monorepo für **µCSS™ 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS™ erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS™**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich). Version 2 ist der Node-Nachfolger der Photoshop-Script-Toolchain von 2013; der Build läuft nicht mehr im Editor.
 
@@ -225,6 +227,7 @@ Monorepo für **µCSS™ 2** und die zugehörigen Module **µPS**, **µFT** und 
 | :--- | :--- | :--- |
 | **[Affinity](https://affinity.studio/download)** | `OpenDrafts(pfad, { app: "affinity" })` | `MU_DRAFT_APP=affinity`, optional `MU_AFFINITY_EXE` |
 | **Adobe Photoshop** | `OpenDrafts(pfad, { app: "default" })` wenn `.psd` verknüpft, oder `{ app: "<Pfad/Photoshop.exe>" }` | CC-Lizenz bei Ihnen; für den **Build nicht** nötig |
+| **[Photon Studio](https://tenzen.studio/photon/)** | `OpenDrafts(pfad, { app: "<Pfad/Photon.exe>" })` oder OS-Standard, wenn verknüpft | Nur interaktives Authoring; **kein** eigener `MU_DRAFT_APP`-Schlüssel |
 | **[Photopea](https://www.photopea.com/)** (Browser) | `await OpenPhotopeaDrafts(pfad)` | `--app photopea` / `MU_DRAFT_APP=photopea` (async) |
 | **OS-Standard** | `OpenDrafts(pfad)` | `MU_DRAFT_APP=default` (Default) |
 
@@ -247,7 +250,7 @@ Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mameku
 
 | Anzeigename | npm-Paket | Version im Repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.20** · [µGulp ready](https://microgulp.dev) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
@@ -279,13 +282,14 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 | **µFT auf npm** | [gulp-mu-ft](https://www.npmjs.com/package/gulp-mu-ft) |
 | **µAU auf npm** | [gulp-mu-au](https://www.npmjs.com/package/gulp-mu-au) |
 | **Affinity (PSD-Authoring)** | [affinity.studio/download](https://affinity.studio/download) — kostenlose Desktop-App |
+| **Photon Studio (PSD-Authoring)** | [tenzen.studio/photon](https://tenzen.studio/photon/) — kostenloser Desktop-Editor (macOS / Windows / Linux) |
 | **Photopea (PSD-Authoring)** | [photopea.com](https://www.photopea.com/) — kostenloser Online-Editor, volle PSD, lokale Verarbeitung |
 
 ## npm-Pakete
 
 | Anzeigename | npm-Paket | Version im Repo | Aufgabe |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.20** · [µGulp ready](https://microgulp.dev) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen und verpackt Webfonts, einschließlich moderner OpenType-Color-Fonts und Emoji-Fonts (TTF/EOT/WOFF/WOFF2 + CSS + HTML-Übersicht) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3/WebA + JSON-Timing-Map) für die µCSS™-Familie |
