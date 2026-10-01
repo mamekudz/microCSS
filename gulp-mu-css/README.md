@@ -1,4 +1,4 @@
-# µCSS™ V2.5.18 (microCSS)
+# µCSS™ V2.5.19 (microCSS)
 
 ## English
 
@@ -14,13 +14,38 @@
 
 *English (below) · [Deutsch](#deutsch)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
-Node module for compiling **µCSS™**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript, PSD-based image generation and (via µFT) icon fonts plus OpenType color/emoji webfonts, driven by a skin manifest. µCSS™ 2 is the Adobe-independent Node reimplementation of µCSS™, originally introduced in 2013 as a Photoshop script.
+**No manual steps? Skip the editor.**
 
-The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS™** is the display name. Bump the **H1** version when releasing (must match `package.json`).
+**Headless CSS and image processing for automated build pipelines.** This Node module compiles **µCSS™**-enhanced stylesheets — sprites, cursors, color functions, embedded JavaScript, PSD-based image generation and (via µFT) icon fonts plus OpenType color/emoji webfonts — from a skin manifest and Gulp/Node.
+
+If your image-processing workflow requires no human interaction between input and output, it probably doesn't require a desktop image editor either. µCSS™ is built for exactly these fully automated workflows.
+
+| Question during processing | Use |
+| :--- | :--- |
+| Someone must judge, retouch or decide | Interactive editor or editor scripting |
+| Input → output with no manual steps | µCSS™ |
+
+Desktop editors (Adobe Photoshop, Affinity, Photon Studio, Photopea) remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own. µCSS™ is not a replacement for those editors.
+
+Photon Studio is a recent option for interactive work. This package has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation. µCSS™ remains the other class: fully automatic processing with no manual intermediate steps.
+
+| Workflow | Interactive editor | Editor scripting | µCSS™ (headless) |
+| :--- | :--- | :--- | :--- |
+| Manual image editing | yes | limited / requires the editor | no |
+| Fully automated processing | possible | yes, inside the editor | yes |
+| Desktop application required | yes | usually yes | no |
+| Manual intermediate steps | possible | optional | no |
+| Build-pipeline integration | indirect | possible | native focus |
+| Batch processing | possible | possible | primary use case |
+| CI/CD | unsuitable / limited | depends on the editor | primary use case |
+
+When the workflow is fully automatic, there is no need to start, initialize and drive a full desktop image editor. That missing application/UI overhead is a performance consequence of the architecture — potentially substantial for large automatic batches. This package has no comparative editor benchmarks.
+
+The technical package name is `gulp-mu-css` (the µ character causes trouble in npm/git names); **µCSS™** is the display name. Bump the **H1** version when releasing (must match `package.json`). Version 2 is the Node successor of the 2013 Photoshop-script toolchain.
 
 The detailed manual ships with this package as a PDF — **`docs/microCSS-en.pdf`** (English) and **`docs/microCSS-de.pdf`** (German); the Markdown sources live under `docs/manual/`. Sibling modules **µPS**, **µAU** and **µFT** are documented there too — chapters *microPS*, *microAU* and *microFT* (npm READMEs of those packages are brief overviews only).
 
-**No Adobe subscription for the build** — unlike µCSS™ 1, compilation and PSD rendering run in Node. Layered drafts are edited in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing). Save as PSD for µPS.
+Layered PSD drafts are authored in **[Affinity](https://affinity.studio/download)**, **[Photopea](https://www.photopea.com/)** (browser, full PSD, local processing), Photoshop, or another editor. Save as PSD; µPS reads the same layer structure. Compilation and rendering stay in Node.
 
 ## Project links
 
@@ -256,17 +281,42 @@ MIT
 
 ## Deutsch
 
-# µCSS™ V2.5.18 (microCSS)
+# µCSS™ V2.5.19 (microCSS)
 
 *[English](#english) · Deutsch (unten)* · npm: [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) · [![npm version](https://img.shields.io/npm/v/gulp-mu-css.svg)](https://www.npmjs.com/package/gulp-mu-css)
 
-Node-Modul zur Kompilierung von **µCSS™**-erweiterten Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript, PSD-basierte Bilderzeugung und (über µFT) Icon-Fonts sowie OpenType-Color-/Emoji-Webfonts, gesteuert über ein Skin-Manifest. µCSS™ 2 ist die Adobe-unabhängige Node-Neuimplementierung des 2013 als Photoshop-Script eingeführten µCSS™.
+**Keine manuellen Schritte? Editor überspringen.**
 
-Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS™** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen).
+**Headless CSS- und Bildverarbeitung für automatisierte Build-Pipelines.** Dieses Node-Modul kompiliert **µCSS™**-erweiterte Stylesheets — Sprites, Cursor, Farbfunktionen, eingebettetes JavaScript, PSD-basierte Bilderzeugung und (über µFT) Icon-Fonts sowie OpenType-Color-/Emoji-Webfonts — aus Skin-Manifest und Gulp/Node.
+
+Wenn die Bildverarbeitung zwischen Eingabe und Ausgabe keine Benutzerinteraktion braucht, braucht sie wahrscheinlich auch keinen Desktop-Bildeditor. µCSS™ ist genau für diese vollautomatischen Abläufe gebaut.
+
+| Frage während der Verarbeitung | Werkzeug |
+| :--- | :--- |
+| Jemand muss beurteilen, ändern oder entscheiden | Interaktiver Editor bzw. Editor-Scripting |
+| Input → Output ohne manuelle Schritte | µCSS™ |
+
+Desktop-Editoren (Adobe Photoshop, Affinity, Photon Studio, Photopea) bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt. µCSS™ ersetzt diese Editoren nicht.
+
+Photon Studio ist eine neue Option für interaktive Arbeit. Dieses Paket hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung. µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte.
+
+| Ablauf | Interaktiver Editor | Editor-Scripting | µCSS™ (headless) |
+| :--- | :--- | :--- | :--- |
+| Manuelle Bildbearbeitung | ja | eingeschränkt / braucht den Editor | nein |
+| Vollautomatische Verarbeitung | möglich | ja, innerhalb des Editors | ja |
+| Desktop-Anwendung nötig | ja | meist ja | nein |
+| Manuelle Zwischenschritte | möglich | optional | nein |
+| Build-Pipeline | indirekt | möglich | nativer Schwerpunkt |
+| Batch-Verarbeitung | möglich | möglich | primärer Einsatz |
+| CI/CD | ungeeignet / eingeschränkt | hängt vom Editor ab | primärer Einsatz |
+
+Wenn der Ablauf vollständig automatisch ist, muss kein vollständiger Desktop-Bildeditor gestartet, initialisiert und gesteuert werden. Der fehlende Anwendungs-/UI-Overhead ist ein Performance-Effekt der Architektur — bei großen automatischen Serien potentiell erheblich. Dieses Paket enthält keine Vergleichsbenchmarks gegen Editoren.
+
+Der technische Paketname ist `gulp-mu-css` (das µ-Zeichen bereitet in npm-/git-Namen Probleme); **µCSS™** ist der Anzeigename. **H1**-Version beim Release anheben (muss `package.json` entsprechen). Version 2 ist der Node-Nachfolger der Photoshop-Script-Toolchain von 2013.
 
 Das ausführliche Handbuch liegt diesem Paket als PDF bei: **`docs/microCSS-de.pdf`** (deutsch) und **`docs/microCSS-en.pdf`** (englisch); die Markdown-Quellen liegen unter `docs/manual/`. Die Schwester-Module **µPS**, **µAU** und **µFT** sind dort in eigenen Kapiteln (*microPS*, *microAU*, *microFT*) dokumentiert — die npm-READMEs dieser Pakete sind nur Kurzüberblicke.
 
-**Kein Adobe-Abo für den Build** — anders als µCSS™ 1 laufen Kompilierung und PSD-Rendering in Node. Entwürfe bearbeitet man in **[Affinity](https://affinity.studio/download)** oder **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal). Als PSD speichern für µPS.
+Geschichtete PSD-Entwürfe entstehen in **[Affinity](https://affinity.studio/download)**, **[Photopea](https://www.photopea.com/)** (Browser, volle PSD, lokal), Photoshop oder einem anderen Editor. Als PSD speichern; µPS liest dieselbe Ebenenstruktur. Kompilierung und Rendering bleiben in Node.
 
 ## Projekt-Links
 

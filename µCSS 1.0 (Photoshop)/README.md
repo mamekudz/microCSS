@@ -14,7 +14,7 @@ direkt in die CSS-Datei geschrieben werden.
 
 > [!IMPORTANT]
 > **Dieser Ordner ist die historische Photoshop-Script-Version (µCSS™ 1, 2013/2014).**
-> Der moderne, **Adobe-unabhängige Nachfolger (µCSS™ 2)** liegt im selben Repository
+> Der moderne, **headless Node-Nachfolger (µCSS™ 2)** liegt im selben Repository
 > eine Ebene höher — als Quellcode der npm-Pakete und auf [npm](https://www.npmjs.com/):
 >
 > - [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) — **µCSS™ 2** (`../gulp-mu-css/`)

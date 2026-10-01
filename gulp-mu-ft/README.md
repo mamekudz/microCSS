@@ -14,7 +14,7 @@ The technical package name is `gulp-mu-ft` (the µ character causes trouble in n
 
 The badge refers to this package's development tasks in the µCSS monorepo, not automatic µGulp integration in consumer projects. [Meaning and usage rules](https://microgulp.dev/en/ready/).
 
-Node module that builds an **icon font** from a directory of SVG glyphs — automated like IcoMoon, without Adobe or IcoMoon — and packages **existing webfonts**, including modern OpenType color fonts and emoji fonts. Output: font files, CSS (`@font-face` / icon classes), IcoMoon-compatible JSON (icons), HTML overview.
+Node module that builds an **icon font** from a directory of SVG glyphs — automated like IcoMoon, without a desktop font app or IcoMoon — and packages **existing webfonts**, including modern OpenType color fonts and emoji fonts. Output: font files, CSS (`@font-face` / icon classes), IcoMoon-compatible JSON (icons), HTML overview.
 
 > **Documentation policy:** Glyph naming, all `FontGenerator` options, incremental cache and µCSS™ integration are documented **centrally in the µCSS™ manual** (chapter *microFT*). This README is a quick npm overview only.
 
@@ -118,7 +118,7 @@ Der technische Paketname ist `gulp-mu-ft`; **µFT** ist der Anzeigename.
 
 **Version:** **0.2.0** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ft.svg)](https://www.npmjs.com/package/gulp-mu-ft)
 
-Node-Modul für **Icon-Fonts** aus SVG-Glyphen — automatisiert wie IcoMoon, ohne Adobe/IcoMoon — und für das Verpacken vorhandener **Webfonts**, einschließlich moderner OpenType-Color-Fonts und Emoji-Fonts. Ausgabe: Font-Dateien, CSS (`@font-face` / Icon-Klassen), IcoMoon-JSON (Icons), HTML-Übersicht.
+Node-Modul für **Icon-Fonts** aus SVG-Glyphen — automatisiert wie IcoMoon, ohne Desktop-Font-App oder IcoMoon — und für das Verpacken vorhandener **Webfonts**, einschließlich moderner OpenType-Color-Fonts und Emoji-Fonts. Ausgabe: Font-Dateien, CSS (`@font-face` / Icon-Klassen), IcoMoon-JSON (Icons), HTML-Übersicht.
 
 > **Doku-Richtlinie:** Glyphen-Benennung, alle `FontGenerator`-Optionen, Cache und µCSS™-Anbindung stehen **zentral im µCSS™-Handbuch** (Kapitel *microFT*). Diese README ist nur ein npm-Kurzüberblick.
 

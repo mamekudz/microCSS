@@ -1,5 +1,11 @@
 [
 	{
+		"main": 2, "minor": 5, "revision": 19, "date": "2026-10-01 10:00", "beta": false,
+		"info": [
+			"Docs/READMEs: position µCSS as the fully automated (no-manual-steps) pipeline versus interactive editors and editor scripting; Photon Studio mentioned without assumed scripting API or integration<context=\"release info\"/>"
+		]
+	},
+	{
 		"main": 2, "minor": 5, "revision": 18, "date": "2026-09-24 10:50", "beta": false,
 		"info": [
 			"Manuals (EN/DE): µFT color webfonts — COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix; WOFF/WOFF2 preserve color tables; no silent monochrome fallback<context=\"release info\"/>",

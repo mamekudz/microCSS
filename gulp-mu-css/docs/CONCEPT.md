@@ -2,14 +2,23 @@
 
 Stand: Juni 2026 · Status: Entwurf zur Diskussion
 
-µCSS™ 2 ersetzt den Adobe-basierten Workflow von µCSS™ 1 (2013, Photoshop-Script):
+µCSS™ 2 ist der Node-Nachfolger des Photoshop-Script-Workflows von µCSS™ 1 (2013):
 Aus erweiterten Quell-Stylesheets (`skins/src`) und den Medienquellen (`dev/media`)
 entstehen per Gulp die fertigen Skin-Dateien (`skins/std`) — Standard-CSS plus alle
 benötigten Bilder, Sprites, Cursor, Fonts und Sounds. Die Bilderzeugung übernimmt
 µPS. Anzeigenamen sind µCSS™ und µPS; die technischen Namen (npm-Pakete,
 Verzeichnisse) lauten wegen der µ-Problematik in npm/git `gulp-mu-css` und `gulp-mu-ps`.
 
-**Adobe-Unabhängigkeit & Kosten:** Build und Bild-Rendering laufen in Node (µCSS/µPS) — kein Creative Cloud. PSD-Entwürfe pflegt man in [Affinity](https://affinity.studio/download) (kostenlose Desktop-App) oder [Photopea](https://www.photopea.com/) (kostenlos im Browser, volle PSD, lokal auf dem Gerät). Photoshop ist nur noch für optionale Referenz-Exports in der µPS-Entwicklung nötig, nicht für den Produktions-Build.
+**Build vs. Authoring:** Entscheidend ist nicht der Editor, sondern ob während der
+Verarbeitung ein Mensch eingreifen muss. Kompilierung und Bild-Rendering laufen
+**headless in Node** (µCSS/µPS) — kein Desktop-Editor für den Build, kein GUI,
+direkte Gulp-/CI-Anbindung. PSD-Entwürfe pflegt man in
+[Affinity](https://affinity.studio/download), [Photopea](https://www.photopea.com/),
+Adobe Photoshop, Photon Studio oder einer anderen App, die PSD schreibt. µCSS™ hat
+**keine Photon-Studio-Integration**; eine öffentliche Scripting-API ist hier weder
+dokumentiert noch angebunden. Falls eine später erscheint, bleibt das *editorbasierte*
+Automatisierung — µCSS™ bleibt die Klasse „keine manuellen Schritte“. Photoshop-Exports
+bleiben optional für µPS-Referenzregression, nicht für den Produktions-Build.
 
 ---
 
@@ -556,14 +565,16 @@ sidecarName, namespace, vars, warnings, notes }`. CLI/Gulp:
 
 ### D11 — PSD-Authoring (Editor frei wählbar), Watch und Draft-Workflow (µPS)
 
-**Kein Editor ist vorgeschrieben** — Affinity, Adobe Photoshop, Photopea oder die
-OS-Standard-App sind gleichwertige **Authoring**-Optionen. Der **Build** (µPS in Node)
-ist davon unabhängig; entscheidend ist nur: PSD speichern → `WatchDrafts` / Rebuild.
+**Kein Editor ist vorgeschrieben** — Affinity, Adobe Photoshop, Photopea, Photon Studio
+oder die OS-Standard-App sind **Authoring**-Optionen. Photon Studio ist **kein**
+`OpenDrafts`-App-Schlüssel und **nicht** integriert; eine öffentliche Scripting-API
+wird hier nicht angenommen. Der **Build** (µPS in Node) ist davon unabhängig;
+entscheidend ist nur: PSD speichern → `WatchDrafts` / Rebuild.
 
 | Editor | Öffnen (µPS) | Hinweis |
 | :--- | :--- | :--- |
 | **Affinity** | `OpenDrafts(…, { app: "affinity" })` | Kostenlose Desktop-App; `MU_AFFINITY_EXE` |
-| **Adobe Photoshop** | `OpenDrafts(…, { app: "default" })` oder `{ app: "<Photoshop.exe>" }` | Wer CC hat, darf PS nutzen — Build braucht kein PS |
+| **Adobe Photoshop** | `OpenDrafts(…, { app: "default" })` oder `{ app: "<Photoshop.exe>" }` | Optional für Authoring; der Build braucht kein PS |
 | **Photopea** | `await OpenPhotopeaDrafts(…)` / `--app photopea` | Browser-Alternative, siehe **D11b** |
 | **OS-Standard** | `OpenDrafts(…)` (Default) | Was auch immer `.psd` auf dem System öffnet |
 
@@ -582,7 +593,7 @@ wie bei Desktop-Editoren. [URL/API](https://www.photopea.com/api/) — siehe **D
 
 | Phase | Werkzeug | Aufgabe |
 | :--- | :--- | :--- |
-| Authoring | Affinity, Photoshop, Photopea oder OS-Standard | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
+| Authoring | Affinity, Photoshop, Photopea, Photon Studio oder OS-Standard | Geschichtete PSD-Entwürfe pflegen (`layouts/`, `icons/`, …) |
 | Trigger | `WatchDrafts` (µPS) + `gulp.watch` (Projekt) | `mtime`-Änderung nach Speichern (Debounce ~1,5 s) |
 | Verarbeitung | µPS (`ButtonAndIconCreator`, Compositor, …) | Ebenen lesen, Stile übertragen, compositen, PNG-Serien — **headless in Node** |
 | Optional | `OpenDrafts` / `OpenPhotopeaDrafts` | Entwurf im gewählten Editor öffnen |

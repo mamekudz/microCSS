@@ -14,7 +14,7 @@ The technical package name is `gulp-mu-ps` (the µ character causes trouble in n
 
 The badge refers to this package's development tasks in the µCSS monorepo, not automatic µGulp integration in consumer projects. [Meaning and usage rules](https://microgulp.dev/en/ready/).
 
-Node module that replaces the image-processing functions of the old Adobe-based µCSS™ workflow — **without an Adobe dependency for the build**. PSD sources via `ag-psd`, rendering via `sharp`. **Authoring** layered drafts: your choice — Affinity, Adobe Photoshop (via OS association or explicit `.exe`), Photopea (browser), or any app via `OpenDrafts({ app: "<exe>" })`. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
+Headless image processing for automated Node/Gulp builds: PNG series and sprite atlases from layered PSD drafts (`ag-psd` + `sharp`). If the workflow needs no human between input and output, it does not need a desktop editor either. Interactive authoring stays in Affinity, Adobe Photoshop, Photopea, Photon Studio or any other app via `OpenDrafts({ app: "<exe>" })`. There is **no Photon Studio integration** and no assumed public scripting API; a future editor API would still be editor-class automation. Set **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | path to executable.
 
 > **Documentation policy:** Generators, DSD, adjustments, transforms, PSD compositor, reference regression and the draft workflow are documented **centrally in the µCSS™ manual** (chapter *microPS*). This README is a quick npm overview only.
 
@@ -92,7 +92,7 @@ Der technische Paketname ist `gulp-mu-ps`; **µPS** ist der Anzeigename.
 
 **Version:** **1.3.6** · [![npm version](https://img.shields.io/npm/v/gulp-mu-ps.svg)](https://www.npmjs.com/package/gulp-mu-ps)
 
-Node-Modul für die bildverarbeitenden Funktionen des alten Adobe-µCSS™-Workflows — **Build ohne Adobe-Abhängigkeit**. PSD via `ag-psd`, Rendering via `sharp`. Entwürfe: frei wählbar — Affinity, Photoshop, Photopea oder `OpenDrafts({ app: "<exe>" })`. **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | Pfad zur `.exe`.
+Headless Bildverarbeitung für automatisierte Node-/Gulp-Builds: PNG-Serien und Sprite-Atlanten aus geschichteten PSD-Entwürfen (`ag-psd` + `sharp`). Wenn zwischen Eingabe und Ausgabe kein Mensch gebraucht wird, braucht der Ablauf auch keinen Desktop-Editor. Interaktives Authoring bleibt in Affinity, Adobe Photoshop, Photopea, Photon Studio oder einer anderen App über `OpenDrafts({ app: "<exe>" })`. Es gibt **keine Photon-Studio-Integration** und keine angenommene öffentliche Scripting-API; eine spätere Editor-API bliebe editorbasierte Automatisierung. **`MU_DRAFT_APP`**: `default` | `affinity` | `photopea` | Pfad zur `.exe`.
 
 > **Doku-Richtlinie:** Generatoren, DSD, Anpassungen, Transformationen, PSD-Compositor, Referenz-Regression und Draft-Workflow stehen **zentral im µCSS™-Handbuch** (Kapitel *microPS*). Diese README ist nur ein npm-Kurzüberblick.
 

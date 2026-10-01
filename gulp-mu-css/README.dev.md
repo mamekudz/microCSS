@@ -1,6 +1,6 @@
 # µCSS™ (npm-Paket `gulp-mu-css`)
 
-Node-Modul zur Kompilierung von µCSS™-erweiterten Stylesheets — **Version 2** des 2013 eingeführten, ursprünglich Adobe-Photoshop-basierten µCSS™. Da das µ-Zeichen in Paket- und Repository-Namen (npm, git) immer wieder Probleme bereitet, lautet der technische Name `gulp-mu-css`; µCSS™ ist der Anzeigename. Das Gesamtkonzept ist in `docs/CONCEPT.md` beschrieben.
+Headless CSS- und Bildverarbeitung für automatisierte Node-/Gulp-Pipelines — **Version 2** des 2013 eingeführten, ursprünglich Adobe-Photoshop-basierten µCSS™. Der Build startet keinen Desktop-Editor. Da das µ-Zeichen in Paket- und Repository-Namen (npm, git) immer wieder Probleme bereitet, lautet der technische Name `gulp-mu-css`; µCSS™ ist der Anzeigename. Das Gesamtkonzept ist in `docs/CONCEPT.md` beschrieben.
 
 ## Warum µCSS™?
 

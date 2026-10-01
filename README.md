@@ -1,4 +1,4 @@
-# µCSS™ V2.5.18 (microCSS)
+# µCSS™ V2.5.19 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -10,13 +10,38 @@
   </a>
 </p>
 
-Gulp-driven CSS preprocessor and build toolchain for Node — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
+**No manual steps? Skip the editor.**
+
+**µCSS™ is a headless image-processing and CSS build toolchain for automated Node/Gulp pipelines** — sprites, cursors, layered PSD assets, icon fonts and sound atlases. Published on npm as `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` and `gulp-mu-au`.
+
+If your image-processing workflow requires no human interaction between input and output, it probably doesn't require a desktop image editor either. µCSS™ is built for exactly these fully automated workflows.
+
+| Question during processing | Use |
+| :--- | :--- |
+| Someone must judge, retouch or decide | Interactive editor or editor scripting |
+| Input → output with no manual steps | µCSS™ |
+
+Desktop editors such as Adobe Photoshop, Affinity, Photon Studio and Photopea remain the right tools when a person needs to interact with the artwork. The dividing line is not which editor you own: it is whether a human has to stay in the loop.
+
+| Workflow | Interactive editor | Editor scripting | µCSS™ (headless) |
+| :--- | :--- | :--- | :--- |
+| Manual image editing | yes | limited / requires the editor | no |
+| Fully automated processing | possible | yes, inside the editor | yes |
+| Desktop application required | yes | usually yes | no |
+| Manual intermediate steps | possible | optional | no |
+| Build-pipeline integration | indirect | possible | native focus |
+| Batch processing | possible | possible | primary use case |
+| CI/CD | unsuitable / limited | depends on the editor | primary use case |
+
+When the workflow is fully automatic, there is no need to start, initialize and drive a full desktop image editor. That missing application/UI overhead is a performance consequence of the architecture — potentially substantial for large automatic batches. This repo has no comparative editor benchmarks, so no absolute “always faster” claim.
+
+Photon Studio is a recent desktop editor for interactive work. µCSS™ has **no Photon Studio integration**. A public scripting API is not documented or wired here. If one appears later, Photon Studio plus scripting would still be *editor-based* automation (visual judgement, in-app decisions). µCSS™ remains the other class: fully automatic processing with no manual intermediate steps. The tools can overlap; they address different workflow kinds.
 
 *English (below) · [Deutsch](#deutsch)*
 
-Monorepo for **µCSS™ 2** and the related **µPS**, **µFT** and **µAU** modules. µCSS™ extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. Display names **µCSS™**, **µPS**, **µFT**, **µAU**; technical npm names `gulp-mu-*` (the µ character is awkward in package names).
+Monorepo for **µCSS™ 2** and the related **µPS**, **µFT** and **µAU** modules. µCSS™ extends ordinary CSS with JavaScript in property values (`µ(...)`), build-time directives (`-µ:`), sprite atlases, cursors, a color API and PSD-based image generation — driven by a skin manifest and a Gulp build. Display names **µCSS™**, **µPS**, **µFT**, **µAU**; technical npm names `gulp-mu-*` (the µ character is awkward in package names). Version 2 is the Node successor of the 2013 Photoshop-script toolchain; the build no longer runs inside an editor.
 
-Version 2 runs headless in Node — no desktop imaging app required for compilation or bitmap generation. **Authoring** layered PSD drafts (buttons, icons, …) is your choice — the build always goes through µPS the same way:
+**Authoring** layered PSD drafts (buttons, icons, …) stays in whichever editor you use — the build always goes through µPS the same way:
 
 | Editor | Open with µPS | Configuration |
 | :--- | :--- | :--- |
@@ -44,7 +69,7 @@ Layer panel from the legacy button workflow; [live demo (Buttons)](https://mamek
 
 | Display name | npm package | Version in repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.18** · [µGulp ready](https://microgulp.dev) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
@@ -82,7 +107,7 @@ Sources and build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Display name | npm package | Version in repo | Role |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.18** · [µGulp ready](https://microgulp.dev) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) | Compiles `*.µ.css` stylesheets (sprites, cursors, color API, manifest-driven build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Renders PNG series, sprite atlases, app icons and animation strips from layered PSD drafts |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) | Builds icon fonts from SVG directories and packages webfonts, including modern OpenType color fonts and emoji fonts (TTF/EOT/WOFF/WOFF2 + CSS + HTML overview) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Builds sound atlases (combined WAV/MP3/WebA + JSON timing map) for the µCSS™ family |
@@ -153,7 +178,7 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
 
 ## Deutsch
 
-# µCSS™ V2.5.18 (microCSS)
+# µCSS™ V2.5.19 (microCSS)
 
 <p align="center">
   <img src="gulp-mu-css/docs/manual/imgs/logo.png" alt="µCSS™ logo" width="220">
@@ -165,11 +190,36 @@ The µCSS™ 2 modules and this monorepo tooling are published under the **MIT L
   </a>
 </p>
 
-Gulp-gesteuerte CSS-Preprocessor- und Build-Toolchain für Node — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
+**Keine manuellen Schritte? Editor überspringen.**
 
-Monorepo für **µCSS™ 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS™ erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS™**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich).
+**µCSS™ ist eine headless Bildverarbeitungs- und CSS-Build-Toolchain für automatisierte Node-/Gulp-Pipelines** — Sprites, Cursor, geschichtete PSD-Assets, Icon-Fonts und Sound-Atlanten. Auf npm als `gulp-mu-css`, `gulp-mu-ps`, `gulp-mu-ft` und `gulp-mu-au`.
 
-Version 2 läuft headless in Node — für Kompilierung und Bitmap-Erzeugung ist keine Desktop-Bildbearbeitung nötig. **Authoring** geschichteter PSD-Entwürfe (Buttons, Icons, …) ist frei wählbar — der Build läuft immer gleich über µPS:
+Wenn die Bildverarbeitung zwischen Eingabe und Ausgabe keine Benutzerinteraktion braucht, braucht sie wahrscheinlich auch keinen Desktop-Bildeditor. µCSS™ ist genau für diese vollautomatischen Abläufe gebaut.
+
+| Frage während der Verarbeitung | Werkzeug |
+| :--- | :--- |
+| Jemand muss beurteilen, ändern oder entscheiden | Interaktiver Editor bzw. Editor-Scripting |
+| Input → Output ohne manuelle Schritte | µCSS™ |
+
+Desktop-Editoren wie Adobe Photoshop, Affinity, Photon Studio und Photopea bleiben richtig, wenn ein Mensch die Grafik bearbeiten muss. Die Trennlinie ist nicht, welchen Editor man besitzt, sondern ob ein Mensch im Ablauf bleiben muss.
+
+| Ablauf | Interaktiver Editor | Editor-Scripting | µCSS™ (headless) |
+| :--- | :--- | :--- | :--- |
+| Manuelle Bildbearbeitung | ja | eingeschränkt / braucht den Editor | nein |
+| Vollautomatische Verarbeitung | möglich | ja, innerhalb des Editors | ja |
+| Desktop-Anwendung nötig | ja | meist ja | nein |
+| Manuelle Zwischenschritte | möglich | optional | nein |
+| Build-Pipeline | indirekt | möglich | nativer Schwerpunkt |
+| Batch-Verarbeitung | möglich | möglich | primärer Einsatz |
+| CI/CD | ungeeignet / eingeschränkt | hängt vom Editor ab | primärer Einsatz |
+
+Wenn der Ablauf vollständig automatisch ist, muss kein vollständiger Desktop-Bildeditor gestartet, initialisiert und gesteuert werden. Der fehlende Anwendungs-/UI-Overhead ist ein Performance-Effekt der Architektur — bei großen automatischen Serien potentiell erheblich. Dieses Repo enthält keine Vergleichsbenchmarks gegen Editoren, daher keine absolute „immer schneller“-Aussage.
+
+Photon Studio ist ein neuer Desktop-Editor für interaktive Arbeit. µCSS™ hat **keine Photon-Studio-Integration**. Eine öffentliche Scripting-API ist hier weder dokumentiert noch angebunden. Falls eine später erscheint, bleibt Photon Studio plus Scripting *editorbasierte* Automatisierung (visuelle Beurteilung, Entscheidungen in der App). µCSS™ bleibt die andere Klasse: vollautomatische Verarbeitung ohne manuelle Zwischenschritte. Die Werkzeuge können sich überschneiden; sie adressieren unterschiedliche Ablaufarten.
+
+Monorepo für **µCSS™ 2** und die zugehörigen Module **µPS**, **µFT** und **µAU**. µCSS™ erweitert normales CSS um JavaScript in Eigenschaftswerten (`µ(...)`), Build-Time-Direktiven (`-µ:`), Sprite-Atlanten, Cursor, eine Farb-API und PSD-basierte Bilderzeugung — gesteuert über ein Skin-Manifest und einen Gulp-Build. Anzeigenamen **µCSS™**, **µPS**, **µFT**, **µAU**; technische npm-Namen `gulp-mu-*` (das µ-Zeichen ist in Paketnamen unhandlich). Version 2 ist der Node-Nachfolger der Photoshop-Script-Toolchain von 2013; der Build läuft nicht mehr im Editor.
+
+**Authoring** geschichteter PSD-Entwürfe (Buttons, Icons, …) bleibt im gewählten Editor — der Build läuft immer gleich über µPS:
 
 | Editor | Öffnen mit µPS | Konfiguration |
 | :--- | :--- | :--- |
@@ -197,7 +247,7 @@ Ebenenpanel aus dem Legacy-Button-Workflow; [Live-Demo (Buttons)](https://mameku
 
 | Anzeigename | npm-Paket | Version im Repo (`package.json`) |
 | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.18** · [µGulp ready](https://microgulp.dev) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) |
@@ -235,7 +285,7 @@ Quellen und Build: [`demos/`](demos/) · `npx gulp demos:build`
 
 | Anzeigename | npm-Paket | Version im Repo | Aufgabe |
 | :--- | :--- | :--- | :--- |
-| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.18** · [µGulp ready](https://microgulp.dev) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
+| **µCSS™** | [`gulp-mu-css`](https://www.npmjs.com/package/gulp-mu-css) | **2.5.19** · [µGulp ready](https://microgulp.dev) | Kompiliert `*.µ.css`-Stylesheets (Sprites, Cursor, Farb-API, manifestgesteuerter Build) |
 | **µPS** | [`gulp-mu-ps`](https://www.npmjs.com/package/gulp-mu-ps) | **1.3.6** · [µGulp ready](https://microgulp.dev) | Rendert PNG-Serien, Sprite-Atlanten, App-Icons und Animations-Strips aus geschichteten PSD-Entwürfen |
 | **µFT** | [`gulp-mu-ft`](https://www.npmjs.com/package/gulp-mu-ft) | **0.2.0** · [µGulp ready](https://microgulp.dev) | Erzeugt Icon-Fonts aus SVG-Verzeichnissen und verpackt Webfonts, einschließlich moderner OpenType-Color-Fonts und Emoji-Fonts (TTF/EOT/WOFF/WOFF2 + CSS + HTML-Übersicht) |
 | **µAU** | [`gulp-mu-au`](https://www.npmjs.com/package/gulp-mu-au) | **0.1.8** · [µGulp ready](https://microgulp.dev) | Erzeugt Sound-Atlanten (kombiniertes WAV/MP3/WebA + JSON-Timing-Map) für die µCSS™-Familie |

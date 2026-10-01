@@ -1,7 +1,7 @@
 {
   "name": "gulp-mu-ps",
   "version": "1.3.6",
-  "description": "microPS - Node module to render PNG series and sprite atlases from layered image drafts (PSD), replacing the old Adobe-based workflow.",
+  "description": "Headless image processing for Node/Gulp — PNG series and sprite atlases from layered PSD drafts (ag-psd + sharp).",
   "type": "module",
   "main": "src/index.mjs",
   "exports": {

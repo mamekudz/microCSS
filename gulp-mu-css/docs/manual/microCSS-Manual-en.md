@@ -4,7 +4,7 @@
   <img src="imgs/logo.png" alt="µCSS™ logo" width="200">
 </p>
 
-µCSS™ is a Node module for processing CSS files and generating web graphics. This manual describes version 2 — the Node-based successor of µCSS™ 1, introduced in 2013 as an Adobe Photoshop script: from enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
+µCSS™ is a **headless CSS and image-processing toolchain for automated Node/Gulp pipelines**. This manual describes version 2 — the Node successor of µCSS™ 1, introduced in 2013 as an Adobe Photoshop script. From enhanced source stylesheets (`.µ.css`) and the media sources (e.g. PSD drafts), Gulp produces the finished skin files — standard CSS plus all required images, sprites, cursors, fonts and sounds — without starting a desktop editor. Image generation is handled by the sibling module µPS; sound atlases and icon fonts by µAU and µFT — each in its own chapter (*microPS*, *microAU*, *microFT*).
 
 Because the µ character keeps causing problems in package and repository names (npm, git), the technical names are `gulp-mu-css` and `gulp-mu-ps` — µCSS™ and µPS are the display names.
 
@@ -22,11 +22,11 @@ The key features of µCSS™ 2:
 - **Incremental build with cache** — only what changed is regenerated.
 - **Meaningful error messages** with file, line and source excerpt.
 
-Unlike µCSS™ 1, version 2 runs entirely in Node.js (version 18 and up) and needs neither Photoshop nor any other Adobe product. The build is driven via Gulp or directly through the Node API.
+Unlike µCSS™ 1, version 2 runs entirely in Node.js (version 18 and up). The **build** needs neither Photoshop nor any other desktop imaging application. Interactive authoring of PSD drafts stays in the editor of your choice. The build is driven via Gulp or directly through the Node API.
 
 ## Package versions and µGulp ready
 
-This edition covers µCSS 2.5.18, µPS 1.3.6, µFT 0.2.0 and µAU 0.1.8.
+This edition covers µCSS 2.5.19, µPS 1.3.6, µFT 0.2.0 and µAU 0.1.8.
 
 The four packages are µGulp ready. Public product information and installation links are available at https://microgulp.dev. The task dashboard is optional; all build tasks also work from the ordinary Gulp command line.
 
@@ -36,11 +36,28 @@ Project pages and npm READMEs link the badge to https://microgulp.dev and load t
 
 This release also includes more robust media-cache handling and animation frame processing. Invalid cache entries trigger regeneration; sequence folders ignore non-image files, and µPS handles unaligned pixel buffers. Media build errors retain their original stack for diagnosis.
 
-## Tooling and cost
+## Use cases: interactive editors vs. headless pipeline
 
-Version 2 needs **no Adobe subscription** for the build: sprites, cursors and PSD rendering run headless via Node and µPS.
+**No manual steps? Skip the editor.**
 
-If you edit layered PSD sources yourself, pick any editor — the build is identical. **Affinity** and **Photopea** are common no-/low-cost options; **Adobe Photoshop** works too if `.psd` is associated with it or you pass the executable path. Save as PSD; µPS reads the same layer structure. With µCSS™ 1, compilation and bitmap generation both depended on a licensed desktop imaging app — recurring cost that drops away for many teams.
+The dividing line is not which editor you own, and not raw speed. It is whether the workflow needs a human during processing:
+
+| Question during processing | Use |
+| :--- | :--- |
+| Someone must judge, retouch or decide | Interactive editor or editor scripting |
+| Input → output with no manual steps | µCSS™ |
+
+If your image-processing workflow requires no human interaction between input and output, it probably doesn't require a desktop image editor either. µCSS™ is built for exactly these fully automated workflows. It is not a replacement for Photoshop, Photon Studio or other desktop editors.
+
+Three layers:
+
+1. **Interactive editing** — Adobe Photoshop, Affinity, Photon Studio, Photopea: visual work, manual decisions and intermediate steps.
+2. **Editor scripting** — automation *inside* a desktop editor (ExtendScript, actions, and similar). Still bound to that application, its document model and typically its GUI and startup. Photon Studio is a recent interactive editor; a public scripting API is **not** documented in this project and is **not** integrated. If one appears later, Photon Studio plus scripting remains *editor-based* automation.
+3. **Headless pipeline (µCSS™ / µPS)** — fully automatic processing in Node/Gulp: no GUI, no desktop application, no manual intermediate steps. Native fit for batch work and CI/CD.
+
+The tools can overlap in capability; they address different workflow kinds. Performance is a consequence of that architecture: fully automated workflow → no editor required → no editor startup/UI/application overhead → potentially substantially faster processing. This manual does not include comparative editor benchmarks.
+
+Layered PSD drafts are authored in any editor that writes PSD. **Affinity**, **Photopea** and **Adobe Photoshop** are common choices; Photon Studio may be used for interactive work the same way. Save as PSD; µPS reads the same layer structure. Compilation and rendering stay in Node.
 
 ## Draft workflow (authoring + watch)
 
@@ -57,7 +74,7 @@ Automation splits cleanly (same for all editors):
 
 | Step | Tool | Role |
 | :--- | :--- | :--- |
-| Authoring | Your editor (Affinity, Photoshop, Photopea, …) | Maintain layered PSD drafts |
+| Authoring | Your editor (Affinity, Photoshop, Photopea, Photon Studio, …) | Maintain layered PSD drafts |
 | Trigger | Save PSD → `WatchDrafts` (µPS) or `gulp.watch` | Debounced rebuild (~1.5 s) |
 | Processing | µPS in Node | Layer read, style transfer, compositing, PNG export |
 | Optional | `OpenDrafts` / `OpenPhotopeaDrafts` | Open a draft in the chosen editor |
@@ -410,9 +427,9 @@ Full reference for all image generators, DSD format, draft workflow and raster A
 
 # microPS (µPS) — image generators
 
-The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) handles the image-processing functions of the old Adobe workflow — **without an Adobe dependency**. µCSS™ integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
+The sibling module **µPS** (`gulp-mu-ps`, display name **µPS**) is the headless image-processing engine: PNG series and sprite atlases from layered PSD drafts. µCSS™ integrates µPS via `media` steps and sprite/cursor directives; µPS can also be used **standalone** via `npm install gulp-mu-ps`.
 
-µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. Layered drafts are authored in **[Affinity](https://affinity.studio/download)** or **[Photopea](https://www.photopea.com/)** (browser, full PSD). The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
+µPS reads PSD sources via `ag-psd`; image processing uses `sharp`. No desktop editor is started for the build. Interactive authoring stays in **[Affinity](https://affinity.studio/download)**, **[Photopea](https://www.photopea.com/)** (browser, full PSD), Adobe Photoshop, Photon Studio or another editor. There is **no Photon Studio integration** and no assumed public scripting API. The main layer effects are reproduced (drop shadow, gradients, glow, bevel, **stroke**, **satin**); pattern overlay and exact gradient strokes are missing — see chapter *PSD compositor*.
 
 ## API overview
 
@@ -1009,7 +1026,7 @@ Details: `gulp-mu-au/docs/CONCEPT.md` (§5–§8, section “Pipeline”). FlyEx
 
 # microFT (µFT) — icon font
 
-**µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without Adobe/IcoMoon — and packages **existing webfonts**, including modern OpenType color fonts and emoji fonts. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS (`@font-face` and icon classes), IcoMoon-compatible JSON (icons), HTML overview.
+**µFT** (`gulp-mu-ft`) builds an **icon font** from SVG glyphs — automated like IcoMoon, without a desktop font app or IcoMoon — and packages **existing webfonts**, including modern OpenType color fonts and emoji fonts. Output: font files (SVG/TTF/EOT/WOFF/WOFF2), CSS (`@font-face` and icon classes), IcoMoon-compatible JSON (icons), HTML overview.
 
 Requires **Node ≥ 20.11**. Built on `svgicons2svgfont`, `svg2ttf`, `ttf2woff(2)`, `ttf2eot`. The SVG icon path stays **monochrome**. Color information is preserved when `src` is an existing TTF/OTF/WOFF/WOFF2 file.
 
@@ -1760,6 +1777,7 @@ Deliberately **not** carried over from the old µCSS™:
 | 2026-06 | 2.5.3 | `pruneSources` also deletes sequence-strip sidecar JSON (`<strip>.json` next to a packed 1x source); protected sources keep their sidecar via `pruneKeep`. |
 | 2026-07 | 2.5.8 | **`DataUri()`** — embed skin-relative images as `url(data:…;base64,…)` in compiled CSS (directive + value form, optional `{ retina: true }`); not packed into the sprite atlas. API: `CreateDataUriCSSValue`, `ApplyDataUri`. **`RELEASES.json`** version history (i18x-ready info strings) with console API `GetReleases`, `GetCurrentVersionString`, `GetCurrentFullVersionString`, `GetVersionHistoryString`. |
 | 2026-09 | 2.5.18 | Manual *microFT*: OpenType color fonts and emoji fonts (COLR/CPAL v0/v1, SVG-in-OpenType, CBDT/CBLC, sbix). **µFT** 0.2.0 packages existing TTF/OTF/WOFF/WOFF2 files without dropping color tables. |
+| 2026-10 | 2.5.19 | Docs/READMEs: µCSS as the fully automated (no-manual-steps) pipeline versus interactive editors and editor scripting; Photon Studio mentioned without assumed scripting API or integration. |
 
 # Legal
 
@@ -1777,7 +1795,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Trademarks
 
-Photoshop is a registered trademark of Adobe Inc.; Affinity Photo is a trademark of Serif (Europe) Ltd. Photopea is an independent online photo editor ([photopea.com](https://www.photopea.com/)). Names and products are mentioned for information only and do not constitute any misuse of the respective trade names or trademarks.
+Photoshop is a registered trademark of Adobe Inc.; Affinity Photo is a trademark of Serif (Europe) Ltd. Photopea is an independent online photo editor ([photopea.com](https://www.photopea.com/)). Photon Studio is mentioned as a desktop image editor for identification only. Names and products are mentioned for information only and do not constitute any misuse of the respective trade names or trademarks.
 
 ## Third-party libraries
 
