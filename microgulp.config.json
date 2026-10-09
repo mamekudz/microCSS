@@ -1,5 +1,10 @@
 {
-  "gulpfile": "gulpfile.mjs",
-  "preload": true,
-  "watchGulpfiles": true
+	"gulpfile": "gulpfile.mjs",
+	"preload": true,
+	"watchGulpfiles": true,
+	"project": {
+		"title": "µCSS™",
+		"description": "Headless CSS and image processing for automated Node/Gulp pipelines",
+		"logo": "./gulp-mu-css/docs/manual/imgs/logo.png"
+	}
 }
